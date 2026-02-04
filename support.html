@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Support - FlowRead</title>
+    <meta name="description" content="FlowRead Support - Get help with your Speed Reading app">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS CUSTOM PROPERTIES ===== */
+        :root {
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+            /* Liquid Glass Colors */
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-hover: rgba(255, 255, 255, 0.2);
+            --glass-glow: rgba(255, 255, 255, 0.1);
+
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+
+            /* Accent Gradient */
+            --accent-start: #00D4FF;
+            --accent-mid: #00BCD4;
+            --accent-end: #7C3AED;
+            --accent-glow: rgba(0, 212, 255, 0.4);
+
+            /* Transitions */
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+            /* Shadows */
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            --shadow-glass-hover: 0 16px 48px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            --shadow-glow: 0 0 40px var(--accent-glow);
+
+            /* Safe Areas */
+            --safe-top: env(safe-area-inset-top);
+            --safe-bottom: env(safe-area-inset-bottom);
+            --safe-left: env(safe-area-inset-left);
+            --safe-right: env(safe-area-inset-right);
+        }
+
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-weight: 400;
+            overflow-x: hidden;
+            background: #0a0a0f;
+            min-height: 100vh;
+            padding-left: var(--safe-left);
+            padding-right: var(--safe-right);
+        }
+
+        /* ===== ANIMATED MESH GRADIENT BACKGROUND ===== */
+        .mesh-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0a0f 0%, #0d0d14 100%);
+        }
+
+        .mesh-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(0, 150, 200, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 20%, rgba(100, 50, 180, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 60% at 60% 80%, rgba(0, 180, 160, 0.1) 0%, transparent 50%);
+            animation: meshMove 20s ease-in-out infinite;
+        }
+
+        @keyframes meshMove {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(2%, -2%) scale(1.02); }
+            50% { transform: translate(-1%, 3%) scale(0.98); }
+            75% { transform: translate(-2%, -1%) scale(1.01); }
+        }
+
+        /* ===== FLOATING PARTICLES ===== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        .particle.large {
+            width: 3px;
+            height: 3px;
+            background: rgba(0, 212, 255, 0.4);
+            box-shadow: 0 0 6px rgba(0, 212, 255, 0.3);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3 {
+            font-weight: 600;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: clamp(1.3rem, 3vw, 1.5rem);
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: clamp(0.95rem, 2vw, 1rem);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent-start) 0%, #ffffff 50%, var(--accent-end) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            padding-top: calc(1rem + var(--safe-top));
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent-start);
+        }
+
+        .lang-switch {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-family: var(--font-primary);
+            transition: all 0.3s var(--ease-smooth);
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        .lang-switch:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--accent-start);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: calc(6rem + var(--safe-top)) 1.25rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== PAGE HEADER ===== */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            margin-bottom: 0.75rem;
+        }
+
+        .page-header .subtitle {
+            color: var(--text-secondary);
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+        }
+
+        /* ===== PRIMARY CONTACT CARD ===== */
+        .primary-contact {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-glass);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .primary-contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
+
+        .primary-contact .icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 15px var(--accent-glow));
+        }
+
+        .primary-contact h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .primary-contact a {
+            color: var(--accent-start);
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .primary-contact a:hover {
+            text-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .response-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: #0a0a0f;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* ===== QUICK HELP GRID ===== */
+        .section-title {
+            margin-bottom: 1.5rem;
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .support-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.4s var(--ease-smooth);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .support-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-start);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .support-card:active {
+            transform: scale(0.98);
+        }
+
+        .support-card .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(124, 58, 237, 0.2));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .support-card .card-text h3 {
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+
+        .support-card .card-text p {
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* ===== BUG REPORT SECTION ===== */
+        .bug-report {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-glass);
+        }
+
+        .bug-report h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .bug-report ol {
+            margin-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .bug-report li {
+            margin-bottom: 0.75rem;
+            line-height: 1.7;
+        }
+
+        .bug-report strong {
+            color: var(--text-primary);
+        }
+
+        .template-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            overflow-x: auto;
+            line-height: 1.6;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: #ffffff;
+            border: none;
+            padding: 0.875rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            font-family: var(--font-primary);
+            margin-top: 1rem;
+            transition: all 0.3s var(--ease-smooth);
+            min-height: 44px;
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 1.25rem calc(2rem + var(--safe-bottom));
+            margin-top: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-content a {
+            color: var(--accent-start);
+            text-decoration: none;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .footer-content a:hover {
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            color: var(--accent-start);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--accent-start);
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s var(--ease-smooth);
+            min-height: 44px;
+        }
+
+        .back-link:hover {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s var(--ease-smooth);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== LANGUAGE SWITCHING ===== */
+        .lang-de, .lang-en { display: none; }
+        [data-lang="de"] .lang-de { display: block; }
+        [data-lang="en"] .lang-en { display: block; }
+        [data-lang="de"] .lang-de-inline { display: inline; }
+        [data-lang="en"] .lang-en-inline { display: inline; }
+        .lang-de-inline, .lang-en-inline { display: none; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(30px);
+                -webkit-backdrop-filter: blur(30px);
+                flex-direction: column;
+                justify-content: center;
+                gap: 1.5rem;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.4s var(--ease-smooth);
+                z-index: 999;
+            }
+
+            nav.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            nav a {
+                font-size: 1.25rem;
+            }
+
+            .close-menu-btn {
+                position: absolute;
+                top: calc(1rem + var(--safe-top));
+                right: 1.25rem;
+                background: none;
+                border: none;
+                color: var(--text-primary);
+                font-size: 2rem;
+                cursor: pointer;
+                width: 44px;
+                height: 44px;
+            }
+
+            main {
+                padding-top: calc(5rem + var(--safe-top));
+            }
+
+            .primary-contact {
+                padding: 2rem 1.5rem;
+            }
+
+            .support-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bug-report {
+                padding: 1.5rem;
+            }
+
+            .template-box {
+                font-size: 0.8rem;
+                padding: 1rem;
+            }
+        }
+
+        /* Touch device optimization */
+        @media (hover: none) {
+            .support-card:hover {
+                transform: none;
+                border-color: var(--glass-border);
+                box-shadow: none;
+            }
+        }
+
+        /* ===== REDUCED MOTION ===== */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body data-lang="de">
+    <!-- Animated Mesh Gradient Background -->
+    <div class="mesh-gradient"></div>
+
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">Flow<span>Read</span></a>
+            <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Menu">&#9776;</button>
+            <nav id="nav">
+                <button class="close-menu-btn" onclick="closeMenu()" aria-label="Close">&#10005;</button>
+                <a href="index.html#features" onclick="closeMenu()">Features</a>
+                <a href="faq.html" onclick="closeMenu()">FAQ</a>
+                <a href="support.html" class="active" onclick="closeMenu()">Support</a>
+                <button class="lang-switch" onclick="toggleLanguage()">
+                    <span class="lang-de-inline">EN</span>
+                    <span class="lang-en-inline">DE</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <div class="page-header reveal">
+            <h1 class="gradient-text">
+                <span class="lang-de">Support</span>
+                <span class="lang-en">Support</span>
+            </h1>
+            <p class="subtitle">
+                <span class="lang-de">Wir helfen dir gerne weiter</span>
+                <span class="lang-en">We're here to help</span>
+            </p>
+        </div>
+
+        <!-- German Content -->
+        <div class="lang-de">
+            <!-- Primary Contact -->
+            <div class="primary-contact reveal">
+                <div class="icon">📧</div>
+                <h2 class="gradient-text">E-Mail Support</h2>
+                <a href="mailto:support@flowread.app">support@flowread.app</a>
+                <div class="response-badge">Antwort in 24-48 Stunden</div>
+            </div>
+
+            <!-- Quick Help -->
+            <h2 class="section-title gradient-text reveal">Schnelle Hilfe</h2>
+            <div class="support-grid reveal">
+                <a href="faq.html" class="support-card">
+                    <div class="card-icon">❓</div>
+                    <div class="card-text">
+                        <h3>FAQ</h3>
+                        <p>Häufige Fragen</p>
+                    </div>
+                </a>
+                <a href="faq.html#speed-reading" class="support-card">
+                    <div class="card-icon">📖</div>
+                    <div class="card-text">
+                        <h3>Speed Reading</h3>
+                        <p>So funktioniert's</p>
+                    </div>
+                </a>
+                <a href="mailto:feedback@flowread.app" class="support-card">
+                    <div class="card-icon">💡</div>
+                    <div class="card-text">
+                        <h3>Feedback</h3>
+                        <p>Ideen & Vorschläge</p>
+                    </div>
+                </a>
+                <a href="https://support.apple.com/de-de/billing" class="support-card" target="_blank" rel="noopener">
+                    <div class="card-icon">💳</div>
+                    <div class="card-text">
+                        <h3>Zahlung</h3>
+                        <p>Apple Support</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Bug Report -->
+            <div class="bug-report reveal">
+                <h2 class="gradient-text">Bug melden</h2>
+                <p style="margin-bottom: 1.5rem;">Hilf uns, FlowRead zu verbessern</p>
+                <ol>
+                    <li><strong>Beschreibe das Problem:</strong> Was ist passiert? Was hast du erwartet?</li>
+                    <li><strong>Schritte zur Reproduktion:</strong> Was hast du gemacht, bevor der Fehler auftrat?</li>
+                    <li><strong>Geräteinformationen:</strong> Welches Gerät, iOS-Version, FlowRead-Version?</li>
+                    <li><strong>Screenshots:</strong> Wenn möglich, füge Bilder bei</li>
+                </ol>
+                <div class="template-box" id="template-de">Betreff: Bug-Report - [Kurze Beschreibung]
+
+Hallo FlowRead-Team,
+
+ich habe folgenden Fehler gefunden:
+
+BESCHREIBUNG:
+[Was ist passiert?]
+
+ERWARTET:
+[Was hätte passieren sollen?]
+
+SCHRITTE ZUR REPRODUKTION:
+1. [Erster Schritt]
+2. [Zweiter Schritt]
+
+GERÄT: [z.B. iPhone 15 Pro]
+iOS-VERSION: [z.B. 17.2]
+FLOWREAD-VERSION: [z.B. 1.0.0]
+
+Vielen Dank!</div>
+                <button class="copy-btn" onclick="copyTemplate('de')">Vorlage kopieren</button>
+            </div>
+        </div>
+
+        <!-- English Content -->
+        <div class="lang-en">
+            <!-- Primary Contact -->
+            <div class="primary-contact reveal">
+                <div class="icon">📧</div>
+                <h2 class="gradient-text">Email Support</h2>
+                <a href="mailto:support@flowread.app">support@flowread.app</a>
+                <div class="response-badge">Response in 24-48 hours</div>
+            </div>
+
+            <!-- Quick Help -->
+            <h2 class="section-title gradient-text reveal">Quick Help</h2>
+            <div class="support-grid reveal">
+                <a href="faq.html" class="support-card">
+                    <div class="card-icon">❓</div>
+                    <div class="card-text">
+                        <h3>FAQ</h3>
+                        <p>Common questions</p>
+                    </div>
+                </a>
+                <a href="faq.html#speed-reading" class="support-card">
+                    <div class="card-icon">📖</div>
+                    <div class="card-text">
+                        <h3>Speed Reading</h3>
+                        <p>How it works</p>
+                    </div>
+                </a>
+                <a href="mailto:feedback@flowread.app" class="support-card">
+                    <div class="card-icon">💡</div>
+                    <div class="card-text">
+                        <h3>Feedback</h3>
+                        <p>Ideas & suggestions</p>
+                    </div>
+                </a>
+                <a href="https://support.apple.com/billing" class="support-card" target="_blank" rel="noopener">
+                    <div class="card-icon">💳</div>
+                    <div class="card-text">
+                        <h3>Billing</h3>
+                        <p>Apple Support</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Bug Report -->
+            <div class="bug-report reveal">
+                <h2 class="gradient-text">Report a Bug</h2>
+                <p style="margin-bottom: 1.5rem;">Help us improve FlowRead</p>
+                <ol>
+                    <li><strong>Describe the problem:</strong> What happened? What did you expect?</li>
+                    <li><strong>Steps to reproduce:</strong> What were you doing before the error occurred?</li>
+                    <li><strong>Device information:</strong> Which device, iOS version, FlowRead version?</li>
+                    <li><strong>Screenshots:</strong> If possible, attach images</li>
+                </ol>
+                <div class="template-box" id="template-en">Subject: Bug Report - [Brief Description]
+
+Hello FlowRead Team,
+
+I found the following bug:
+
+DESCRIPTION:
+[What happened?]
+
+EXPECTED:
+[What should have happened?]
+
+STEPS TO REPRODUCE:
+1. [First step]
+2. [Second step]
+
+DEVICE: [e.g., iPhone 15 Pro]
+iOS VERSION: [e.g., 17.2]
+FLOWREAD VERSION: [e.g., 1.0.0]
+
+Thank you!</div>
+                <button class="copy-btn" onclick="copyTemplate('en')">Copy Template</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>FlowRead - Read Faster, Learn More</p>
+            <p><a href="index.html">flowread.app</a></p>
+            <a href="index.html" class="back-link">
+                <span>&#8592;</span>
+                <span class="lang-de-inline">Zurück zur Startseite</span>
+                <span class="lang-en-inline">Back to Homepage</span>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // ===== LANGUAGE SWITCHING =====
+        function toggleLanguage() {
+            const body = document.body;
+            const currentLang = body.getAttribute('data-lang');
+            const newLang = currentLang === 'de' ? 'en' : 'de';
+            body.setAttribute('data-lang', newLang);
+            document.documentElement.lang = newLang;
+            localStorage.setItem('flowread-lang', newLang);
+        }
+
+        // Load saved language
+        const savedLang = localStorage.getItem('flowread-lang');
+        if (savedLang) {
+            document.body.setAttribute('data-lang', savedLang);
+            document.documentElement.lang = savedLang;
+        }
+
+        // ===== MOBILE MENU =====
+        function toggleMenu() {
+            document.getElementById('nav').classList.toggle('active');
+        }
+
+        function closeMenu() {
+            document.getElementById('nav').classList.remove('active');
+        }
+
+        // ===== COPY TEMPLATE =====
+        function copyTemplate(lang) {
+            const template = document.getElementById('template-' + lang).textContent;
+            navigator.clipboard.writeText(template).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = lang === 'de' ? 'Kopiert!' : 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // ===== SCROLL REVEAL ANIMATIONS =====
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -30px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ===== FLOATING PARTICLES =====
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const isMobile = window.innerWidth < 768;
+            const particleCount = isMobile ? 12 : 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle' + (Math.random() > 0.85 ? ' large' : '');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (20 + Math.random() * 25) + 's';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            createParticles();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Impressum - FlowRead</title>
+    <meta name="description" content="Impressum / Legal Notice - FlowRead Speed Reading App">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS CUSTOM PROPERTIES ===== */
+        :root {
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-hover: rgba(255, 255, 255, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+            --accent-start: #00D4FF;
+            --accent-end: #7C3AED;
+            --accent-glow: rgba(0, 212, 255, 0.4);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            --shadow-glow: 0 0 40px var(--accent-glow);
+            --safe-top: env(safe-area-inset-top);
+            --safe-bottom: env(safe-area-inset-bottom);
+            --safe-left: env(safe-area-inset-left);
+            --safe-right: env(safe-area-inset-right);
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-weight: 400;
+            overflow-x: hidden;
+            background: #0a0a0f;
+            min-height: 100vh;
+            padding-left: var(--safe-left);
+            padding-right: var(--safe-right);
+        }
+
+        /* ===== ANIMATED MESH GRADIENT BACKGROUND ===== */
+        .mesh-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0a0f 0%, #0d0d14 100%);
+        }
+
+        .mesh-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(0, 150, 200, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 20%, rgba(100, 50, 180, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 60% at 60% 80%, rgba(0, 180, 160, 0.1) 0%, transparent 50%);
+            animation: meshMove 20s ease-in-out infinite;
+        }
+
+        @keyframes meshMove {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(2%, -2%) scale(1.02); }
+            50% { transform: translate(-1%, 3%) scale(0.98); }
+            75% { transform: translate(-2%, -1%) scale(1.01); }
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3 {
+            font-weight: 600;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent-start) 0%, #ffffff 50%, var(--accent-end) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: calc(2rem + var(--safe-top)) 1.5rem calc(2rem + var(--safe-bottom));
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== BACK LINK ===== */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-start);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.75rem 1.25rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .back-link:hover {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* ===== IMPRESSUM CARD ===== */
+        .impressum-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: var(--shadow-glass);
+        }
+
+        .impressum-card address {
+            font-style: normal;
+            color: var(--text-secondary);
+            line-height: 2;
+            font-size: 1.1rem;
+        }
+
+        .impressum-card strong {
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .impressum-card a {
+            color: var(--accent-start);
+            text-decoration: none;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .impressum-card a:hover {
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* ===== LANGUAGE SWITCHING ===== */
+        .lang-de, .lang-en { display: none; }
+        [data-lang="de"] .lang-de { display: block; }
+        [data-lang="en"] .lang-en { display: block; }
+        [data-lang="de"] .lang-de-inline { display: inline; }
+        [data-lang="en"] .lang-en-inline { display: inline; }
+        .lang-de-inline, .lang-en-inline { display: none; }
+
+        .lang-switch {
+            position: fixed;
+            top: calc(1rem + var(--safe-top));
+            right: calc(1rem + var(--safe-right));
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-family: var(--font-primary);
+            transition: all 0.3s var(--ease-smooth);
+            z-index: 100;
+        }
+
+        .lang-switch:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--accent-start);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 2rem 1.5rem calc(2rem + var(--safe-bottom));
+            margin-top: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-start);
+        }
+
+        .footer-links .separator {
+            color: var(--text-tertiary);
+        }
+
+        .footer-bottom p {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .container {
+                padding: calc(1.5rem + var(--safe-top)) 1rem calc(1.5rem + var(--safe-bottom));
+            }
+
+            .impressum-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .footer-links .separator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body data-lang="de">
+    <div class="mesh-gradient"></div>
+
+    <button class="lang-switch" onclick="toggleLanguage()">
+        <span class="lang-de-inline">EN</span>
+        <span class="lang-en-inline">DE</span>
+    </button>
+
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <span>&#8592;</span>
+            <span class="lang-de-inline">Zur&uuml;ck zur Startseite</span>
+            <span class="lang-en-inline">Back to Homepage</span>
+        </a>
+
+        <h1 class="gradient-text">
+            <span class="lang-de">Impressum</span>
+            <span class="lang-en">Legal Notice</span>
+        </h1>
+
+        <div class="impressum-card">
+            <address>
+                <strong>Fyn Meyer</strong><br><br>
+                Flandernstrasse 6<br>
+                53859 Niederkassel<br>
+                <span class="lang-de">Deutschland</span>
+                <span class="lang-en">Germany</span><br><br>
+                E-Mail: <a href="mailto:kontakt@flowread.app">kontakt@flowread.app</a>
+            </address>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="datenschutz.html">
+                    <span class="lang-de-inline">Datenschutz</span>
+                    <span class="lang-en-inline">Privacy Policy</span>
+                </a>
+                <span class="separator">&middot;</span>
+                <a href="nutzungsbedingungen.html">
+                    <span class="lang-de-inline">AGB</span>
+                    <span class="lang-en-inline">Terms of Service</span>
+                </a>
+                <span class="separator">&middot;</span>
+                <a href="impressum.html">
+                    <span class="lang-de-inline">Impressum</span>
+                    <span class="lang-en-inline">Legal Notice</span>
+                </a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FlowRead. <span class="lang-de-inline">Alle Rechte vorbehalten.</span><span class="lang-en-inline">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleLanguage() {
+            const body = document.body;
+            const currentLang = body.getAttribute('data-lang');
+            const newLang = currentLang === 'de' ? 'en' : 'de';
+            body.setAttribute('data-lang', newLang);
+            document.documentElement.lang = newLang;
+            localStorage.setItem('flowread-lang', newLang);
+        }
+
+        const savedLang = localStorage.getItem('flowread-lang');
+        if (savedLang) {
+            document.body.setAttribute('data-lang', savedLang);
+            document.documentElement.lang = savedLang;
+        }
+    </script>
+</body>
+</html>

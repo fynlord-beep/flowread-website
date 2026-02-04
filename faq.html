@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>FAQ - FlowRead</title>
+    <meta name="description" content="Frequently Asked Questions about FlowRead Speed Reading App">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS CUSTOM PROPERTIES ===== */
+        :root {
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+            /* Liquid Glass Colors */
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-hover: rgba(255, 255, 255, 0.2);
+            --glass-glow: rgba(255, 255, 255, 0.1);
+
+            /* Text Colors */
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+
+            /* Accent Gradient */
+            --accent-start: #00D4FF;
+            --accent-mid: #00BCD4;
+            --accent-end: #7C3AED;
+            --accent-glow: rgba(0, 212, 255, 0.4);
+
+            /* Transitions */
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+            /* Shadows */
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            --shadow-glass-hover: 0 16px 48px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            --shadow-glow: 0 0 40px var(--accent-glow);
+
+            /* Safe Areas */
+            --safe-top: env(safe-area-inset-top);
+            --safe-bottom: env(safe-area-inset-bottom);
+            --safe-left: env(safe-area-inset-left);
+            --safe-right: env(safe-area-inset-right);
+        }
+
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-weight: 400;
+            overflow-x: hidden;
+            background: #0a0a0f;
+            min-height: 100vh;
+            padding-left: var(--safe-left);
+            padding-right: var(--safe-right);
+        }
+
+        /* ===== ANIMATED MESH GRADIENT BACKGROUND ===== */
+        .mesh-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0a0f 0%, #0d0d14 100%);
+        }
+
+        .mesh-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(0, 150, 200, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 20%, rgba(100, 50, 180, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 60% at 60% 80%, rgba(0, 180, 160, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse 70% 50% at 30% 90%, rgba(80, 60, 200, 0.08) 0%, transparent 50%);
+            animation: meshMove 20s ease-in-out infinite;
+        }
+
+        .mesh-gradient::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse 60% 40% at 70% 60%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 50% at 20% 70%, rgba(124, 58, 237, 0.08) 0%, transparent 50%);
+            animation: meshMove 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes meshMove {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(2%, -2%) scale(1.02); }
+            50% { transform: translate(-1%, 3%) scale(0.98); }
+            75% { transform: translate(-2%, -1%) scale(1.01); }
+        }
+
+        /* ===== FLOATING PARTICLES ===== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        .particle.large {
+            width: 3px;
+            height: 3px;
+            background: rgba(0, 212, 255, 0.4);
+            box-shadow: 0 0 6px rgba(0, 212, 255, 0.3);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3, h4, h5 {
+            font-weight: 600;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            margin-bottom: 0.75rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: clamp(0.95rem, 2vw, 1rem);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent-start) 0%, #ffffff 50%, var(--accent-end) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            padding-top: calc(1rem + var(--safe-top));
+            transition: all 0.4s var(--ease-smooth);
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s var(--ease-smooth);
+            padding: 0.5rem 0;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+            border-radius: 1px;
+            transition: width 0.3s var(--ease-smooth);
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        nav a.active {
+            color: var(--accent-start);
+        }
+
+        nav a.active::after {
+            width: 100%;
+        }
+
+        .lang-switch {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-family: var(--font-primary);
+            transition: all 0.3s var(--ease-smooth);
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lang-switch:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--accent-start);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            min-width: 44px;
+            min-height: 44px;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--accent-start);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: calc(6rem + var(--safe-top)) 1.25rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== PAGE HEADER ===== */
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            margin-bottom: 0.75rem;
+        }
+
+        .page-header .subtitle {
+            color: var(--text-secondary);
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+        }
+
+        /* ===== SEARCH BOX ===== */
+        .search-container {
+            margin-bottom: 2.5rem;
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1.5rem 1rem 3rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: var(--font-primary);
+            transition: all 0.3s var(--ease-smooth);
+            min-height: 56px;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-start);
+            box-shadow: 0 0 30px var(--accent-glow);
+            background: var(--glass-bg-hover);
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .search-box .search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        /* ===== FAQ CATEGORIES ===== */
+        .faq-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .faq-nav-btn {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.65rem 1.25rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            font-family: var(--font-primary);
+            cursor: pointer;
+            transition: all 0.3s var(--ease-smooth);
+            min-height: 44px;
+        }
+
+        .faq-nav-btn:hover,
+        .faq-nav-btn.active {
+            background: var(--glass-bg-hover);
+            border-color: var(--accent-start);
+            color: var(--text-primary);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .faq-nav-btn.active {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(124, 58, 237, 0.2));
+        }
+
+        /* ===== FAQ SECTION ===== */
+        .faq-section {
+            margin-bottom: 2rem;
+        }
+
+        .faq-category {
+            margin-bottom: 2.5rem;
+        }
+
+        .faq-category-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .faq-category-header .icon {
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 8px var(--accent-glow));
+        }
+
+        .faq-category-header h2 {
+            margin-bottom: 0;
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+        }
+
+        /* ===== FAQ ITEM (ACCORDION) ===== */
+        .faq-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            margin-bottom: 0.75rem;
+            overflow: hidden;
+            transition: all 0.3s var(--ease-smooth);
+            box-shadow: var(--shadow-glass);
+        }
+
+        .faq-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            opacity: 0.5;
+        }
+
+        .faq-item:hover {
+            border-color: var(--glass-border-hover);
+            background: var(--glass-bg-hover);
+        }
+
+        .faq-item.open {
+            border-color: var(--accent-start);
+            box-shadow: var(--shadow-glass-hover), 0 0 30px var(--accent-glow);
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: clamp(0.95rem, 2vw, 1.05rem);
+            color: var(--text-primary);
+            transition: all 0.3s var(--ease-smooth);
+            min-height: 60px;
+            gap: 1rem;
+        }
+
+        .faq-question:active {
+            transform: scale(0.99);
+            opacity: 0.9;
+        }
+
+        .faq-question .toggle-icon {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            font-size: 1.5rem;
+            color: var(--accent-start);
+            transition: all 0.4s var(--ease-smooth);
+            flex-shrink: 0;
+        }
+
+        .faq-item.open .faq-question .toggle-icon {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: #ffffff;
+            transform: rotate(45deg);
+            border-color: transparent;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .faq-item.open .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 2000px;
+        }
+
+        .faq-answer p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .faq-answer strong {
+            color: var(--text-primary);
+        }
+
+        .faq-answer ul,
+        .faq-answer ol {
+            margin-left: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .faq-answer li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        .faq-answer a {
+            color: var(--accent-start);
+            text-decoration: none;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .faq-answer a:hover {
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem 1.5rem;
+            margin-top: 3rem;
+            text-align: center;
+            box-shadow: var(--shadow-glass);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
+
+        .contact-section h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-section .subtitle {
+            margin-bottom: 2rem;
+        }
+
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-card {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.75rem 1.25rem;
+            transition: all 0.4s var(--ease-smooth);
+        }
+
+        .contact-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-start);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .contact-card:active {
+            transform: scale(0.98);
+        }
+
+        .contact-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px var(--accent-glow));
+        }
+
+        .contact-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .contact-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card a {
+            color: var(--accent-start);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .contact-card a:hover {
+            text-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 1.25rem calc(2rem + var(--safe-bottom));
+            margin-top: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s var(--ease-smooth);
+            display: inline-block;
+            padding: 0.25rem 0;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-start);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-bottom p {
+            font-size: 0.9rem;
+            color: var(--text-tertiary);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            color: var(--accent-start);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--accent-start);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s var(--ease-smooth);
+            min-height: 44px;
+        }
+
+        .back-link:hover {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .back-link:active {
+            transform: scale(0.97);
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s var(--ease-smooth);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== LANGUAGE SWITCHING ===== */
+        .lang-de, .lang-en { display: none; }
+        [data-lang="de"] .lang-de { display: block; }
+        [data-lang="en"] .lang-en { display: block; }
+        [data-lang="de"] .lang-de-inline { display: inline; }
+        [data-lang="en"] .lang-en-inline { display: inline; }
+        .lang-de-inline, .lang-en-inline { display: none; }
+
+        /* ===== RESPONSIVE - MOBILE FIRST ===== */
+
+        /* Mobile Menu */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(30px);
+                -webkit-backdrop-filter: blur(30px);
+                flex-direction: column;
+                justify-content: center;
+                padding: 2rem;
+                gap: 1.5rem;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.4s var(--ease-smooth);
+                z-index: 999;
+            }
+
+            nav.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            nav a {
+                font-size: 1.25rem;
+                padding: 0.75rem;
+            }
+
+            .close-menu-btn {
+                position: absolute;
+                top: calc(1rem + var(--safe-top));
+                right: 1.25rem;
+                background: none;
+                border: none;
+                color: var(--text-primary);
+                font-size: 2rem;
+                cursor: pointer;
+                width: 44px;
+                height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            main {
+                padding-top: calc(5rem + var(--safe-top));
+            }
+
+            .faq-question {
+                padding: 1rem 1.25rem;
+            }
+
+            .faq-answer {
+                padding: 0 1.25rem;
+            }
+
+            .faq-item.open .faq-answer {
+                padding: 0 1.25rem 1.25rem;
+            }
+
+            .contact-section {
+                padding: 2rem 1.25rem;
+            }
+
+            .contact-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .faq-nav {
+                gap: 0.5rem;
+            }
+
+            .faq-nav-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Tablet */
+        @media (min-width: 768px) {
+            main {
+                padding: calc(7rem + var(--safe-top)) 2rem 5rem;
+            }
+
+            .page-header {
+                margin-bottom: 4rem;
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 1024px) {
+            .header-content {
+                padding: 0 2rem;
+            }
+
+            nav {
+                gap: 2rem;
+            }
+        }
+
+        /* Touch device optimization */
+        @media (hover: none) {
+            .faq-item:hover {
+                border-color: var(--glass-border);
+                background: var(--glass-bg);
+            }
+
+            .contact-card:hover {
+                transform: none;
+                border-color: var(--glass-border);
+                box-shadow: none;
+            }
+
+            .logo:hover {
+                transform: none;
+            }
+
+            nav a:hover::after {
+                width: 0;
+            }
+        }
+
+        /* ===== REDUCED MOTION ===== */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body data-lang="de">
+    <!-- Animated Mesh Gradient Background -->
+    <div class="mesh-gradient"></div>
+
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">Flow<span>Read</span></a>
+            <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Menu">&#9776;</button>
+            <nav id="nav">
+                <button class="close-menu-btn" onclick="closeMenu()" aria-label="Close">&#10005;</button>
+                <a href="index.html#features" onclick="closeMenu()">Features</a>
+                <a href="datenschutz.html" class="lang-de-inline" onclick="closeMenu()">Datenschutz</a>
+                <a href="datenschutz.html" class="lang-en-inline" onclick="closeMenu()">Privacy</a>
+                <a href="index.html#support" onclick="closeMenu()">Support</a>
+                <a href="faq.html" class="active" onclick="closeMenu()">FAQ</a>
+                <button class="lang-switch" onclick="toggleLanguage()">
+                    <span class="lang-de-inline">EN</span>
+                    <span class="lang-en-inline">DE</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <div class="page-header reveal">
+            <h1 class="gradient-text">FAQ</h1>
+            <p class="subtitle">
+                <span class="lang-de">Häufig gestellte Fragen</span>
+                <span class="lang-en">Frequently Asked Questions</span>
+            </p>
+        </div>
+
+        <!-- Search Box -->
+        <div class="search-container reveal">
+            <div class="search-box">
+                <span class="search-icon">&#128269;</span>
+                <input type="text" id="faqSearch" placeholder="Suche..." oninput="filterFAQ(this.value)">
+            </div>
+        </div>
+
+        <!-- FAQ Navigation -->
+        <div class="faq-nav reveal">
+            <button class="faq-nav-btn active" onclick="filterCategory('all')">
+                <span class="lang-de-inline">Alle</span>
+                <span class="lang-en-inline">All</span>
+            </button>
+            <button class="faq-nav-btn" onclick="filterCategory('start')">
+                <span class="lang-de-inline">Erste Schritte</span>
+                <span class="lang-en-inline">Getting Started</span>
+            </button>
+            <button class="faq-nav-btn" onclick="filterCategory('usage')">
+                <span class="lang-de-inline">Nutzung</span>
+                <span class="lang-en-inline">Usage</span>
+            </button>
+            <button class="faq-nav-btn" onclick="filterCategory('account')">
+                <span class="lang-de-inline">Konto</span>
+                <span class="lang-en-inline">Account</span>
+            </button>
+            <button class="faq-nav-btn" onclick="filterCategory('tech')">
+                <span class="lang-de-inline">Technik</span>
+                <span class="lang-en-inline">Technical</span>
+            </button>
+        </div>
+
+        <!-- German FAQ -->
+        <div id="faq-de" class="faq-section lang-de">
+
+            <!-- Getting Started -->
+            <div class="faq-category reveal" data-category="start">
+                <div class="faq-category-header">
+                    <span class="icon">🚀</span>
+                    <h2 class="gradient-text">Erste Schritte</h2>
+                </div>
+
+                <div class="faq-item" data-search="flowread speed reading app rsvp schnell lesen">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Was ist FlowRead?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>FlowRead ist eine Speed-Reading-App, die dir hilft, schneller zu lesen und mehr Informationen in weniger Zeit aufzunehmen. Die App nutzt die wissenschaftlich bewiesene RSVP-Methode (Rapid Serial Visual Presentation).</p>
+                        <p><strong>Vorteile:</strong></p>
+                        <ul>
+                            <li>Lesegeschwindigkeit um bis zu 200% steigern</li>
+                            <li>Texte aus dem Web, als PDF oder EPUB importieren</li>
+                            <li>Personalisiertes Training mit Fortschrittsverfolgung</li>
+                            <li>Offline-Modus - lies auch ohne Internet</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="speed reading funktioniert rsvp methode">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Wie funktioniert Speed Reading?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Speed Reading basiert auf der RSVP-Methode (Rapid Serial Visual Presentation). Anstatt dass deine Augen über den Text wandern, werden die Wörter einzeln an einem festen Punkt angezeigt.</p>
+                        <p><strong>Die wichtigsten Prinzipien:</strong></p>
+                        <ol>
+                            <li><strong>Fixationspunkt:</strong> Jedes Wort wird am selben Punkt angezeigt, sodass deine Augen sich nicht bewegen müssen.</li>
+                            <li><strong>ORP-Markierung:</strong> Der "Optimal Recognition Point" jedes Wortes wird hervorgehoben.</li>
+                            <li><strong>Subvokalisations-Reduktion:</strong> Durch die erhöhte Geschwindigkeit wird das innere Mitsprechen reduziert.</li>
+                            <li><strong>Progressive Steigerung:</strong> Du beginnst bei deiner aktuellen Lesegeschwindigkeit und steigerst dich schrittweise.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="lesegeschwindigkeit normal wpm wörter pro minute">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Welche Lesegeschwindigkeit ist normal?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Durchschnittliche Lesegeschwindigkeiten:</strong></p>
+                        <ul>
+                            <li><strong>200-250 WPM:</strong> Durchschnittlicher Leser</li>
+                            <li><strong>300-400 WPM:</strong> Guter Leser</li>
+                            <li><strong>400-600 WPM:</strong> Schneller Leser</li>
+                            <li><strong>600+ WPM:</strong> Speed Reader</li>
+                        </ul>
+                        <p>Mit FlowRead kannst du deine Geschwindigkeit schrittweise von 300 bis 1200 WPM steigern.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App Usage -->
+            <div class="faq-category reveal" data-category="usage">
+                <div class="faq-category-header">
+                    <span class="icon">📱</span>
+                    <h2 class="gradient-text">App-Nutzung</h2>
+                </div>
+
+                <div class="faq-item" data-search="texte importieren web browser pdf epub">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Wie importiere ich Texte?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Es gibt mehrere Möglichkeiten:</strong></p>
+                        <ol>
+                            <li><strong>Web-Browser:</strong> Öffne den integrierten Browser, navigiere zu einem Artikel und tippe auf "Lesen"</li>
+                            <li><strong>Text einfügen:</strong> Kopiere Text und füge ihn über "Text einfügen" ein</li>
+                            <li><strong>Dateien:</strong> Importiere EPUB- oder PDF-Dateien aus deiner Dateien-App</li>
+                            <li><strong>Share-Extension:</strong> Teile Artikel direkt aus Safari mit FlowRead</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="geschwindigkeit ändern wpm anpassen">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Wie ändere ich die Geschwindigkeit?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Während des Lesens:</strong></p>
+                        <ul>
+                            <li>Tippe auf das Display, um die Steuerung einzublenden</li>
+                            <li>Nutze die +/- Buttons, um die WPM anzupassen</li>
+                            <li>Wische nach oben/unten für schnelle Anpassungen</li>
+                        </ul>
+                        <p><strong>In den Einstellungen:</strong></p>
+                        <ul>
+                            <li>Öffne die Einstellungen über das Zahnrad-Symbol</li>
+                            <li>Unter "Lesegeschwindigkeit" kannst du deine Standard-WPM festlegen</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="adaptiver modus automatisch komplexität">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Was bedeutet "Adaptiver Modus"?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Der adaptive Modus passt die Anzeigezeit automatisch an die Komplexität jedes Wortes an:</p>
+                        <ul>
+                            <li><strong>Kurze Wörter:</strong> Werden schneller angezeigt</li>
+                            <li><strong>Lange Wörter:</strong> Bekommen mehr Zeit</li>
+                            <li><strong>Satzzeichen:</strong> Natürliche Pausen bei Kommas und Punkten</li>
+                            <li><strong>Häufige Wörter:</strong> Werden schneller erkannt</li>
+                        </ul>
+                        <p>Das Ergebnis ist ein natürlicherer Lesefluss bei gleichbleibend hoher Geschwindigkeit.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="offline lesen ohne internet">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Kann ich offline lesen?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Ja!</strong> Alle gespeicherten Artikel sind offline verfügbar.</p>
+                        <ul>
+                            <li>Importierte Texte werden lokal auf deinem Gerät gespeichert</li>
+                            <li>Trainingseinheiten funktionieren ohne Internet</li>
+                            <li>Statistiken werden synchronisiert, sobald du wieder online bist</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account & Subscription -->
+            <div class="faq-category reveal" data-category="account">
+                <div class="faq-category-header">
+                    <span class="icon">👤</span>
+                    <h2 class="gradient-text">Konto & Abonnement</h2>
+                </div>
+
+                <div class="faq-item" data-search="kostenlos gratis premium freemium preis">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Ist FlowRead kostenlos?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>FlowRead bietet ein <strong>Freemium-Modell</strong>:</p>
+                        <p><strong>Kostenlose Version:</strong></p>
+                        <ul>
+                            <li>Begrenzte Anzahl an Leseeinheiten pro Tag</li>
+                            <li>Zugang zu grundlegenden Funktionen</li>
+                            <li>Fortschrittsverfolgung</li>
+                        </ul>
+                        <p><strong>Premium-Version:</strong></p>
+                        <ul>
+                            <li>Unbegrenzte Leseeinheiten</li>
+                            <li>Alle Trainingsmodi</li>
+                            <li>Erweiterte Statistiken</li>
+                            <li>Prioritäts-Support</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="abo kündigen abonnement beenden">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Wie kündige ich mein Abo?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Auf dem iPhone/iPad:</strong></p>
+                        <ol>
+                            <li>Öffne die <strong>Einstellungen</strong>-App</li>
+                            <li>Tippe auf deinen Namen (Apple ID) oben</li>
+                            <li>Wähle <strong>Abonnements</strong></li>
+                            <li>Finde <strong>FlowRead</strong> in der Liste</li>
+                            <li>Tippe auf <strong>Abo kündigen</strong></li>
+                        </ol>
+                        <p><strong>Wichtig:</strong> Dein Abo bleibt bis zum Ende der aktuellen Abrechnungsperiode aktiv.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="account konto löschen entfernen daten">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Wie lösche ich meinen Account?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>In der App:</strong></p>
+                        <ol>
+                            <li>Öffne FlowRead</li>
+                            <li>Gehe zu <strong>Einstellungen</strong></li>
+                            <li>Scrolle nach unten zu <strong>Account</strong></li>
+                            <li>Tippe auf <strong>Account löschen</strong></li>
+                            <li>Bestätige mit deinem Passwort</li>
+                        </ol>
+                        <p><strong>Was passiert:</strong> Alle personlichen Daten werden innerhalb von 30 Tagen gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="käufe wiederherstellen restore purchases">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Wie stelle ich Käufe wieder her?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <ol>
+                            <li>Öffne FlowRead</li>
+                            <li>Gehe zu <strong>Einstellungen</strong></li>
+                            <li>Tippe auf <strong>Abo verwalten</strong> oder <strong>Premium</strong></li>
+                            <li>Tippe auf <strong>Käufe wiederherstellen</strong></li>
+                        </ol>
+                        <p><strong>Falls es nicht funktioniert:</strong></p>
+                        <ul>
+                            <li>Stelle sicher, dass du mit der gleichen Apple ID angemeldet bist</li>
+                            <li>Prüfe deine Internetverbindung</li>
+                            <li>Kontaktiere uns unter <a href="mailto:support@flowread.app">support@flowread.app</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Issues -->
+            <div class="faq-category reveal" data-category="tech">
+                <div class="faq-category-header">
+                    <span class="icon">🔧</span>
+                    <h2 class="gradient-text">Technische Probleme</h2>
+                </div>
+
+                <div class="faq-item" data-search="app stürzt ab crash fehler neu starten">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Die App stürzt ab - was kann ich tun?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Probiere diese Schritte:</strong></p>
+                        <ol>
+                            <li><strong>App neu starten:</strong> Schließe die App komplett und öffne sie erneut</li>
+                            <li><strong>Gerät neu starten:</strong> Manchmal hilft ein Neustart des iPhones/iPads</li>
+                            <li><strong>App aktualisieren:</strong> Stelle sicher, dass du die neueste Version hast</li>
+                            <li><strong>iOS aktualisieren:</strong> Prüfe, ob ein iOS-Update verfügbar ist</li>
+                            <li><strong>App neu installieren:</strong> Lösche die App und installiere sie neu</li>
+                        </ol>
+                        <p>Falls das Problem weiterhin besteht, kontaktiere uns mit Details zum Fehler.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="statistiken synchronisieren sync cloud">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Meine Statistiken werden nicht synchronisiert</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Überprüfe folgendes:</strong></p>
+                        <ul>
+                            <li>Bist du mit dem Internet verbunden?</li>
+                            <li>Bist du in der App eingeloggt?</li>
+                            <li>Ist die Synchronisierung in den Einstellungen aktiviert?</li>
+                        </ul>
+                        <p><strong>Manuell synchronisieren:</strong></p>
+                        <ol>
+                            <li>Öffne Einstellungen</li>
+                            <li>Tippe auf "Jetzt synchronisieren"</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="text extrahiert webseite artikel">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Der Text wird nicht richtig extrahiert</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Manchmal können Webseiten nicht perfekt extrahiert werden. Versuche:</p>
+                        <ul>
+                            <li><strong>Reader-Modus:</strong> Aktiviere den Reader-Modus im Browser vor dem Import</li>
+                            <li><strong>Text kopieren:</strong> Markiere den Text manuell und nutze "Text einfügen"</li>
+                            <li><strong>Andere Quelle:</strong> Versuche eine andere URL für denselben Artikel</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section German -->
+            <div class="contact-section reveal">
+                <h2 class="gradient-text">Frage nicht beantwortet?</h2>
+                <p class="subtitle">Kontaktiere uns direkt - wir helfen gerne!</p>
+
+                <div class="contact-cards">
+                    <div class="contact-card">
+                        <div class="icon">🛠️</div>
+                        <h3>Technischer Support</h3>
+                        <p>Bei technischen Problemen, Bugs oder Fehlern</p>
+                        <a href="mailto:support@flowread.app">support@flowread.app</a>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon">💡</div>
+                        <h3>Feedback & Ideen</h3>
+                        <p>Vorschläge, Feature-Wünsche und Verbesserungen</p>
+                        <a href="mailto:feedback@flowread.app">feedback@flowread.app</a>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon">💬</div>
+                        <h3>Allgemeine Anfragen</h3>
+                        <p>Alle anderen Fragen und Anliegen</p>
+                        <a href="mailto:kontakt@flowread.app">kontakt@flowread.app</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- English FAQ -->
+        <div id="faq-en" class="faq-section lang-en">
+
+            <!-- Getting Started -->
+            <div class="faq-category reveal" data-category="start">
+                <div class="faq-category-header">
+                    <span class="icon">🚀</span>
+                    <h2 class="gradient-text">Getting Started</h2>
+                </div>
+
+                <div class="faq-item" data-search="flowread speed reading app rsvp">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What is FlowRead?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>FlowRead is a speed reading app that helps you read faster and absorb more information in less time. The app uses the scientifically proven RSVP method (Rapid Serial Visual Presentation).</p>
+                        <p><strong>Benefits:</strong></p>
+                        <ul>
+                            <li>Increase reading speed by up to 200%</li>
+                            <li>Import texts from the web, PDF or EPUB</li>
+                            <li>Personalized training with progress tracking</li>
+                            <li>Offline mode - read without internet</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="speed reading works rsvp method">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How does Speed Reading work?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Speed Reading is based on the RSVP method (Rapid Serial Visual Presentation). Instead of your eyes moving across the text, words are displayed one at a time at a fixed point.</p>
+                        <p><strong>Key principles:</strong></p>
+                        <ol>
+                            <li><strong>Fixation Point:</strong> Each word is displayed at the same position, so your eyes don't need to move.</li>
+                            <li><strong>ORP Marking:</strong> The "Optimal Recognition Point" of each word is highlighted.</li>
+                            <li><strong>Subvocalization Reduction:</strong> The increased speed reduces internal vocalization.</li>
+                            <li><strong>Progressive Increase:</strong> You start at your current reading speed and gradually improve.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="reading speed normal wpm words per minute">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What reading speed is normal?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Average reading speeds:</strong></p>
+                        <ul>
+                            <li><strong>200-250 WPM:</strong> Average reader</li>
+                            <li><strong>300-400 WPM:</strong> Good reader</li>
+                            <li><strong>400-600 WPM:</strong> Fast reader</li>
+                            <li><strong>600+ WPM:</strong> Speed reader</li>
+                        </ul>
+                        <p>With FlowRead you can gradually increase your speed from 300 to 1200 WPM.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App Usage -->
+            <div class="faq-category reveal" data-category="usage">
+                <div class="faq-category-header">
+                    <span class="icon">📱</span>
+                    <h2 class="gradient-text">App Usage</h2>
+                </div>
+
+                <div class="faq-item" data-search="import texts web browser pdf epub">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I import texts?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>There are several ways:</strong></p>
+                        <ol>
+                            <li><strong>Web Browser:</strong> Open the built-in browser, navigate to an article and tap "Read"</li>
+                            <li><strong>Paste Text:</strong> Copy text and paste it via "Paste Text"</li>
+                            <li><strong>Files:</strong> Import EPUB or PDF files from your Files app</li>
+                            <li><strong>Share Extension:</strong> Share articles directly from Safari to FlowRead</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="change speed wpm adjust">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I change the speed?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>While reading:</strong></p>
+                        <ul>
+                            <li>Tap the display to show controls</li>
+                            <li>Use the +/- buttons to adjust WPM</li>
+                            <li>Swipe up/down for quick adjustments</li>
+                        </ul>
+                        <p><strong>In settings:</strong></p>
+                        <ul>
+                            <li>Open settings via the gear icon</li>
+                            <li>Under "Reading Speed" you can set your default WPM</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="adaptive mode automatic complexity">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What is "Adaptive Mode"?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Adaptive mode automatically adjusts the display time based on each word's complexity:</p>
+                        <ul>
+                            <li><strong>Short words:</strong> Displayed faster</li>
+                            <li><strong>Long words:</strong> Get more time</li>
+                            <li><strong>Punctuation:</strong> Natural pauses at commas and periods</li>
+                            <li><strong>Common words:</strong> Are recognized faster</li>
+                        </ul>
+                        <p>The result is a more natural reading flow while maintaining high speed.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="offline read without internet">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can I read offline?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Yes!</strong> All saved articles are available offline.</p>
+                        <ul>
+                            <li>Imported texts are stored locally on your device</li>
+                            <li>Training sessions work without internet</li>
+                            <li>Statistics sync when you're back online</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account & Subscription -->
+            <div class="faq-category reveal" data-category="account">
+                <div class="faq-category-header">
+                    <span class="icon">👤</span>
+                    <h2 class="gradient-text">Account & Subscription</h2>
+                </div>
+
+                <div class="faq-item" data-search="free premium freemium price cost">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Is FlowRead free?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>FlowRead offers a <strong>Freemium model</strong>:</p>
+                        <p><strong>Free Version:</strong></p>
+                        <ul>
+                            <li>Limited number of reading sessions per day</li>
+                            <li>Access to basic features</li>
+                            <li>Progress tracking</li>
+                        </ul>
+                        <p><strong>Premium Version:</strong></p>
+                        <ul>
+                            <li>Unlimited reading sessions</li>
+                            <li>All training modes</li>
+                            <li>Advanced statistics</li>
+                            <li>Priority support</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="cancel subscription end">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I cancel my subscription?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>On iPhone/iPad:</strong></p>
+                        <ol>
+                            <li>Open the <strong>Settings</strong> app</li>
+                            <li>Tap your name (Apple ID) at the top</li>
+                            <li>Select <strong>Subscriptions</strong></li>
+                            <li>Find <strong>FlowRead</strong> in the list</li>
+                            <li>Tap <strong>Cancel Subscription</strong></li>
+                        </ol>
+                        <p><strong>Important:</strong> Your subscription remains active until the end of the current billing period.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="delete account remove data">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I delete my account?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>In the app:</strong></p>
+                        <ol>
+                            <li>Open FlowRead</li>
+                            <li>Go to <strong>Settings</strong></li>
+                            <li>Scroll down to <strong>Account</strong></li>
+                            <li>Tap <strong>Delete Account</strong></li>
+                            <li>Confirm with your password</li>
+                        </ol>
+                        <p><strong>What happens:</strong> All personal data is deleted within 30 days. This action cannot be undone.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="restore purchases">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I restore purchases?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <ol>
+                            <li>Open FlowRead</li>
+                            <li>Go to <strong>Settings</strong></li>
+                            <li>Tap <strong>Manage Subscription</strong> or <strong>Premium</strong></li>
+                            <li>Tap <strong>Restore Purchases</strong></li>
+                        </ol>
+                        <p><strong>If it doesn't work:</strong></p>
+                        <ul>
+                            <li>Make sure you're signed in with the same Apple ID</li>
+                            <li>Check your internet connection</li>
+                            <li>Contact us at <a href="mailto:support@flowread.app">support@flowread.app</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Issues -->
+            <div class="faq-category reveal" data-category="tech">
+                <div class="faq-category-header">
+                    <span class="icon">🔧</span>
+                    <h2 class="gradient-text">Technical Issues</h2>
+                </div>
+
+                <div class="faq-item" data-search="app crashes error restart">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>The app crashes - what can I do?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Try these steps:</strong></p>
+                        <ol>
+                            <li><strong>Restart the app:</strong> Close the app completely and reopen it</li>
+                            <li><strong>Restart your device:</strong> Sometimes restarting your iPhone/iPad helps</li>
+                            <li><strong>Update the app:</strong> Make sure you have the latest version</li>
+                            <li><strong>Update iOS:</strong> Check if an iOS update is available</li>
+                            <li><strong>Reinstall the app:</strong> Delete and reinstall the app</li>
+                        </ol>
+                        <p>If the problem persists, contact us with details about the error.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="statistics sync cloud">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>My statistics aren't syncing</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Check the following:</strong></p>
+                        <ul>
+                            <li>Are you connected to the internet?</li>
+                            <li>Are you logged in to the app?</li>
+                            <li>Is sync enabled in settings?</li>
+                        </ul>
+                        <p><strong>Manual sync:</strong></p>
+                        <ol>
+                            <li>Open Settings</li>
+                            <li>Tap "Sync Now"</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="text extracted website article">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>The text isn't extracted correctly</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sometimes websites can't be extracted perfectly. Try:</p>
+                        <ul>
+                            <li><strong>Reader Mode:</strong> Enable reader mode in the browser before importing</li>
+                            <li><strong>Copy Text:</strong> Select the text manually and use "Paste Text"</li>
+                            <li><strong>Different Source:</strong> Try a different URL for the same article</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section English -->
+            <div class="contact-section reveal">
+                <h2 class="gradient-text">Question not answered?</h2>
+                <p class="subtitle">Contact us directly - we're happy to help!</p>
+
+                <div class="contact-cards">
+                    <div class="contact-card">
+                        <div class="icon">🛠️</div>
+                        <h3>Technical Support</h3>
+                        <p>For technical issues, bugs, or errors</p>
+                        <a href="mailto:support@flowread.app">support@flowread.app</a>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon">💡</div>
+                        <h3>Feedback & Ideas</h3>
+                        <p>Suggestions, feature requests, and improvements</p>
+                        <a href="mailto:feedback@flowread.app">feedback@flowread.app</a>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon">💬</div>
+                        <h3>General Inquiries</h3>
+                        <p>All other questions and concerns</p>
+                        <a href="mailto:contact@flowread.app">contact@flowread.app</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>FlowRead</h4>
+                    <ul>
+                        <li><a href="index.html">
+                            <span class="lang-de-inline">Startseite</span>
+                            <span class="lang-en-inline">Home</span>
+                        </a></li>
+                        <li><a href="index.html#features">Features</a></li>
+                        <li><a href="#">App Store</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>
+                        <span class="lang-de-inline">Rechtliches</span>
+                        <span class="lang-en-inline">Legal</span>
+                    </h4>
+                    <ul>
+                        <li><a href="datenschutz.html">
+                            <span class="lang-de-inline">Datenschutz</span>
+                            <span class="lang-en-inline">Privacy Policy</span>
+                        </a></li>
+                        <li><a href="nutzungsbedingungen.html">
+                            <span class="lang-de-inline">AGB</span>
+                            <span class="lang-en-inline">Terms of Service</span>
+                        </a></li>
+                        <li><a href="impressum.html">
+                            <span class="lang-de-inline">Impressum</span>
+                            <span class="lang-en-inline">Legal Notice</span>
+                        </a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>
+                        <span class="lang-de-inline">Kontakt</span>
+                        <span class="lang-en-inline">Contact</span>
+                    </h4>
+                    <ul>
+                        <li><a href="mailto:support@flowread.app">Support</a></li>
+                        <li><a href="mailto:feedback@flowread.app">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FlowRead. <span class="lang-de-inline">Alle Rechte vorbehalten.</span><span class="lang-en-inline">All rights reserved.</span></p>
+                <a href="index.html" class="back-link">
+                    <span>&#8592;</span>
+                    <span class="lang-de-inline">Zurück zur Startseite</span>
+                    <span class="lang-en-inline">Back to Homepage</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== FAQ TOGGLE =====
+        function toggleFAQ(element) {
+            const item = element.parentElement;
+            const wasOpen = item.classList.contains('open');
+
+            // Close all other items
+            document.querySelectorAll('.faq-item.open').forEach(openItem => {
+                openItem.classList.remove('open');
+            });
+
+            // Toggle current item
+            if (!wasOpen) {
+                item.classList.add('open');
+            }
+        }
+
+        // ===== SEARCH FUNCTIONALITY =====
+        function filterFAQ(query) {
+            const lang = document.body.getAttribute('data-lang');
+            const section = document.getElementById('faq-' + lang);
+            const items = section.querySelectorAll('.faq-item');
+            const categories = section.querySelectorAll('.faq-category');
+
+            query = query.toLowerCase().trim();
+
+            if (!query) {
+                items.forEach(item => item.style.display = 'block');
+                categories.forEach(cat => cat.style.display = 'block');
+                return;
+            }
+
+            categories.forEach(category => {
+                let hasVisibleItems = false;
+                const catItems = category.querySelectorAll('.faq-item');
+
+                catItems.forEach(item => {
+                    const searchText = item.getAttribute('data-search') || '';
+                    const questionText = item.querySelector('.faq-question span').textContent.toLowerCase();
+                    const answerText = item.querySelector('.faq-answer').textContent.toLowerCase();
+
+                    if (searchText.includes(query) || questionText.includes(query) || answerText.includes(query)) {
+                        item.style.display = 'block';
+                        hasVisibleItems = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                category.style.display = hasVisibleItems ? 'block' : 'none';
+            });
+        }
+
+        // ===== CATEGORY FILTER =====
+        function filterCategory(category) {
+            // Update active button
+            document.querySelectorAll('.faq-nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const lang = document.body.getAttribute('data-lang');
+            const section = document.getElementById('faq-' + lang);
+            const categories = section.querySelectorAll('.faq-category');
+
+            categories.forEach(cat => {
+                if (category === 'all' || cat.getAttribute('data-category') === category) {
+                    cat.style.display = 'block';
+                } else {
+                    cat.style.display = 'none';
+                }
+            });
+
+            // Clear search
+            document.getElementById('faqSearch').value = '';
+        }
+
+        // ===== LANGUAGE SWITCHING =====
+        function toggleLanguage() {
+            const body = document.body;
+            const currentLang = body.getAttribute('data-lang');
+            const newLang = currentLang === 'de' ? 'en' : 'de';
+            body.setAttribute('data-lang', newLang);
+            document.documentElement.lang = newLang;
+            localStorage.setItem('flowread-lang', newLang);
+
+            // Update search placeholder
+            const searchInput = document.getElementById('faqSearch');
+            searchInput.placeholder = newLang === 'de' ? 'Suche...' : 'Search...';
+        }
+
+        // Load saved language
+        const savedLang = localStorage.getItem('flowread-lang');
+        if (savedLang) {
+            document.body.setAttribute('data-lang', savedLang);
+            document.documentElement.lang = savedLang;
+            document.getElementById('faqSearch').placeholder = savedLang === 'de' ? 'Suche...' : 'Search...';
+        }
+
+        // ===== MOBILE MENU =====
+        function toggleMenu() {
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            document.getElementById('nav').classList.remove('active');
+        }
+
+        // ===== SCROLL REVEAL ANIMATIONS =====
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -30px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ===== FLOATING PARTICLES (REDUCED FOR MOBILE) =====
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const isMobile = window.innerWidth < 768;
+            const particleCount = isMobile ? 15 : 25;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle' + (Math.random() > 0.85 ? ' large' : '');
+
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (20 + Math.random() * 25) + 's';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+
+                container.appendChild(particle);
+            }
+        }
+
+        // Only create particles if reduced motion is not preferred
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            createParticles();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Nutzungsbedingungen - FlowRead</title>
+    <meta name="description" content="Nutzungsbedingungen / Terms of Service - FlowRead Speed Reading App">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS CUSTOM PROPERTIES ===== */
+        :root {
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-border-hover: rgba(255, 255, 255, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+            --accent-start: #00D4FF;
+            --accent-end: #7C3AED;
+            --accent-glow: rgba(0, 212, 255, 0.4);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            --shadow-glow: 0 0 40px var(--accent-glow);
+            --safe-top: env(safe-area-inset-top);
+            --safe-bottom: env(safe-area-inset-bottom);
+            --safe-left: env(safe-area-inset-left);
+            --safe-right: env(safe-area-inset-right);
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-weight: 400;
+            overflow-x: hidden;
+            background: #0a0a0f;
+            min-height: 100vh;
+            padding-left: var(--safe-left);
+            padding-right: var(--safe-right);
+        }
+
+        /* ===== ANIMATED MESH GRADIENT BACKGROUND ===== */
+        .mesh-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0a0f 0%, #0d0d14 100%);
+        }
+
+        .mesh-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(0, 150, 200, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 20%, rgba(100, 50, 180, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 60% at 60% 80%, rgba(0, 180, 160, 0.1) 0%, transparent 50%);
+            animation: meshMove 20s ease-in-out infinite;
+        }
+
+        @keyframes meshMove {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(2%, -2%) scale(1.02); }
+            50% { transform: translate(-1%, 3%) scale(0.98); }
+            75% { transform: translate(-2%, -1%) scale(1.01); }
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        h1, h2, h3 {
+            font-weight: 600;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent-start) 0%, #ffffff 50%, var(--accent-end) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: calc(2rem + var(--safe-top)) 1.5rem calc(2rem + var(--safe-bottom));
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== BACK LINK ===== */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-start);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.75rem 1.25rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .back-link:hover {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* ===== LEGAL SECTION ===== */
+        .legal-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: var(--shadow-glass);
+        }
+
+        .last-updated {
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .legal-content h3 {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .legal-content h3:first-child {
+            margin-top: 0;
+        }
+
+        .legal-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .legal-content ul {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .legal-content li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        .legal-content a {
+            color: var(--accent-start);
+            text-decoration: none;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .legal-content a:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .legal-content strong {
+            color: var(--text-primary);
+        }
+
+        /* ===== LANGUAGE SWITCHING ===== */
+        .lang-de, .lang-en { display: none; }
+        [data-lang="de"] .lang-de { display: block; }
+        [data-lang="en"] .lang-en { display: block; }
+        [data-lang="de"] .lang-de-inline { display: inline; }
+        [data-lang="en"] .lang-en-inline { display: inline; }
+        .lang-de-inline, .lang-en-inline { display: none; }
+
+        .lang-switch {
+            position: fixed;
+            top: calc(1rem + var(--safe-top));
+            right: calc(1rem + var(--safe-right));
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-family: var(--font-primary);
+            transition: all 0.3s var(--ease-smooth);
+            z-index: 100;
+        }
+
+        .lang-switch:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--accent-start);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 2rem 1.5rem calc(2rem + var(--safe-bottom));
+            margin-top: 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-start);
+        }
+
+        .footer-links .separator {
+            color: var(--text-tertiary);
+        }
+
+        .footer-bottom p {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .container {
+                padding: calc(1.5rem + var(--safe-top)) 1rem calc(1.5rem + var(--safe-bottom));
+            }
+
+            .legal-section {
+                padding: 1.5rem;
+                border-radius: 20px;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .footer-links .separator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body data-lang="de">
+    <div class="mesh-gradient"></div>
+
+    <button class="lang-switch" onclick="toggleLanguage()">
+        <span class="lang-de-inline">EN</span>
+        <span class="lang-en-inline">DE</span>
+    </button>
+
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <span>&#8592;</span>
+            <span class="lang-de-inline">Zur&uuml;ck zur Startseite</span>
+            <span class="lang-en-inline">Back to Homepage</span>
+        </a>
+
+        <h1 class="gradient-text">
+            <span class="lang-de">Nutzungsbedingungen (AGB)</span>
+            <span class="lang-en">Terms of Service</span>
+        </h1>
+
+        <!-- German Terms -->
+        <div class="lang-de">
+            <div class="legal-section">
+                <p class="last-updated">Stand: Februar 2026</p>
+                <div class="legal-content">
+                    <h3>1. Geltungsbereich</h3>
+                    <p>1.1 Diese Allgemeinen Gesch&auml;ftsbedingungen (nachfolgend "AGB") gelten f&uuml;r die Nutzung der mobilen Anwendung "FlowRead" (nachfolgend "App"), die von Fyn Meyer (nachfolgend "Anbieter") bereitgestellt wird.</p>
+                    <p>1.2 Mit der Installation und Nutzung der App erkl&auml;ren Sie sich mit diesen AGB einverstanden. Wenn Sie mit diesen Bedingungen nicht einverstanden sind, d&uuml;rfen Sie die App nicht nutzen.</p>
+                    <p>1.3 Abweichende Bedingungen des Nutzers werden nicht anerkannt, es sei denn, der Anbieter stimmt ihrer Geltung ausdr&uuml;cklich schriftlich zu.</p>
+                    <p>1.4 Die AGB gelten f&uuml;r alle Vertr&auml;ge &uuml;ber die Nutzung der App, einschlie&szlig;lich kostenpflichtiger Abonnements, die &uuml;ber App-Stores (z. B. Apple App Store, Google Play Store) abgeschlossen werden.</p>
+
+                    <h3>2. Leistungsbeschreibung</h3>
+                    <p>2.1 FlowRead ist eine Speed-Reading-Anwendung, die Nutzern hilft, ihre Lesegeschwindigkeit und ihr Textverst&auml;ndnis zu verbessern.</p>
+                    <p>2.2 Die App bietet folgende Funktionen:</p>
+                    <ul>
+                        <li>Speed-Reading-Training mit verschiedenen &Uuml;bungsmodi</li>
+                        <li>Textimport aus verschiedenen Quellen (Webseiten, Zwischenablage)</li>
+                        <li>Anpassbare Lesegeschwindigkeit und Darstellungsoptionen</li>
+                        <li>Statistiken und Fortschrittsverfolgung</li>
+                        <li>Offline-Speicherung von Artikeln</li>
+                    </ul>
+                    <p>2.3 Der Anbieter beh&auml;lt sich vor, den Funktionsumfang der App jederzeit zu &auml;ndern, zu erweitern oder einzuschr&auml;nken, insbesondere um Updates zur Erhaltung der Funktionsf&auml;higkeit und IT-Sicherheit bereitzustellen, wie es f&uuml;r digitale Produkte gesetzlich vorgesehen ist (&sect;&sect; 327 ff. BGB).</p>
+
+                    <h3>3. Registrierung und Nutzerkonto</h3>
+                    <p>3.1 F&uuml;r bestimmte Funktionen der App kann eine Registrierung erforderlich sein.</p>
+                    <p>3.2 Bei der Registrierung sind wahrheitsgem&auml;&szlig;e und vollst&auml;ndige Angaben zu machen. &Auml;nderungen der Daten sind unverz&uuml;glich zu aktualisieren.</p>
+                    <p>3.3 Der Nutzer ist f&uuml;r die Geheimhaltung seiner Zugangsdaten verantwortlich und haftet f&uuml;r alle Aktivit&auml;ten, die unter seinem Konto stattfinden.</p>
+                    <p>3.4 Der Nutzer verpflichtet sich, den Anbieter unverz&uuml;glich zu informieren, wenn er Kenntnis von einem Missbrauch seines Kontos erlangt.</p>
+
+                    <h3>4. Geistiges Eigentum</h3>
+                    <p>4.1 Alle Rechte an der App, einschlie&szlig;lich, aber nicht beschr&auml;nkt auf Software, Design, Grafiken, Logos, Texte und andere Inhalte, sind Eigentum des Anbieters oder seiner Lizenzgeber und durch deutsches und internationales Urheberrecht gesch&uuml;tzt.</p>
+                    <p>4.2 Der Nutzer erh&auml;lt ein einfaches, nicht &uuml;bertragbares, widerrufliches Recht zur Nutzung der App f&uuml;r private, nicht-kommerzielle Zwecke.</p>
+                    <p>4.3 Es ist untersagt:</p>
+                    <ul>
+                        <li>Die App zu kopieren, zu modifizieren oder zu dekompilieren</li>
+                        <li>Die App zu verbreiten, zu vermieten oder unterzulizenzieren</li>
+                        <li>Schutzrechtsvermerke zu entfernen oder zu ver&auml;ndern</li>
+                        <li>Die App f&uuml;r illegale Zwecke zu nutzen</li>
+                    </ul>
+
+                    <h3>5. Abonnements und In-App-K&auml;ufe</h3>
+                    <p><strong>5.1 Kostenlose Version (Free Tier)</strong><br>
+                    Die App kann in einer kostenlosen Basisversion genutzt werden. Diese Version unterliegt bestimmten Einschr&auml;nkungen.</p>
+                    <p><strong>5.2 Premium-Abonnement</strong><br>
+                    F&uuml;r den vollen Funktionsumfang kann ein kostenpflichtiges Premium-Abonnement abgeschlossen werden. Verf&uuml;gbare Optionen: Monatlich oder J&auml;hrlich.</p>
+                    <p><strong>5.3 Zahlungsabwicklung</strong><br>
+                    Die Zahlungsabwicklung erfolgt &uuml;ber den jeweiligen App-Store-Anbieter (Apple App Store / Google Play Store). Es gelten zus&auml;tzlich die AGB des App-Store-Anbieters.</p>
+                    <p><strong>5.4 Automatische Verl&auml;ngerung</strong><br>
+                    Abonnements verl&auml;ngern sich automatisch um den jeweiligen Abonnementzeitraum, sofern sie nicht vor Ablauf der aktuellen Laufzeit gek&uuml;ndigt werden. Die K&uuml;ndigung muss mindestens 24 Stunden vor Ablauf erfolgen.</p>
+
+                    <h3>6. Widerrufsrecht und K&uuml;ndigung</h3>
+                    <p><strong>6.1 Widerrufsrecht f&uuml;r Verbraucher</strong><br>
+                    Als Verbraucher haben Sie das Recht, binnen vierzehn Tagen ohne Angabe von Gr&uuml;nden diesen Vertrag zu widerrufen. Die Widerrufsfrist beginnt mit Vertragsschluss.</p>
+                    <p>F&uuml;r digitale Inhalte (z. B. App-Nutzung, Abonnements) erlischt das Widerrufsrecht vorzeitig, wenn der Anbieter mit der Ausf&uuml;hrung begonnen hat (z. B. Download oder Nutzung startet), nachdem Sie:</p>
+                    <p>(a) ausdr&uuml;cklich zugestimmt haben, dass der Anbieter vor Ablauf der Widerrufsfrist beginnt, und</p>
+                    <p>(b) Ihre Kenntnisnahme best&auml;tigt haben, dass Sie damit Ihr Widerrufsrecht verlieren (&sect; 356 Abs. 5 BGB).</p>
+                    <p>Ab dem 19. Juni 2026 stellen wir einen elektronischen Widerrufsbutton f&uuml;r Online-Vertr&auml;ge bereit (&sect; 312k BGB).</p>
+                    <p><strong>6.2 Widerrufsbelehrung</strong><br>
+                    Um Ihr Widerrufsrecht auszu&uuml;ben, m&uuml;ssen Sie uns (Fyn Meyer, Flandernstrasse 6, 53859 Niederkassel, E-Mail: <a href="mailto:kontakt@flowread.app">kontakt@flowread.app</a>) mittels einer eindeutigen Erkl&auml;rung (z. B. per E-Mail) &uuml;ber Ihren Entschluss, diesen Vertrag zu widerrufen, informieren. Die Widerrufsfrist ist gewahrt, wenn Sie die Mitteilung vor Ablauf der Frist absenden.</p>
+                    <p><strong>Folgen des Widerrufs:</strong> Bei wirksamem Widerruf erstatten wir alle Zahlungen innerhalb von 14 Tagen zur&uuml;ck.</p>
+                    <p><strong>6.3 K&uuml;ndigung des Abonnements</strong><br>
+                    Das Abonnement kann jederzeit zum Ende der aktuellen Laufzeit gek&uuml;ndigt werden &uuml;ber:</p>
+                    <ul>
+                        <li>iOS: Einstellungen &gt; Apple-ID &gt; Abonnements</li>
+                        <li>Android: Google Play Store &gt; Men&uuml; &gt; Abonnements</li>
+                    </ul>
+                    <p>Nach der K&uuml;ndigung behalten Sie Zugang zu den Premium-Funktionen bis zum Ende des bereits bezahlten Zeitraums.</p>
+
+                    <h3>7. Haftungsausschluss</h3>
+                    <p>7.1 Der Anbieter haftet unbeschr&auml;nkt f&uuml;r Sch&auml;den aus der Verletzung des Lebens, des K&ouml;rpers oder der Gesundheit sowie f&uuml;r vors&auml;tzlich oder grob fahrl&auml;ssig verursachte Sch&auml;den. Im &Uuml;brigen ist die Haftung f&uuml;r leichte Fahrl&auml;ssigkeit auf den vertragstypischen, vorhersehbaren Schaden beschr&auml;nkt, soweit wesentliche Vertragspflichten verletzt werden (&sect; 280 BGB).</p>
+                    <p>7.2 Die App dient ausschlie&szlig;lich Trainings- und Unterhaltungszwecken. Es werden keine Garantien hinsichtlich der Verbesserung der Lesef&auml;higkeiten gegeben.</p>
+                    <p>7.3 Die App ersetzt keine medizinische oder therapeutische Behandlung. Bei Sehproblemen oder anderen gesundheitlichen Beschwerden konsultieren Sie bitte einen Arzt.</p>
+
+                    <h3>8. Datenschutz</h3>
+                    <p>Die Erhebung und Verarbeitung personenbezogener Daten erfolgt gem&auml;&szlig; unserer <a href="datenschutz.html">Datenschutzerkl&auml;rung</a>, die integraler Bestandteil dieser AGB ist.</p>
+
+                    <h3>9. &Auml;nderungen der AGB</h3>
+                    <p>9.1 Der Anbieter beh&auml;lt sich vor, diese AGB jederzeit zu &auml;ndern.</p>
+                    <p>9.2 &Auml;nderungen werden dem Nutzer mindestens 30 Tage vor Inkrafttreten per E-Mail oder In-App-Benachrichtigung mitgeteilt, wobei wesentliche &Auml;nderungen (z. B. Preisanpassungen, Funktionsbeschr&auml;nkungen) einer ausdr&uuml;cklichen Zustimmung bed&uuml;rfen. F&uuml;r unwesentliche &Auml;nderungen gilt Schweigen als Zustimmung, sofern der Nutzer nicht innerhalb der Frist widerspricht. Der Anbieter weist in der Mitteilung auf das Widerspruchsrecht und die Folgen des Schweigens hin (&sect; 307 BGB).</p>
+
+                    <h3>10. Schlussbestimmungen</h3>
+                    <p><strong>10.1 Anwendbares Recht</strong><br>
+                    Es gilt das Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts.</p>
+                    <p><strong>10.2 Streitbeilegung</strong><br>
+                    Die Europ&auml;ische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr" target="_blank">https://ec.europa.eu/consumers/odr</a></p>
+                    <p>Der Anbieter ist nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+                    <p><strong>10.3 Salvatorische Klausel</strong><br>
+                    Sollten einzelne Bestimmungen dieser AGB unwirksam sein oder werden, ber&uuml;hrt dies die Wirksamkeit der &uuml;brigen Bestimmungen nicht.</p>
+
+                    <h3>11. Kontakt</h3>
+                    <p>Bei Fragen zu diesen Nutzungsbedingungen wenden Sie sich bitte an:</p>
+                    <p>Fyn Meyer<br>
+                    Flandernstrasse 6<br>
+                    53859 Niederkassel<br>
+                    Deutschland</p>
+                    <p>E-Mail: <a href="mailto:kontakt@flowread.app">kontakt@flowread.app</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- English Terms -->
+        <div class="lang-en">
+            <div class="legal-section">
+                <p class="last-updated">Last Updated: February 2026</p>
+                <div class="legal-content">
+                    <h3>1. Scope of Application</h3>
+                    <p>1.1 These General Terms and Conditions (hereinafter "Terms") govern the use of the mobile application "FlowRead" (hereinafter "App"), provided by Fyn Meyer (hereinafter "Provider").</p>
+                    <p>1.2 By installing and using the App, you agree to these Terms. If you do not agree to these Terms, you may not use the App.</p>
+                    <p>1.3 Deviating terms of the user will not be recognized unless the Provider expressly agrees to their validity in writing.</p>
+                    <p>1.4 These Terms apply to all contracts for the use of the App, including paid subscriptions concluded via app stores (e.g., Apple App Store, Google Play Store).</p>
+
+                    <h3>2. Service Description</h3>
+                    <p>2.1 FlowRead is a speed reading application that helps users improve their reading speed and text comprehension.</p>
+                    <p>2.2 The App offers the following features:</p>
+                    <ul>
+                        <li>Speed reading training with various exercise modes</li>
+                        <li>Text import from various sources (websites, clipboard)</li>
+                        <li>Customizable reading speed and display options</li>
+                        <li>Statistics and progress tracking</li>
+                        <li>Offline storage of articles</li>
+                    </ul>
+                    <p>2.3 The Provider reserves the right to change, expand, or limit the scope of functions of the App at any time, particularly to provide updates for maintaining functionality and IT security, as provided by law for digital products (&sect;&sect; 327 ff. BGB).</p>
+
+                    <h3>3. Registration and User Account</h3>
+                    <p>3.1 Registration may be required for certain features of the App.</p>
+                    <p>3.2 When registering, truthful and complete information must be provided. Changes to data must be updated immediately.</p>
+                    <p>3.3 The user is responsible for maintaining the confidentiality of their login credentials and is liable for all activities that occur under their account.</p>
+                    <p>3.4 The user undertakes to inform the Provider immediately if they become aware of any misuse of their account.</p>
+
+                    <h3>4. Intellectual Property</h3>
+                    <p>4.1 All rights to the App, including but not limited to software, design, graphics, logos, texts, and other content, are the property of the Provider or its licensors and are protected by German and international copyright law.</p>
+                    <p>4.2 The user receives a simple, non-transferable, revocable right to use the App for private, non-commercial purposes.</p>
+                    <p>4.3 It is prohibited to:</p>
+                    <ul>
+                        <li>Copy, modify, or decompile the App</li>
+                        <li>Distribute, rent, or sublicense the App</li>
+                        <li>Remove or alter intellectual property notices</li>
+                        <li>Use the App for illegal purposes</li>
+                    </ul>
+
+                    <h3>5. Subscriptions and In-App Purchases</h3>
+                    <p><strong>5.1 Free Version (Free Tier)</strong><br>
+                    The App can be used in a free basic version. This version is subject to certain limitations.</p>
+                    <p><strong>5.2 Premium Subscription</strong><br>
+                    A paid Premium subscription can be purchased for the full range of features. Available options: Monthly or Annual.</p>
+                    <p><strong>5.3 Payment Processing</strong><br>
+                    Payment processing is handled by the respective app store provider (Apple App Store / Google Play Store). The app store provider's terms also apply.</p>
+                    <p><strong>5.4 Automatic Renewal</strong><br>
+                    Subscriptions automatically renew for the respective subscription period unless cancelled before the end of the current term. Cancellation must be made at least 24 hours before the end of the current period.</p>
+
+                    <h3>6. Right of Withdrawal and Cancellation</h3>
+                    <p><strong>6.1 Right of Withdrawal for Consumers</strong><br>
+                    As a consumer, you have the right to withdraw from this contract within fourteen days without giving any reason. The withdrawal period begins upon conclusion of the contract.</p>
+                    <p>For digital content (e.g., app usage, subscriptions), the right of withdrawal expires prematurely if the Provider has begun execution (e.g., download or usage starts) after you:</p>
+                    <p>(a) have expressly agreed that the Provider should begin before the withdrawal period expires, and</p>
+                    <p>(b) have confirmed your acknowledgment that you thereby lose your right of withdrawal (&sect; 356 para. 5 BGB).</p>
+                    <p>From June 19, 2026, we will provide an electronic withdrawal button for online contracts (&sect; 312k BGB).</p>
+                    <p><strong>6.2 Withdrawal Instructions</strong><br>
+                    To exercise your right of withdrawal, you must inform us (Fyn Meyer, Flandernstrasse 6, 53859 Niederkassel, Email: <a href="mailto:kontakt@flowread.app">kontakt@flowread.app</a>) of your decision to withdraw from this contract by a clear statement (e.g., by email). The withdrawal period is met if you send the notice before the period expires.</p>
+                    <p><strong>Consequences of withdrawal:</strong> Upon effective withdrawal, we will refund all payments within 14 days.</p>
+                    <p><strong>6.3 Subscription Cancellation</strong><br>
+                    The subscription can be cancelled at any time effective at the end of the current term via:</p>
+                    <ul>
+                        <li>iOS: Settings &gt; Apple ID &gt; Subscriptions</li>
+                        <li>Android: Google Play Store &gt; Menu &gt; Subscriptions</li>
+                    </ul>
+                    <p>After cancellation, you retain access to Premium features until the end of the already paid period.</p>
+
+                    <h3>7. Disclaimer and Limitation of Liability</h3>
+                    <p>7.1 The Provider is fully liable for damages arising from injury to life, body, or health, as well as for damages caused intentionally or through gross negligence. Otherwise, liability for slight negligence is limited to typical, foreseeable damages insofar as material contractual obligations are breached (&sect; 280 BGB).</p>
+                    <p>7.2 The App serves exclusively for training and entertainment purposes. No guarantees are given regarding the improvement of reading abilities.</p>
+                    <p>7.3 The App does not replace medical or therapeutic treatment. If you have vision problems or other health concerns, please consult a doctor.</p>
+
+                    <h3>8. Data Protection</h3>
+                    <p>The collection and processing of personal data is carried out in accordance with our <a href="datenschutz.html">Privacy Policy</a>, which is an integral part of these Terms.</p>
+
+                    <h3>9. Changes to the Terms</h3>
+                    <p>9.1 The Provider reserves the right to change these Terms at any time.</p>
+                    <p>9.2 Changes will be communicated to the user at least 30 days before they come into effect via email or in-app notification, whereby material changes (e.g., price adjustments, feature restrictions) require express consent. For non-material changes, silence is deemed consent if the user does not object within the period. The Provider will point out the right to object and the consequences of silence in the notification (&sect; 307 BGB).</p>
+
+                    <h3>10. Final Provisions</h3>
+                    <p><strong>10.1 Applicable Law</strong><br>
+                    The law of the Federal Republic of Germany applies, excluding the UN Convention on Contracts for the International Sale of Goods.</p>
+                    <p><strong>10.2 Dispute Resolution</strong><br>
+                    The European Commission provides a platform for online dispute resolution (ODR): <a href="https://ec.europa.eu/consumers/odr" target="_blank">https://ec.europa.eu/consumers/odr</a></p>
+                    <p>The Provider is not obligated and not willing to participate in dispute resolution proceedings before a consumer arbitration board.</p>
+                    <p><strong>10.3 Severability Clause</strong><br>
+                    Should individual provisions of these Terms be or become invalid, this shall not affect the validity of the remaining provisions.</p>
+
+                    <h3>11. Contact</h3>
+                    <p>If you have any questions about these Terms of Service, please contact:</p>
+                    <p>Fyn Meyer<br>
+                    Flandernstrasse 6<br>
+                    53859 Niederkassel<br>
+                    Germany</p>
+                    <p>Email: <a href="mailto:kontakt@flowread.app">kontakt@flowread.app</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="datenschutz.html">
+                    <span class="lang-de-inline">Datenschutz</span>
+                    <span class="lang-en-inline">Privacy Policy</span>
+                </a>
+                <span class="separator">&middot;</span>
+                <a href="nutzungsbedingungen.html">
+                    <span class="lang-de-inline">AGB</span>
+                    <span class="lang-en-inline">Terms of Service</span>
+                </a>
+                <span class="separator">&middot;</span>
+                <a href="impressum.html">
+                    <span class="lang-de-inline">Impressum</span>
+                    <span class="lang-en-inline">Legal Notice</span>
+                </a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FlowRead. <span class="lang-de-inline">Alle Rechte vorbehalten.</span><span class="lang-en-inline">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleLanguage() {
+            const body = document.body;
+            const currentLang = body.getAttribute('data-lang');
+            const newLang = currentLang === 'de' ? 'en' : 'de';
+            body.setAttribute('data-lang', newLang);
+            document.documentElement.lang = newLang;
+            localStorage.setItem('flowread-lang', newLang);
+        }
+
+        const savedLang = localStorage.getItem('flowread-lang');
+        if (savedLang) {
+            document.body.setAttribute('data-lang', savedLang);
+            document.documentElement.lang = savedLang;
+        }
+    </script>
+</body>
+</html>
