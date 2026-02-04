@@ -237,8 +237,14 @@
             color: var(--accent-start);
         }
 
-        .lang-switch {
+        /* ===== LANGUAGE DROPDOWN ===== */
+        .lang-dropdown {
+            position: relative;
+        }
+
+        .lang-btn {
             background: var(--glass-bg);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: 50px;
             padding: 0.5rem 1rem;
@@ -248,13 +254,64 @@
             font-weight: 500;
             font-family: var(--font-primary);
             transition: all 0.3s var(--ease-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             min-width: 44px;
             min-height: 44px;
         }
 
-        .lang-switch:hover {
+        .lang-btn:hover {
             background: var(--glass-bg-hover);
             border-color: var(--accent-start);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .lang-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: rgba(20, 20, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 0.5rem;
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s var(--ease-smooth);
+            z-index: 1001;
+        }
+
+        .lang-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            transition: all 0.2s var(--ease-smooth);
+            cursor: pointer;
+        }
+
+        .lang-menu a:hover {
+            background: var(--glass-bg-hover);
+            color: var(--text-primary);
+        }
+
+        .lang-menu a.active {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(124, 58, 237, 0.2));
+            color: var(--accent-start);
         }
 
         .mobile-menu-btn {
@@ -495,8 +552,33 @@
             text-align: center;
         }
 
-        .footer-content p {
-            margin-bottom: 0.5rem;
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-start);
+        }
+
+        .footer-links .separator {
+            color: var(--text-tertiary);
+        }
+
+        .footer-bottom p {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            margin-bottom: 1rem;
         }
 
         .footer-content a {
@@ -513,7 +595,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             color: var(--accent-start);
             text-decoration: none;
             padding: 0.75rem 1.5rem;
@@ -544,12 +626,19 @@
         }
 
         /* ===== LANGUAGE SWITCHING ===== */
-        .lang-de, .lang-en { display: none; }
+        .lang-de, .lang-en, .lang-fr, .lang-es, .lang-it { display: none; }
         [data-lang="de"] .lang-de { display: block; }
         [data-lang="en"] .lang-en { display: block; }
+        [data-lang="fr"] .lang-fr { display: block; }
+        [data-lang="es"] .lang-es { display: block; }
+        [data-lang="it"] .lang-it { display: block; }
+
+        .lang-de-inline, .lang-en-inline, .lang-fr-inline, .lang-es-inline, .lang-it-inline { display: none; }
         [data-lang="de"] .lang-de-inline { display: inline; }
         [data-lang="en"] .lang-en-inline { display: inline; }
-        .lang-de-inline, .lang-en-inline { display: none; }
+        [data-lang="fr"] .lang-fr-inline { display: inline; }
+        [data-lang="es"] .lang-es-inline { display: inline; }
+        [data-lang="it"] .lang-it-inline { display: inline; }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
@@ -586,6 +675,23 @@
                 font-size: 1.25rem;
             }
 
+            nav .lang-dropdown {
+                margin-top: 1rem;
+            }
+
+            nav .lang-menu {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                right: auto;
+                transform: translate(-50%, -50%) translateY(-10px);
+                margin-top: 0;
+            }
+
+            nav .lang-menu.show {
+                transform: translate(-50%, -50%) translateY(0);
+            }
+
             .close-menu-btn {
                 position: absolute;
                 top: calc(1rem + var(--safe-top));
@@ -618,6 +724,15 @@
             .template-box {
                 font-size: 0.8rem;
                 padding: 1rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .footer-links .separator {
+                display: none;
             }
         }
 
@@ -662,10 +777,19 @@
                 <a href="index.html#features" onclick="closeMenu()">Features</a>
                 <a href="faq.html" onclick="closeMenu()">FAQ</a>
                 <a href="support.html" class="active" onclick="closeMenu()">Support</a>
-                <button class="lang-switch" onclick="toggleLanguage()">
-                    <span class="lang-de-inline">EN</span>
-                    <span class="lang-en-inline">DE</span>
-                </button>
+                <div class="lang-dropdown">
+                    <button class="lang-btn" onclick="toggleLangMenu()">
+                        <span class="current-lang">DE</span>
+                        <span>&#9662;</span>
+                    </button>
+                    <div class="lang-menu" id="langMenu">
+                        <a onclick="setLanguage('de')" data-lang="de">Deutsch</a>
+                        <a onclick="setLanguage('en')" data-lang="en">English</a>
+                        <a onclick="setLanguage('fr')" data-lang="fr">Francais</a>
+                        <a onclick="setLanguage('es')" data-lang="es">Espanol</a>
+                        <a onclick="setLanguage('it')" data-lang="it">Italiano</a>
+                    </div>
+                </div>
             </nav>
         </div>
     </header>
@@ -676,10 +800,16 @@
             <h1 class="gradient-text">
                 <span class="lang-de">Support</span>
                 <span class="lang-en">Support</span>
+                <span class="lang-fr">Support</span>
+                <span class="lang-es">Soporte</span>
+                <span class="lang-it">Supporto</span>
             </h1>
             <p class="subtitle">
                 <span class="lang-de">Wir helfen dir gerne weiter</span>
                 <span class="lang-en">We're here to help</span>
+                <span class="lang-fr">Nous sommes la pour vous aider</span>
+                <span class="lang-es">Estamos aqui para ayudarte</span>
+                <span class="lang-it">Siamo qui per aiutarti</span>
             </p>
         </div>
 
@@ -687,7 +817,7 @@
         <div class="lang-de">
             <!-- Primary Contact -->
             <div class="primary-contact reveal">
-                <div class="icon">📧</div>
+                <div class="icon">&#128231;</div>
                 <h2 class="gradient-text">E-Mail Support</h2>
                 <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
                 <div class="response-badge">Antwort in 24-48 Stunden</div>
@@ -697,28 +827,28 @@
             <h2 class="section-title gradient-text reveal">Schnelle Hilfe</h2>
             <div class="support-grid reveal">
                 <a href="faq.html" class="support-card">
-                    <div class="card-icon">❓</div>
+                    <div class="card-icon">&#10067;</div>
                     <div class="card-text">
                         <h3>FAQ</h3>
-                        <p>Häufige Fragen</p>
+                        <p>Haufige Fragen</p>
                     </div>
                 </a>
                 <a href="faq.html#speed-reading" class="support-card">
-                    <div class="card-icon">📖</div>
+                    <div class="card-icon">&#128214;</div>
                     <div class="card-text">
                         <h3>Speed Reading</h3>
                         <p>So funktioniert's</p>
                     </div>
                 </a>
                 <a href="mailto:flowread.all@gmail.com" class="support-card">
-                    <div class="card-icon">💡</div>
+                    <div class="card-icon">&#128161;</div>
                     <div class="card-text">
                         <h3>Feedback</h3>
-                        <p>Ideen & Vorschläge</p>
+                        <p>Ideen & Vorschlage</p>
                     </div>
                 </a>
                 <a href="https://support.apple.com/de-de/billing" class="support-card" target="_blank" rel="noopener">
-                    <div class="card-icon">💳</div>
+                    <div class="card-icon">&#128179;</div>
                     <div class="card-text">
                         <h3>Zahlung</h3>
                         <p>Apple Support</p>
@@ -733,8 +863,8 @@
                 <ol>
                     <li><strong>Beschreibe das Problem:</strong> Was ist passiert? Was hast du erwartet?</li>
                     <li><strong>Schritte zur Reproduktion:</strong> Was hast du gemacht, bevor der Fehler auftrat?</li>
-                    <li><strong>Geräteinformationen:</strong> Welches Gerät, iOS-Version, FlowRead-Version?</li>
-                    <li><strong>Screenshots:</strong> Wenn möglich, füge Bilder bei</li>
+                    <li><strong>Gerateinformationen:</strong> Welches Gerat, iOS-Version, FlowRead-Version?</li>
+                    <li><strong>Screenshots:</strong> Wenn moglich, fuge Bilder bei</li>
                 </ol>
                 <div class="template-box" id="template-de">Betreff: Bug-Report - [Kurze Beschreibung]
 
@@ -746,13 +876,13 @@ BESCHREIBUNG:
 [Was ist passiert?]
 
 ERWARTET:
-[Was hätte passieren sollen?]
+[Was hatte passieren sollen?]
 
 SCHRITTE ZUR REPRODUKTION:
 1. [Erster Schritt]
 2. [Zweiter Schritt]
 
-GERÄT: [z.B. iPhone 15 Pro]
+GERAT: [z.B. iPhone 15 Pro]
 iOS-VERSION: [z.B. 17.2]
 FLOWREAD-VERSION: [z.B. 1.0.0]
 
@@ -765,7 +895,7 @@ Vielen Dank!</div>
         <div class="lang-en">
             <!-- Primary Contact -->
             <div class="primary-contact reveal">
-                <div class="icon">📧</div>
+                <div class="icon">&#128231;</div>
                 <h2 class="gradient-text">Email Support</h2>
                 <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
                 <div class="response-badge">Response in 24-48 hours</div>
@@ -775,28 +905,28 @@ Vielen Dank!</div>
             <h2 class="section-title gradient-text reveal">Quick Help</h2>
             <div class="support-grid reveal">
                 <a href="faq.html" class="support-card">
-                    <div class="card-icon">❓</div>
+                    <div class="card-icon">&#10067;</div>
                     <div class="card-text">
                         <h3>FAQ</h3>
                         <p>Common questions</p>
                     </div>
                 </a>
                 <a href="faq.html#speed-reading" class="support-card">
-                    <div class="card-icon">📖</div>
+                    <div class="card-icon">&#128214;</div>
                     <div class="card-text">
                         <h3>Speed Reading</h3>
                         <p>How it works</p>
                     </div>
                 </a>
                 <a href="mailto:flowread.all@gmail.com" class="support-card">
-                    <div class="card-icon">💡</div>
+                    <div class="card-icon">&#128161;</div>
                     <div class="card-text">
                         <h3>Feedback</h3>
                         <p>Ideas & suggestions</p>
                     </div>
                 </a>
                 <a href="https://support.apple.com/billing" class="support-card" target="_blank" rel="noopener">
-                    <div class="card-icon">💳</div>
+                    <div class="card-icon">&#128179;</div>
                     <div class="card-text">
                         <h3>Billing</h3>
                         <p>Apple Support</p>
@@ -838,38 +968,331 @@ Thank you!</div>
                 <button class="copy-btn" onclick="copyTemplate('en')">Copy Template</button>
             </div>
         </div>
+
+        <!-- French Content -->
+        <div class="lang-fr">
+            <!-- Primary Contact -->
+            <div class="primary-contact reveal">
+                <div class="icon">&#128231;</div>
+                <h2 class="gradient-text">E-mail Support</h2>
+                <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
+                <div class="response-badge">Reponse sous 24-48 heures</div>
+            </div>
+
+            <!-- Quick Help -->
+            <h2 class="section-title gradient-text reveal">Aide rapide</h2>
+            <div class="support-grid reveal">
+                <a href="faq.html" class="support-card">
+                    <div class="card-icon">&#10067;</div>
+                    <div class="card-text">
+                        <h3>FAQ</h3>
+                        <p>Questions frequentes</p>
+                    </div>
+                </a>
+                <a href="faq.html#speed-reading" class="support-card">
+                    <div class="card-icon">&#128214;</div>
+                    <div class="card-text">
+                        <h3>Lecture rapide</h3>
+                        <p>Comment ca marche</p>
+                    </div>
+                </a>
+                <a href="mailto:flowread.all@gmail.com" class="support-card">
+                    <div class="card-icon">&#128161;</div>
+                    <div class="card-text">
+                        <h3>Commentaires</h3>
+                        <p>Idees et suggestions</p>
+                    </div>
+                </a>
+                <a href="https://support.apple.com/fr-fr/billing" class="support-card" target="_blank" rel="noopener">
+                    <div class="card-icon">&#128179;</div>
+                    <div class="card-text">
+                        <h3>Paiement</h3>
+                        <p>Support Apple</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Bug Report -->
+            <div class="bug-report reveal">
+                <h2 class="gradient-text">Signaler un bug</h2>
+                <p style="margin-bottom: 1.5rem;">Aidez-nous a ameliorer FlowRead</p>
+                <ol>
+                    <li><strong>Decrivez le probleme:</strong> Que s'est-il passe? Qu'attendiez-vous?</li>
+                    <li><strong>Etapes pour reproduire:</strong> Que faisiez-vous avant que l'erreur ne se produise?</li>
+                    <li><strong>Informations appareil:</strong> Quel appareil, version iOS, version FlowRead?</li>
+                    <li><strong>Captures d'ecran:</strong> Si possible, joignez des images</li>
+                </ol>
+                <div class="template-box" id="template-fr">Objet: Rapport de bug - [Breve description]
+
+Bonjour equipe FlowRead,
+
+J'ai trouve le bug suivant:
+
+DESCRIPTION:
+[Que s'est-il passe?]
+
+ATTENDU:
+[Que devait-il se passer?]
+
+ETAPES POUR REPRODUIRE:
+1. [Premiere etape]
+2. [Deuxieme etape]
+
+APPAREIL: [ex: iPhone 15 Pro]
+VERSION iOS: [ex: 17.2]
+VERSION FLOWREAD: [ex: 1.0.0]
+
+Merci!</div>
+                <button class="copy-btn" onclick="copyTemplate('fr')">Copier le modele</button>
+            </div>
+        </div>
+
+        <!-- Spanish Content -->
+        <div class="lang-es">
+            <!-- Primary Contact -->
+            <div class="primary-contact reveal">
+                <div class="icon">&#128231;</div>
+                <h2 class="gradient-text">Soporte por correo</h2>
+                <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
+                <div class="response-badge">Respuesta en 24-48 horas</div>
+            </div>
+
+            <!-- Quick Help -->
+            <h2 class="section-title gradient-text reveal">Ayuda rapida</h2>
+            <div class="support-grid reveal">
+                <a href="faq.html" class="support-card">
+                    <div class="card-icon">&#10067;</div>
+                    <div class="card-text">
+                        <h3>FAQ</h3>
+                        <p>Preguntas frecuentes</p>
+                    </div>
+                </a>
+                <a href="faq.html#speed-reading" class="support-card">
+                    <div class="card-icon">&#128214;</div>
+                    <div class="card-text">
+                        <h3>Lectura rapida</h3>
+                        <p>Como funciona</p>
+                    </div>
+                </a>
+                <a href="mailto:flowread.all@gmail.com" class="support-card">
+                    <div class="card-icon">&#128161;</div>
+                    <div class="card-text">
+                        <h3>Comentarios</h3>
+                        <p>Ideas y sugerencias</p>
+                    </div>
+                </a>
+                <a href="https://support.apple.com/es-es/billing" class="support-card" target="_blank" rel="noopener">
+                    <div class="card-icon">&#128179;</div>
+                    <div class="card-text">
+                        <h3>Pago</h3>
+                        <p>Soporte Apple</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Bug Report -->
+            <div class="bug-report reveal">
+                <h2 class="gradient-text">Reportar error</h2>
+                <p style="margin-bottom: 1.5rem;">Ayudanos a mejorar FlowRead</p>
+                <ol>
+                    <li><strong>Describe el problema:</strong> Que paso? Que esperabas?</li>
+                    <li><strong>Pasos para reproducir:</strong> Que estabas haciendo antes de que ocurriera el error?</li>
+                    <li><strong>Informacion del dispositivo:</strong> Que dispositivo, version de iOS, version de FlowRead?</li>
+                    <li><strong>Capturas de pantalla:</strong> Si es posible, adjunta imagenes</li>
+                </ol>
+                <div class="template-box" id="template-es">Asunto: Reporte de error - [Breve descripcion]
+
+Hola equipo FlowRead,
+
+He encontrado el siguiente error:
+
+DESCRIPCION:
+[Que paso?]
+
+ESPERADO:
+[Que deberia haber pasado?]
+
+PASOS PARA REPRODUCIR:
+1. [Primer paso]
+2. [Segundo paso]
+
+DISPOSITIVO: [ej: iPhone 15 Pro]
+VERSION iOS: [ej: 17.2]
+VERSION FLOWREAD: [ej: 1.0.0]
+
+Gracias!</div>
+                <button class="copy-btn" onclick="copyTemplate('es')">Copiar plantilla</button>
+            </div>
+        </div>
+
+        <!-- Italian Content -->
+        <div class="lang-it">
+            <!-- Primary Contact -->
+            <div class="primary-contact reveal">
+                <div class="icon">&#128231;</div>
+                <h2 class="gradient-text">Supporto e-mail</h2>
+                <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
+                <div class="response-badge">Risposta in 24-48 ore</div>
+            </div>
+
+            <!-- Quick Help -->
+            <h2 class="section-title gradient-text reveal">Aiuto rapido</h2>
+            <div class="support-grid reveal">
+                <a href="faq.html" class="support-card">
+                    <div class="card-icon">&#10067;</div>
+                    <div class="card-text">
+                        <h3>FAQ</h3>
+                        <p>Domande frequenti</p>
+                    </div>
+                </a>
+                <a href="faq.html#speed-reading" class="support-card">
+                    <div class="card-icon">&#128214;</div>
+                    <div class="card-text">
+                        <h3>Lettura veloce</h3>
+                        <p>Come funziona</p>
+                    </div>
+                </a>
+                <a href="mailto:flowread.all@gmail.com" class="support-card">
+                    <div class="card-icon">&#128161;</div>
+                    <div class="card-text">
+                        <h3>Feedback</h3>
+                        <p>Idee e suggerimenti</p>
+                    </div>
+                </a>
+                <a href="https://support.apple.com/it-it/billing" class="support-card" target="_blank" rel="noopener">
+                    <div class="card-icon">&#128179;</div>
+                    <div class="card-text">
+                        <h3>Pagamento</h3>
+                        <p>Supporto Apple</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Bug Report -->
+            <div class="bug-report reveal">
+                <h2 class="gradient-text">Segnala bug</h2>
+                <p style="margin-bottom: 1.5rem;">Aiutaci a migliorare FlowRead</p>
+                <ol>
+                    <li><strong>Descrivi il problema:</strong> Cosa e successo? Cosa ti aspettavi?</li>
+                    <li><strong>Passaggi per riprodurre:</strong> Cosa stavi facendo prima che si verificasse l'errore?</li>
+                    <li><strong>Informazioni dispositivo:</strong> Quale dispositivo, versione iOS, versione FlowRead?</li>
+                    <li><strong>Screenshot:</strong> Se possibile, allega immagini</li>
+                </ol>
+                <div class="template-box" id="template-it">Oggetto: Segnalazione bug - [Breve descrizione]
+
+Ciao team FlowRead,
+
+Ho trovato il seguente bug:
+
+DESCRIZIONE:
+[Cosa e successo?]
+
+ATTESO:
+[Cosa sarebbe dovuto succedere?]
+
+PASSAGGI PER RIPRODURRE:
+1. [Primo passaggio]
+2. [Secondo passaggio]
+
+DISPOSITIVO: [es: iPhone 15 Pro]
+VERSIONE iOS: [es: 17.2]
+VERSIONE FLOWREAD: [es: 1.0.0]
+
+Grazie!</div>
+                <button class="copy-btn" onclick="copyTemplate('it')">Copia modello</button>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <p>FlowRead - Read Faster, Learn More</p>
-            <p><a href="index.html">flowread.app</a></p>
+            <div class="footer-links">
+                <a href="datenschutz.html">
+                    <span class="lang-de-inline">Datenschutz</span>
+                    <span class="lang-en-inline">Privacy Policy</span>
+                    <span class="lang-fr-inline">Confidentialite</span>
+                    <span class="lang-es-inline">Privacidad</span>
+                    <span class="lang-it-inline">Privacy</span>
+                </a>
+                <span class="separator">&middot;</span>
+                <a href="nutzungsbedingungen.html">
+                    <span class="lang-de-inline">AGB</span>
+                    <span class="lang-en-inline">Terms of Service</span>
+                    <span class="lang-fr-inline">CGU</span>
+                    <span class="lang-es-inline">Terminos</span>
+                    <span class="lang-it-inline">Termini</span>
+                </a>
+                <span class="separator">&middot;</span>
+                <a href="impressum.html">
+                    <span class="lang-de-inline">Impressum</span>
+                    <span class="lang-en-inline">Legal Notice</span>
+                    <span class="lang-fr-inline">Mentions legales</span>
+                    <span class="lang-es-inline">Aviso legal</span>
+                    <span class="lang-it-inline">Note legali</span>
+                </a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FlowRead.
+                    <span class="lang-de-inline">Alle Rechte vorbehalten.</span>
+                    <span class="lang-en-inline">All rights reserved.</span>
+                    <span class="lang-fr-inline">Tous droits reserves.</span>
+                    <span class="lang-es-inline">Todos los derechos reservados.</span>
+                    <span class="lang-it-inline">Tutti i diritti riservati.</span>
+                </p>
+            </div>
             <a href="index.html" class="back-link">
                 <span>&#8592;</span>
-                <span class="lang-de-inline">Zurück zur Startseite</span>
+                <span class="lang-de-inline">Zuruck zur Startseite</span>
                 <span class="lang-en-inline">Back to Homepage</span>
+                <span class="lang-fr-inline">Retour a l'accueil</span>
+                <span class="lang-es-inline">Volver al inicio</span>
+                <span class="lang-it-inline">Torna alla home</span>
             </a>
         </div>
     </footer>
 
     <script>
         // ===== LANGUAGE SWITCHING =====
-        function toggleLanguage() {
-            const body = document.body;
-            const currentLang = body.getAttribute('data-lang');
-            const newLang = currentLang === 'de' ? 'en' : 'de';
-            body.setAttribute('data-lang', newLang);
-            document.documentElement.lang = newLang;
-            localStorage.setItem('flowread-lang', newLang);
+        function setLanguage(lang) {
+            document.body.setAttribute('data-lang', lang);
+            document.documentElement.lang = lang;
+            localStorage.setItem('flowread-lang', lang);
+            document.querySelector('.current-lang').textContent = lang.toUpperCase();
+            updateActiveLanguage(lang);
+            closeLangMenu();
         }
 
-        // Load saved language
-        const savedLang = localStorage.getItem('flowread-lang');
-        if (savedLang) {
-            document.body.setAttribute('data-lang', savedLang);
-            document.documentElement.lang = savedLang;
+        function toggleLangMenu() {
+            document.getElementById('langMenu').classList.toggle('show');
         }
+
+        function closeLangMenu() {
+            document.getElementById('langMenu').classList.remove('show');
+        }
+
+        function updateActiveLanguage(lang) {
+            document.querySelectorAll('.lang-menu a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('data-lang') === lang) {
+                    a.classList.add('active');
+                }
+            });
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.lang-dropdown')) {
+                closeLangMenu();
+            }
+        });
+
+        // Load saved language
+        const savedLang = localStorage.getItem('flowread-lang') || 'de';
+        document.body.setAttribute('data-lang', savedLang);
+        document.documentElement.lang = savedLang;
+        document.querySelector('.current-lang').textContent = savedLang.toUpperCase();
+        updateActiveLanguage(savedLang);
 
         // ===== MOBILE MENU =====
         function toggleMenu() {
@@ -886,7 +1309,14 @@ Thank you!</div>
             navigator.clipboard.writeText(template).then(() => {
                 const btn = event.target;
                 const originalText = btn.textContent;
-                btn.textContent = lang === 'de' ? 'Kopiert!' : 'Copied!';
+                const copiedTexts = {
+                    'de': 'Kopiert!',
+                    'en': 'Copied!',
+                    'fr': 'Copie!',
+                    'es': 'Copiado!',
+                    'it': 'Copiato!'
+                };
+                btn.textContent = copiedTexts[lang] || 'Copied!';
                 setTimeout(() => {
                     btn.textContent = originalText;
                 }, 2000);

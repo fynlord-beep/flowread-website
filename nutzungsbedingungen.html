@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>Nutzungsbedingungen - FlowRead</title>
-    <meta name="description" content="Nutzungsbedingungen / Terms of Service - FlowRead Speed Reading App">
+    <meta name="description" content="Nutzungsbedingungen / Terms of Service / Conditions d'utilisation / Terminos de servicio / Termini di servizio - FlowRead Speed Reading App">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -211,19 +211,31 @@
         }
 
         /* ===== LANGUAGE SWITCHING ===== */
-        .lang-de, .lang-en { display: none; }
+        .lang-de, .lang-en, .lang-fr, .lang-es, .lang-it { display: none; }
         [data-lang="de"] .lang-de { display: block; }
         [data-lang="en"] .lang-en { display: block; }
+        [data-lang="fr"] .lang-fr { display: block; }
+        [data-lang="es"] .lang-es { display: block; }
+        [data-lang="it"] .lang-it { display: block; }
         [data-lang="de"] .lang-de-inline { display: inline; }
         [data-lang="en"] .lang-en-inline { display: inline; }
-        .lang-de-inline, .lang-en-inline { display: none; }
+        [data-lang="fr"] .lang-fr-inline { display: inline; }
+        [data-lang="es"] .lang-es-inline { display: inline; }
+        [data-lang="it"] .lang-it-inline { display: inline; }
+        .lang-de-inline, .lang-en-inline, .lang-fr-inline, .lang-es-inline, .lang-it-inline { display: none; }
 
-        .lang-switch {
+        /* ===== LANGUAGE DROPDOWN ===== */
+        .lang-dropdown {
             position: fixed;
             top: calc(1rem + var(--safe-top));
             right: calc(1rem + var(--safe-right));
+            z-index: 100;
+        }
+
+        .lang-btn {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: 50px;
             padding: 0.5rem 1rem;
@@ -233,13 +245,55 @@
             font-weight: 500;
             font-family: var(--font-primary);
             transition: all 0.3s var(--ease-smooth);
-            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .lang-switch:hover {
+        .lang-btn:hover {
             background: var(--glass-bg-hover);
             border-color: var(--accent-start);
             box-shadow: var(--shadow-glow);
+        }
+
+        .lang-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: rgba(20, 20, 30, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            overflow: hidden;
+            min-width: 120px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .lang-menu.show {
+            display: block;
+        }
+
+        .lang-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s var(--ease-smooth);
+            cursor: pointer;
+        }
+
+        .lang-menu a:hover {
+            background: var(--glass-bg-hover);
+            color: var(--text-primary);
+        }
+
+        .lang-menu a.active {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: #ffffff;
         }
 
         /* ===== FOOTER ===== */
@@ -313,21 +367,36 @@
 <body data-lang="de">
     <div class="mesh-gradient"></div>
 
-    <button class="lang-switch" onclick="toggleLanguage()">
-        <span class="lang-de-inline">EN</span>
-        <span class="lang-en-inline">DE</span>
-    </button>
+    <div class="lang-dropdown">
+        <button class="lang-btn" onclick="toggleLangMenu()">
+            <span class="current-lang">DE</span>
+            <span>&#9662;</span>
+        </button>
+        <div class="lang-menu" id="langMenu">
+            <a onclick="setLanguage('de')" data-lang="de">Deutsch</a>
+            <a onclick="setLanguage('en')" data-lang="en">English</a>
+            <a onclick="setLanguage('fr')" data-lang="fr">Francais</a>
+            <a onclick="setLanguage('es')" data-lang="es">Espanol</a>
+            <a onclick="setLanguage('it')" data-lang="it">Italiano</a>
+        </div>
+    </div>
 
     <div class="container">
         <a href="index.html" class="back-link">
             <span>&#8592;</span>
             <span class="lang-de-inline">Zur&uuml;ck zur Startseite</span>
             <span class="lang-en-inline">Back to Homepage</span>
+            <span class="lang-fr-inline">Retour &agrave; l'accueil</span>
+            <span class="lang-es-inline">Volver al inicio</span>
+            <span class="lang-it-inline">Torna alla home</span>
         </a>
 
         <h1 class="gradient-text">
             <span class="lang-de">Nutzungsbedingungen (AGB)</span>
             <span class="lang-en">Terms of Service</span>
+            <span class="lang-fr">Conditions g&eacute;n&eacute;rales d'utilisation</span>
+            <span class="lang-es">T&eacute;rminos de servicio</span>
+            <span class="lang-it">Termini di servizio</span>
         </h1>
 
         <!-- German Terms -->
@@ -529,6 +598,306 @@
                 </div>
             </div>
         </div>
+
+        <!-- French Terms -->
+        <div class="lang-fr">
+            <div class="legal-section">
+                <p class="last-updated">Derni&egrave;re mise &agrave; jour : F&eacute;vrier 2026</p>
+                <div class="legal-content">
+                    <h3>1. Champ d'application</h3>
+                    <p>1.1 Les pr&eacute;sentes Conditions G&eacute;n&eacute;rales d'Utilisation (ci-apr&egrave;s "CGU") r&eacute;gissent l'utilisation de l'application mobile "FlowRead" (ci-apr&egrave;s "Application"), fournie par Fyn Meyer (ci-apr&egrave;s "Fournisseur").</p>
+                    <p>1.2 En installant et en utilisant l'Application, vous acceptez ces CGU. Si vous n'acceptez pas ces conditions, vous ne pouvez pas utiliser l'Application.</p>
+                    <p>1.3 Les conditions divergentes de l'utilisateur ne seront pas reconnues, sauf si le Fournisseur accepte express&eacute;ment leur validit&eacute; par &eacute;crit.</p>
+                    <p>1.4 Ces CGU s'appliquent &agrave; tous les contrats d'utilisation de l'Application, y compris les abonnements payants conclus via les boutiques d'applications (par exemple, Apple App Store, Google Play Store).</p>
+
+                    <h3>2. Description du service</h3>
+                    <p>2.1 FlowRead est une application de lecture rapide qui aide les utilisateurs &agrave; am&eacute;liorer leur vitesse de lecture et leur compr&eacute;hension de texte.</p>
+                    <p>2.2 L'Application offre les fonctionnalit&eacute;s suivantes :</p>
+                    <ul>
+                        <li>Entra&icirc;nement &agrave; la lecture rapide avec diff&eacute;rents modes d'exercice</li>
+                        <li>Importation de texte depuis diverses sources (sites web, presse-papiers)</li>
+                        <li>Vitesse de lecture et options d'affichage personnalisables</li>
+                        <li>Statistiques et suivi des progr&egrave;s</li>
+                        <li>Stockage hors ligne des articles</li>
+                    </ul>
+                    <p>2.3 Le Fournisseur se r&eacute;serve le droit de modifier, d'&eacute;tendre ou de limiter l'&eacute;tendue des fonctions de l'Application &agrave; tout moment, notamment pour fournir des mises &agrave; jour afin de maintenir la fonctionnalit&eacute; et la s&eacute;curit&eacute; informatique, conform&eacute;ment &agrave; la l&eacute;gislation relative aux produits num&eacute;riques (&sect;&sect; 327 et suivants BGB).</p>
+
+                    <h3>3. Inscription et compte utilisateur</h3>
+                    <p>3.1 L'inscription peut &ecirc;tre requise pour certaines fonctionnalit&eacute;s de l'Application.</p>
+                    <p>3.2 Lors de l'inscription, des informations v&eacute;ridiques et compl&egrave;tes doivent &ecirc;tre fournies. Les modifications des donn&eacute;es doivent &ecirc;tre mises &agrave; jour imm&eacute;diatement.</p>
+                    <p>3.3 L'utilisateur est responsable de la confidentialit&eacute; de ses identifiants de connexion et est responsable de toutes les activit&eacute;s qui se d&eacute;roulent sous son compte.</p>
+                    <p>3.4 L'utilisateur s'engage &agrave; informer imm&eacute;diatement le Fournisseur s'il prend connaissance d'une utilisation abusive de son compte.</p>
+
+                    <h3>4. Propri&eacute;t&eacute; intellectuelle</h3>
+                    <p>4.1 Tous les droits sur l'Application, y compris mais sans s'y limiter, les logiciels, le design, les graphiques, les logos, les textes et autres contenus, sont la propri&eacute;t&eacute; du Fournisseur ou de ses conc&eacute;dants et sont prot&eacute;g&eacute;s par le droit d'auteur allemand et international.</p>
+                    <p>4.2 L'utilisateur re&ccedil;oit un droit simple, non transf&eacute;rable et r&eacute;vocable d'utiliser l'Application &agrave; des fins priv&eacute;es et non commerciales.</p>
+                    <p>4.3 Il est interdit de :</p>
+                    <ul>
+                        <li>Copier, modifier ou d&eacute;compiler l'Application</li>
+                        <li>Distribuer, louer ou sous-licencier l'Application</li>
+                        <li>Supprimer ou modifier les mentions de propri&eacute;t&eacute; intellectuelle</li>
+                        <li>Utiliser l'Application &agrave; des fins ill&eacute;gales</li>
+                    </ul>
+
+                    <h3>5. Abonnements et achats int&eacute;gr&eacute;s</h3>
+                    <p><strong>5.1 Version gratuite (Free Tier)</strong><br>
+                    L'Application peut &ecirc;tre utilis&eacute;e dans une version de base gratuite. Cette version est soumise &agrave; certaines limitations.</p>
+                    <p><strong>5.2 Abonnement Premium</strong><br>
+                    Un abonnement Premium payant peut &ecirc;tre souscrit pour b&eacute;n&eacute;ficier de l'ensemble des fonctionnalit&eacute;s. Options disponibles : Mensuel ou Annuel.</p>
+                    <p><strong>5.3 Traitement des paiements</strong><br>
+                    Le traitement des paiements est g&eacute;r&eacute; par le fournisseur de la boutique d'applications concern&eacute; (Apple App Store / Google Play Store). Les conditions du fournisseur de la boutique d'applications s'appliquent &eacute;galement.</p>
+                    <p><strong>5.4 Renouvellement automatique</strong><br>
+                    Les abonnements se renouvellent automatiquement pour la p&eacute;riode d'abonnement respective, sauf annulation avant la fin de la p&eacute;riode en cours. L'annulation doit &ecirc;tre effectu&eacute;e au moins 24 heures avant la fin de la p&eacute;riode en cours.</p>
+
+                    <h3>6. Droit de r&eacute;tractation et r&eacute;siliation</h3>
+                    <p><strong>6.1 Droit de r&eacute;tractation pour les consommateurs</strong><br>
+                    En tant que consommateur, vous avez le droit de vous r&eacute;tracter de ce contrat dans un d&eacute;lai de quatorze jours sans donner de raison. Le d&eacute;lai de r&eacute;tractation commence &agrave; la conclusion du contrat.</p>
+                    <p>Pour les contenus num&eacute;riques (par exemple, utilisation de l'application, abonnements), le droit de r&eacute;tractation expire pr&eacute;matur&eacute;ment si le Fournisseur a commenc&eacute; l'ex&eacute;cution (par exemple, le t&eacute;l&eacute;chargement ou l'utilisation commence) apr&egrave;s que vous :</p>
+                    <p>(a) avez express&eacute;ment accept&eacute; que le Fournisseur commence avant l'expiration du d&eacute;lai de r&eacute;tractation, et</p>
+                    <p>(b) avez confirm&eacute; votre reconnaissance que vous perdez ainsi votre droit de r&eacute;tractation (&sect; 356 al. 5 BGB).</p>
+                    <p>&Agrave; partir du 19 juin 2026, nous fournirons un bouton de r&eacute;tractation &eacute;lectronique pour les contrats en ligne (&sect; 312k BGB).</p>
+                    <p><strong>6.2 Instructions de r&eacute;tractation</strong><br>
+                    Pour exercer votre droit de r&eacute;tractation, vous devez nous informer (Fyn Meyer, Flandernstrasse 6, 53859 Niederkassel, E-mail : <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>) de votre d&eacute;cision de vous r&eacute;tracter de ce contrat par une d&eacute;claration claire (par exemple, par e-mail). Le d&eacute;lai de r&eacute;tractation est respect&eacute; si vous envoyez l'avis avant l'expiration du d&eacute;lai.</p>
+                    <p><strong>Cons&eacute;quences de la r&eacute;tractation :</strong> En cas de r&eacute;tractation effective, nous rembourserons tous les paiements dans les 14 jours.</p>
+                    <p><strong>6.3 R&eacute;siliation de l'abonnement</strong><br>
+                    L'abonnement peut &ecirc;tre r&eacute;sili&eacute; &agrave; tout moment avec effet &agrave; la fin de la p&eacute;riode en cours via :</p>
+                    <ul>
+                        <li>iOS : R&eacute;glages &gt; Identifiant Apple &gt; Abonnements</li>
+                        <li>Android : Google Play Store &gt; Menu &gt; Abonnements</li>
+                    </ul>
+                    <p>Apr&egrave;s la r&eacute;siliation, vous conservez l'acc&egrave;s aux fonctionnalit&eacute;s Premium jusqu'&agrave; la fin de la p&eacute;riode d&eacute;j&agrave; pay&eacute;e.</p>
+
+                    <h3>7. Exclusion de responsabilit&eacute;</h3>
+                    <p>7.1 Le Fournisseur est enti&egrave;rement responsable des dommages r&eacute;sultant d'atteintes &agrave; la vie, au corps ou &agrave; la sant&eacute;, ainsi que des dommages caus&eacute;s intentionnellement ou par n&eacute;gligence grave. Sinon, la responsabilit&eacute; pour n&eacute;gligence l&eacute;g&egrave;re est limit&eacute;e aux dommages typiques et pr&eacute;visibles dans la mesure o&ugrave; des obligations contractuelles essentielles sont viol&eacute;es (&sect; 280 BGB).</p>
+                    <p>7.2 L'Application sert exclusivement &agrave; des fins d'entra&icirc;nement et de divertissement. Aucune garantie n'est donn&eacute;e concernant l'am&eacute;lioration des capacit&eacute;s de lecture.</p>
+                    <p>7.3 L'Application ne remplace pas un traitement m&eacute;dical ou th&eacute;rapeutique. Si vous avez des probl&egrave;mes de vision ou d'autres pr&eacute;occupations de sant&eacute;, veuillez consulter un m&eacute;decin.</p>
+
+                    <h3>8. Protection des donn&eacute;es</h3>
+                    <p>La collecte et le traitement des donn&eacute;es personnelles sont effectu&eacute;s conform&eacute;ment &agrave; notre <a href="datenschutz.html">Politique de confidentialit&eacute;</a>, qui fait partie int&eacute;grante de ces CGU.</p>
+
+                    <h3>9. Modifications des CGU</h3>
+                    <p>9.1 Le Fournisseur se r&eacute;serve le droit de modifier ces CGU &agrave; tout moment.</p>
+                    <p>9.2 Les modifications seront communiqu&eacute;es &agrave; l'utilisateur au moins 30 jours avant leur entr&eacute;e en vigueur par e-mail ou notification dans l'application, les modifications importantes (par exemple, ajustements de prix, restrictions de fonctionnalit&eacute;s) n&eacute;cessitant un consentement expr&egrave;s. Pour les modifications non essentielles, le silence vaut consentement si l'utilisateur ne s'oppose pas dans le d&eacute;lai. Le Fournisseur indiquera le droit d'opposition et les cons&eacute;quences du silence dans la notification (&sect; 307 BGB).</p>
+
+                    <h3>10. Dispositions finales</h3>
+                    <p><strong>10.1 Droit applicable</strong><br>
+                    Le droit de la R&eacute;publique f&eacute;d&eacute;rale d'Allemagne s'applique, &agrave; l'exclusion de la Convention des Nations Unies sur les contrats de vente internationale de marchandises.</p>
+                    <p><strong>10.2 R&egrave;glement des litiges</strong><br>
+                    La Commission europ&eacute;enne fournit une plateforme de r&egrave;glement des litiges en ligne (RLL) : <a href="https://ec.europa.eu/consumers/odr" target="_blank">https://ec.europa.eu/consumers/odr</a></p>
+                    <p>Le Fournisseur n'est pas oblig&eacute; et n'est pas dispos&eacute; &agrave; participer &agrave; des proc&eacute;dures de r&egrave;glement des litiges devant un conseil d'arbitrage des consommateurs.</p>
+                    <p><strong>10.3 Clause de s&eacute;parabilit&eacute;</strong><br>
+                    Si des dispositions individuelles de ces CGU sont ou deviennent invalides, cela n'affecte pas la validit&eacute; des dispositions restantes.</p>
+
+                    <h3>11. Contact</h3>
+                    <p>Si vous avez des questions concernant ces Conditions d'Utilisation, veuillez contacter :</p>
+                    <p>Fyn Meyer<br>
+                    Flandernstrasse 6<br>
+                    53859 Niederkassel<br>
+                    Allemagne</p>
+                    <p>E-mail : <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spanish Terms -->
+        <div class="lang-es">
+            <div class="legal-section">
+                <p class="last-updated">&Uacute;ltima actualizaci&oacute;n: Febrero 2026</p>
+                <div class="legal-content">
+                    <h3>1. &Aacute;mbito de aplicaci&oacute;n</h3>
+                    <p>1.1 Estos T&eacute;rminos y Condiciones Generales (en adelante "T&eacute;rminos") rigen el uso de la aplicaci&oacute;n m&oacute;vil "FlowRead" (en adelante "Aplicaci&oacute;n"), proporcionada por Fyn Meyer (en adelante "Proveedor").</p>
+                    <p>1.2 Al instalar y utilizar la Aplicaci&oacute;n, usted acepta estos T&eacute;rminos. Si no est&aacute; de acuerdo con estos T&eacute;rminos, no puede utilizar la Aplicaci&oacute;n.</p>
+                    <p>1.3 Los t&eacute;rminos divergentes del usuario no ser&aacute;n reconocidos a menos que el Proveedor acepte expresamente su validez por escrito.</p>
+                    <p>1.4 Estos T&eacute;rminos se aplican a todos los contratos de uso de la Aplicaci&oacute;n, incluidas las suscripciones de pago contratadas a trav&eacute;s de tiendas de aplicaciones (por ejemplo, Apple App Store, Google Play Store).</p>
+
+                    <h3>2. Descripci&oacute;n del servicio</h3>
+                    <p>2.1 FlowRead es una aplicaci&oacute;n de lectura r&aacute;pida que ayuda a los usuarios a mejorar su velocidad de lectura y comprensi&oacute;n de textos.</p>
+                    <p>2.2 La Aplicaci&oacute;n ofrece las siguientes funciones:</p>
+                    <ul>
+                        <li>Entrenamiento de lectura r&aacute;pida con varios modos de ejercicio</li>
+                        <li>Importaci&oacute;n de texto desde diversas fuentes (sitios web, portapapeles)</li>
+                        <li>Velocidad de lectura y opciones de visualizaci&oacute;n personalizables</li>
+                        <li>Estad&iacute;sticas y seguimiento del progreso</li>
+                        <li>Almacenamiento sin conexi&oacute;n de art&iacute;culos</li>
+                    </ul>
+                    <p>2.3 El Proveedor se reserva el derecho de cambiar, ampliar o limitar el alcance de las funciones de la Aplicaci&oacute;n en cualquier momento, particularmente para proporcionar actualizaciones para mantener la funcionalidad y la seguridad inform&aacute;tica, seg&uacute;n lo dispuesto por la ley para productos digitales (&sect;&sect; 327 y siguientes BGB).</p>
+
+                    <h3>3. Registro y cuenta de usuario</h3>
+                    <p>3.1 El registro puede ser necesario para ciertas funciones de la Aplicaci&oacute;n.</p>
+                    <p>3.2 Al registrarse, se debe proporcionar informaci&oacute;n veraz y completa. Los cambios en los datos deben actualizarse inmediatamente.</p>
+                    <p>3.3 El usuario es responsable de mantener la confidencialidad de sus credenciales de inicio de sesi&oacute;n y es responsable de todas las actividades que ocurran bajo su cuenta.</p>
+                    <p>3.4 El usuario se compromete a informar al Proveedor inmediatamente si tiene conocimiento de cualquier uso indebido de su cuenta.</p>
+
+                    <h3>4. Propiedad intelectual</h3>
+                    <p>4.1 Todos los derechos sobre la Aplicaci&oacute;n, incluyendo pero no limit&aacute;ndose a software, dise&ntilde;o, gr&aacute;ficos, logotipos, textos y otros contenidos, son propiedad del Proveedor o sus licenciantes y est&aacute;n protegidos por la ley de derechos de autor alemana e internacional.</p>
+                    <p>4.2 El usuario recibe un derecho simple, no transferible y revocable para usar la Aplicaci&oacute;n con fines privados y no comerciales.</p>
+                    <p>4.3 Est&aacute; prohibido:</p>
+                    <ul>
+                        <li>Copiar, modificar o descompilar la Aplicaci&oacute;n</li>
+                        <li>Distribuir, alquilar o sublicenciar la Aplicaci&oacute;n</li>
+                        <li>Eliminar o alterar los avisos de propiedad intelectual</li>
+                        <li>Usar la Aplicaci&oacute;n con fines ilegales</li>
+                    </ul>
+
+                    <h3>5. Suscripciones y compras en la aplicaci&oacute;n</h3>
+                    <p><strong>5.1 Versi&oacute;n gratuita (Free Tier)</strong><br>
+                    La Aplicaci&oacute;n puede utilizarse en una versi&oacute;n b&aacute;sica gratuita. Esta versi&oacute;n est&aacute; sujeta a ciertas limitaciones.</p>
+                    <p><strong>5.2 Suscripci&oacute;n Premium</strong><br>
+                    Se puede contratar una suscripci&oacute;n Premium de pago para obtener la gama completa de funciones. Opciones disponibles: Mensual o Anual.</p>
+                    <p><strong>5.3 Procesamiento de pagos</strong><br>
+                    El procesamiento de pagos es manejado por el proveedor de la tienda de aplicaciones correspondiente (Apple App Store / Google Play Store). Los t&eacute;rminos del proveedor de la tienda de aplicaciones tambi&eacute;n aplican.</p>
+                    <p><strong>5.4 Renovaci&oacute;n autom&aacute;tica</strong><br>
+                    Las suscripciones se renuevan autom&aacute;ticamente por el per&iacute;odo de suscripci&oacute;n respectivo a menos que se cancelen antes del final del per&iacute;odo actual. La cancelaci&oacute;n debe realizarse al menos 24 horas antes del final del per&iacute;odo actual.</p>
+
+                    <h3>6. Derecho de desistimiento y cancelaci&oacute;n</h3>
+                    <p><strong>6.1 Derecho de desistimiento para consumidores</strong><br>
+                    Como consumidor, tiene derecho a desistir de este contrato en un plazo de catorce d&iacute;as sin dar ninguna raz&oacute;n. El plazo de desistimiento comienza con la celebraci&oacute;n del contrato.</p>
+                    <p>Para contenido digital (por ejemplo, uso de la aplicaci&oacute;n, suscripciones), el derecho de desistimiento expira prematuramente si el Proveedor ha comenzado la ejecuci&oacute;n (por ejemplo, comienza la descarga o el uso) despu&eacute;s de que usted:</p>
+                    <p>(a) haya aceptado expresamente que el Proveedor comience antes de que expire el plazo de desistimiento, y</p>
+                    <p>(b) haya confirmado su reconocimiento de que por ello pierde su derecho de desistimiento (&sect; 356 p&aacute;rrafo 5 BGB).</p>
+                    <p>A partir del 19 de junio de 2026, proporcionaremos un bot&oacute;n de desistimiento electr&oacute;nico para contratos en l&iacute;nea (&sect; 312k BGB).</p>
+                    <p><strong>6.2 Instrucciones de desistimiento</strong><br>
+                    Para ejercer su derecho de desistimiento, debe informarnos (Fyn Meyer, Flandernstrasse 6, 53859 Niederkassel, Correo electr&oacute;nico: <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>) de su decisi&oacute;n de desistir de este contrato mediante una declaraci&oacute;n clara (por ejemplo, por correo electr&oacute;nico). El plazo de desistimiento se cumple si env&iacute;a el aviso antes de que expire el plazo.</p>
+                    <p><strong>Consecuencias del desistimiento:</strong> En caso de desistimiento efectivo, reembolsaremos todos los pagos en un plazo de 14 d&iacute;as.</p>
+                    <p><strong>6.3 Cancelaci&oacute;n de la suscripci&oacute;n</strong><br>
+                    La suscripci&oacute;n puede cancelarse en cualquier momento con efecto al final del per&iacute;odo actual a trav&eacute;s de:</p>
+                    <ul>
+                        <li>iOS: Ajustes &gt; ID de Apple &gt; Suscripciones</li>
+                        <li>Android: Google Play Store &gt; Men&uacute; &gt; Suscripciones</li>
+                    </ul>
+                    <p>Despu&eacute;s de la cancelaci&oacute;n, conserva el acceso a las funciones Premium hasta el final del per&iacute;odo ya pagado.</p>
+
+                    <h3>7. Exenci&oacute;n de responsabilidad</h3>
+                    <p>7.1 El Proveedor es totalmente responsable de los da&ntilde;os derivados de lesiones a la vida, el cuerpo o la salud, as&iacute; como de los da&ntilde;os causados intencionalmente o por negligencia grave. De lo contrario, la responsabilidad por negligencia leve se limita a los da&ntilde;os t&iacute;picos y previsibles en la medida en que se incumplan obligaciones contractuales esenciales (&sect; 280 BGB).</p>
+                    <p>7.2 La Aplicaci&oacute;n sirve exclusivamente para fines de entrenamiento y entretenimiento. No se dan garant&iacute;as respecto a la mejora de las capacidades de lectura.</p>
+                    <p>7.3 La Aplicaci&oacute;n no reemplaza el tratamiento m&eacute;dico o terap&eacute;utico. Si tiene problemas de visi&oacute;n u otras preocupaciones de salud, consulte a un m&eacute;dico.</p>
+
+                    <h3>8. Protecci&oacute;n de datos</h3>
+                    <p>La recogida y el tratamiento de datos personales se llevan a cabo de acuerdo con nuestra <a href="datenschutz.html">Pol&iacute;tica de Privacidad</a>, que es parte integrante de estos T&eacute;rminos.</p>
+
+                    <h3>9. Cambios en los T&eacute;rminos</h3>
+                    <p>9.1 El Proveedor se reserva el derecho de cambiar estos T&eacute;rminos en cualquier momento.</p>
+                    <p>9.2 Los cambios se comunicar&aacute;n al usuario al menos 30 d&iacute;as antes de su entrada en vigor por correo electr&oacute;nico o notificaci&oacute;n en la aplicaci&oacute;n, los cambios importantes (por ejemplo, ajustes de precios, restricciones de funciones) requieren consentimiento expreso. Para cambios no esenciales, el silencio se considera consentimiento si el usuario no se opone dentro del plazo. El Proveedor indicar&aacute; el derecho de oposici&oacute;n y las consecuencias del silencio en la notificaci&oacute;n (&sect; 307 BGB).</p>
+
+                    <h3>10. Disposiciones finales</h3>
+                    <p><strong>10.1 Ley aplicable</strong><br>
+                    Se aplica la ley de la Rep&uacute;blica Federal de Alemania, excluyendo la Convenci&oacute;n de las Naciones Unidas sobre los Contratos de Compraventa Internacional de Mercader&iacute;as.</p>
+                    <p><strong>10.2 Resoluci&oacute;n de disputas</strong><br>
+                    La Comisi&oacute;n Europea proporciona una plataforma para la resoluci&oacute;n de disputas en l&iacute;nea (ODR): <a href="https://ec.europa.eu/consumers/odr" target="_blank">https://ec.europa.eu/consumers/odr</a></p>
+                    <p>El Proveedor no est&aacute; obligado ni dispuesto a participar en procedimientos de resoluci&oacute;n de disputas ante una junta de arbitraje de consumidores.</p>
+                    <p><strong>10.3 Cl&aacute;usula de separabilidad</strong><br>
+                    Si las disposiciones individuales de estos T&eacute;rminos son o se vuelven inv&aacute;lidas, esto no afectar&aacute; la validez de las disposiciones restantes.</p>
+
+                    <h3>11. Contacto</h3>
+                    <p>Si tiene alguna pregunta sobre estos T&eacute;rminos de Servicio, por favor contacte:</p>
+                    <p>Fyn Meyer<br>
+                    Flandernstrasse 6<br>
+                    53859 Niederkassel<br>
+                    Alemania</p>
+                    <p>Correo electr&oacute;nico: <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Italian Terms -->
+        <div class="lang-it">
+            <div class="legal-section">
+                <p class="last-updated">Ultimo aggiornamento: Febbraio 2026</p>
+                <div class="legal-content">
+                    <h3>1. Ambito di applicazione</h3>
+                    <p>1.1 I presenti Termini e Condizioni Generali (di seguito "Termini") regolano l'utilizzo dell'applicazione mobile "FlowRead" (di seguito "Applicazione"), fornita da Fyn Meyer (di seguito "Fornitore").</p>
+                    <p>1.2 Installando e utilizzando l'Applicazione, accetti questi Termini. Se non accetti questi Termini, non puoi utilizzare l'Applicazione.</p>
+                    <p>1.3 Termini divergenti dell'utente non saranno riconosciuti a meno che il Fornitore non accetti espressamente la loro validit&agrave; per iscritto.</p>
+                    <p>1.4 Questi Termini si applicano a tutti i contratti per l'utilizzo dell'Applicazione, inclusi gli abbonamenti a pagamento conclusi tramite app store (ad esempio, Apple App Store, Google Play Store).</p>
+
+                    <h3>2. Descrizione del servizio</h3>
+                    <p>2.1 FlowRead &egrave; un'applicazione di lettura veloce che aiuta gli utenti a migliorare la velocit&agrave; di lettura e la comprensione del testo.</p>
+                    <p>2.2 L'Applicazione offre le seguenti funzionalit&agrave;:</p>
+                    <ul>
+                        <li>Allenamento di lettura veloce con varie modalit&agrave; di esercizio</li>
+                        <li>Importazione di testo da varie fonti (siti web, appunti)</li>
+                        <li>Velocit&agrave; di lettura e opzioni di visualizzazione personalizzabili</li>
+                        <li>Statistiche e monitoraggio dei progressi</li>
+                        <li>Archiviazione offline degli articoli</li>
+                    </ul>
+                    <p>2.3 Il Fornitore si riserva il diritto di modificare, espandere o limitare l'ambito delle funzioni dell'Applicazione in qualsiasi momento, in particolare per fornire aggiornamenti per mantenere la funzionalit&agrave; e la sicurezza IT, come previsto dalla legge per i prodotti digitali (&sect;&sect; 327 e seguenti BGB).</p>
+
+                    <h3>3. Registrazione e account utente</h3>
+                    <p>3.1 La registrazione potrebbe essere necessaria per alcune funzionalit&agrave; dell'Applicazione.</p>
+                    <p>3.2 Durante la registrazione, devono essere fornite informazioni veritiere e complete. Le modifiche ai dati devono essere aggiornate immediatamente.</p>
+                    <p>3.3 L'utente &egrave; responsabile del mantenimento della riservatezza delle proprie credenziali di accesso ed &egrave; responsabile di tutte le attivit&agrave; che si verificano sotto il proprio account.</p>
+                    <p>3.4 L'utente si impegna a informare immediatamente il Fornitore se viene a conoscenza di qualsiasi uso improprio del proprio account.</p>
+
+                    <h3>4. Propriet&agrave; intellettuale</h3>
+                    <p>4.1 Tutti i diritti sull'Applicazione, inclusi ma non limitati a software, design, grafica, loghi, testi e altri contenuti, sono di propriet&agrave; del Fornitore o dei suoi licenziatari e sono protetti dalla legge tedesca e internazionale sul diritto d'autore.</p>
+                    <p>4.2 L'utente riceve un diritto semplice, non trasferibile e revocabile di utilizzare l'Applicazione per scopi privati e non commerciali.</p>
+                    <p>4.3 &Egrave; vietato:</p>
+                    <ul>
+                        <li>Copiare, modificare o decompilare l'Applicazione</li>
+                        <li>Distribuire, noleggiare o sublicenziare l'Applicazione</li>
+                        <li>Rimuovere o alterare gli avvisi di propriet&agrave; intellettuale</li>
+                        <li>Utilizzare l'Applicazione per scopi illegali</li>
+                    </ul>
+
+                    <h3>5. Abbonamenti e acquisti in-app</h3>
+                    <p><strong>5.1 Versione gratuita (Free Tier)</strong><br>
+                    L'Applicazione pu&ograve; essere utilizzata in una versione base gratuita. Questa versione &egrave; soggetta a determinate limitazioni.</p>
+                    <p><strong>5.2 Abbonamento Premium</strong><br>
+                    &Egrave; possibile acquistare un abbonamento Premium a pagamento per la gamma completa di funzionalit&agrave;. Opzioni disponibili: Mensile o Annuale.</p>
+                    <p><strong>5.3 Elaborazione dei pagamenti</strong><br>
+                    L'elaborazione dei pagamenti &egrave; gestita dal rispettivo fornitore dell'app store (Apple App Store / Google Play Store). Si applicano anche i termini del fornitore dell'app store.</p>
+                    <p><strong>5.4 Rinnovo automatico</strong><br>
+                    Gli abbonamenti si rinnovano automaticamente per il rispettivo periodo di abbonamento a meno che non vengano cancellati prima della fine del periodo corrente. La cancellazione deve essere effettuata almeno 24 ore prima della fine del periodo corrente.</p>
+
+                    <h3>6. Diritto di recesso e cancellazione</h3>
+                    <p><strong>6.1 Diritto di recesso per i consumatori</strong><br>
+                    Come consumatore, hai il diritto di recedere da questo contratto entro quattordici giorni senza fornire alcuna motivazione. Il periodo di recesso inizia alla conclusione del contratto.</p>
+                    <p>Per i contenuti digitali (ad esempio, utilizzo dell'app, abbonamenti), il diritto di recesso scade prematuramente se il Fornitore ha iniziato l'esecuzione (ad esempio, inizia il download o l'utilizzo) dopo che tu:</p>
+                    <p>(a) hai espressamente acconsentito che il Fornitore inizi prima della scadenza del periodo di recesso, e</p>
+                    <p>(b) hai confermato di essere consapevole che in tal modo perdi il tuo diritto di recesso (&sect; 356 comma 5 BGB).</p>
+                    <p>Dal 19 giugno 2026, forniremo un pulsante di recesso elettronico per i contratti online (&sect; 312k BGB).</p>
+                    <p><strong>6.2 Istruzioni per il recesso</strong><br>
+                    Per esercitare il tuo diritto di recesso, devi informarci (Fyn Meyer, Flandernstrasse 6, 53859 Niederkassel, E-mail: <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>) della tua decisione di recedere da questo contratto con una dichiarazione chiara (ad esempio, via e-mail). Il periodo di recesso &egrave; rispettato se invii la comunicazione prima della scadenza del periodo.</p>
+                    <p><strong>Conseguenze del recesso:</strong> In caso di recesso effettivo, rimborseremo tutti i pagamenti entro 14 giorni.</p>
+                    <p><strong>6.3 Cancellazione dell'abbonamento</strong><br>
+                    L'abbonamento pu&ograve; essere cancellato in qualsiasi momento con effetto alla fine del periodo corrente tramite:</p>
+                    <ul>
+                        <li>iOS: Impostazioni &gt; ID Apple &gt; Abbonamenti</li>
+                        <li>Android: Google Play Store &gt; Menu &gt; Abbonamenti</li>
+                    </ul>
+                    <p>Dopo la cancellazione, mantieni l'accesso alle funzionalit&agrave; Premium fino alla fine del periodo gi&agrave; pagato.</p>
+
+                    <h3>7. Esclusione di responsabilit&agrave;</h3>
+                    <p>7.1 Il Fornitore &egrave; pienamente responsabile per i danni derivanti da lesioni alla vita, al corpo o alla salute, nonch&eacute; per i danni causati intenzionalmente o per grave negligenza. Altrimenti, la responsabilit&agrave; per negligenza lieve &egrave; limitata ai danni tipici e prevedibili nella misura in cui vengono violati obblighi contrattuali essenziali (&sect; 280 BGB).</p>
+                    <p>7.2 L'Applicazione serve esclusivamente per scopi di allenamento e intrattenimento. Non viene data alcuna garanzia riguardo al miglioramento delle capacit&agrave; di lettura.</p>
+                    <p>7.3 L'Applicazione non sostituisce il trattamento medico o terapeutico. Se hai problemi di vista o altre preoccupazioni per la salute, consulta un medico.</p>
+
+                    <h3>8. Protezione dei dati</h3>
+                    <p>La raccolta e il trattamento dei dati personali vengono effettuati in conformit&agrave; con la nostra <a href="datenschutz.html">Informativa sulla Privacy</a>, che &egrave; parte integrante di questi Termini.</p>
+
+                    <h3>9. Modifiche ai Termini</h3>
+                    <p>9.1 Il Fornitore si riserva il diritto di modificare questi Termini in qualsiasi momento.</p>
+                    <p>9.2 Le modifiche saranno comunicate all'utente almeno 30 giorni prima della loro entrata in vigore tramite e-mail o notifica in-app, per cui le modifiche sostanziali (ad esempio, adeguamenti dei prezzi, restrizioni delle funzionalit&agrave;) richiedono il consenso espresso. Per le modifiche non essenziali, il silenzio vale come consenso se l'utente non si oppone entro il termine. Il Fornitore indicher&agrave; il diritto di opposizione e le conseguenze del silenzio nella notifica (&sect; 307 BGB).</p>
+
+                    <h3>10. Disposizioni finali</h3>
+                    <p><strong>10.1 Legge applicabile</strong><br>
+                    Si applica la legge della Repubblica Federale di Germania, con esclusione della Convenzione delle Nazioni Unite sui contratti di vendita internazionale di merci.</p>
+                    <p><strong>10.2 Risoluzione delle controversie</strong><br>
+                    La Commissione Europea fornisce una piattaforma per la risoluzione delle controversie online (ODR): <a href="https://ec.europa.eu/consumers/odr" target="_blank">https://ec.europa.eu/consumers/odr</a></p>
+                    <p>Il Fornitore non &egrave; obbligato e non &egrave; disposto a partecipare a procedimenti di risoluzione delle controversie davanti a un collegio arbitrale dei consumatori.</p>
+                    <p><strong>10.3 Clausola di separabilit&agrave;</strong><br>
+                    Se singole disposizioni di questi Termini sono o diventano invalide, ci&ograve; non pregiudica la validit&agrave; delle restanti disposizioni.</p>
+
+                    <h3>11. Contatto</h3>
+                    <p>Per qualsiasi domanda su questi Termini di Servizio, contattare:</p>
+                    <p>Fyn Meyer<br>
+                    Flandernstrasse 6<br>
+                    53859 Niederkassel<br>
+                    Germania</p>
+                    <p>E-mail: <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a></p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -537,39 +906,83 @@
                 <a href="datenschutz.html">
                     <span class="lang-de-inline">Datenschutz</span>
                     <span class="lang-en-inline">Privacy Policy</span>
+                    <span class="lang-fr-inline">Confidentialit&eacute;</span>
+                    <span class="lang-es-inline">Privacidad</span>
+                    <span class="lang-it-inline">Privacy</span>
                 </a>
                 <span class="separator">&middot;</span>
                 <a href="nutzungsbedingungen.html">
                     <span class="lang-de-inline">AGB</span>
                     <span class="lang-en-inline">Terms of Service</span>
+                    <span class="lang-fr-inline">CGU</span>
+                    <span class="lang-es-inline">T&eacute;rminos</span>
+                    <span class="lang-it-inline">Termini</span>
                 </a>
                 <span class="separator">&middot;</span>
                 <a href="impressum.html">
                     <span class="lang-de-inline">Impressum</span>
                     <span class="lang-en-inline">Legal Notice</span>
+                    <span class="lang-fr-inline">Mentions l&eacute;gales</span>
+                    <span class="lang-es-inline">Aviso legal</span>
+                    <span class="lang-it-inline">Note legali</span>
                 </a>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 FlowRead. <span class="lang-de-inline">Alle Rechte vorbehalten.</span><span class="lang-en-inline">All rights reserved.</span></p>
+                <p>&copy; 2025 FlowRead.
+                    <span class="lang-de-inline">Alle Rechte vorbehalten.</span>
+                    <span class="lang-en-inline">All rights reserved.</span>
+                    <span class="lang-fr-inline">Tous droits r&eacute;serv&eacute;s.</span>
+                    <span class="lang-es-inline">Todos los derechos reservados.</span>
+                    <span class="lang-it-inline">Tutti i diritti riservati.</span>
+                </p>
             </div>
         </div>
     </footer>
 
     <script>
-        function toggleLanguage() {
-            const body = document.body;
-            const currentLang = body.getAttribute('data-lang');
-            const newLang = currentLang === 'de' ? 'en' : 'de';
-            body.setAttribute('data-lang', newLang);
-            document.documentElement.lang = newLang;
-            localStorage.setItem('flowread-lang', newLang);
+        function toggleLangMenu() {
+            const menu = document.getElementById('langMenu');
+            menu.classList.toggle('show');
         }
 
-        const savedLang = localStorage.getItem('flowread-lang');
-        if (savedLang) {
-            document.body.setAttribute('data-lang', savedLang);
-            document.documentElement.lang = savedLang;
+        function setLanguage(lang) {
+            document.body.setAttribute('data-lang', lang);
+            document.documentElement.lang = lang;
+            localStorage.setItem('flowread-lang', lang);
+
+            // Update current language display
+            const langNames = {
+                'de': 'DE',
+                'en': 'EN',
+                'fr': 'FR',
+                'es': 'ES',
+                'it': 'IT'
+            };
+            document.querySelector('.current-lang').textContent = langNames[lang];
+
+            // Update active state in menu
+            document.querySelectorAll('.lang-menu a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('data-lang') === lang) {
+                    a.classList.add('active');
+                }
+            });
+
+            // Close menu
+            document.getElementById('langMenu').classList.remove('show');
         }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.querySelector('.lang-dropdown');
+            if (!dropdown.contains(e.target)) {
+                document.getElementById('langMenu').classList.remove('show');
+            }
+        });
+
+        // Load saved language
+        const savedLang = localStorage.getItem('flowread-lang') || 'de';
+        setLanguage(savedLang);
     </script>
 </body>
 </html>

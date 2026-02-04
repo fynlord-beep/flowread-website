@@ -316,7 +316,12 @@
             width: 100%;
         }
 
-        .lang-switch {
+        /* ===== LANGUAGE DROPDOWN ===== */
+        .lang-dropdown {
+            position: relative;
+        }
+
+        .lang-btn {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
@@ -328,12 +333,66 @@
             font-weight: 500;
             font-family: var(--font-primary);
             transition: all 0.3s var(--ease-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .lang-switch:hover {
+        .lang-btn:hover {
             background: var(--glass-bg-hover);
             border-color: var(--accent-start);
             box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .lang-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: rgba(20, 20, 30, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 0.5rem;
+            min-width: 140px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s var(--ease-smooth);
+            box-shadow: var(--shadow-glass);
+            z-index: 1001;
+        }
+
+        .lang-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.2s var(--ease-smooth);
+            cursor: pointer;
+        }
+
+        .lang-menu a:hover {
+            background: var(--glass-bg-hover);
+            color: var(--text-primary);
+        }
+
+        .lang-menu a.active {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: white;
+        }
+
+        .lang-menu a::after {
+            display: none;
         }
 
         .mobile-menu-btn {
@@ -907,12 +966,18 @@
         }
 
         /* ===== LANGUAGE SWITCHING ===== */
-        .lang-de, .lang-en { display: none; }
+        .lang-de, .lang-en, .lang-fr, .lang-es, .lang-it { display: none; }
         [data-lang="de"] .lang-de { display: block; }
         [data-lang="en"] .lang-en { display: block; }
+        [data-lang="fr"] .lang-fr { display: block; }
+        [data-lang="es"] .lang-es { display: block; }
+        [data-lang="it"] .lang-it { display: block; }
         [data-lang="de"] .lang-de-inline { display: inline; }
         [data-lang="en"] .lang-en-inline { display: inline; }
-        .lang-de-inline, .lang-en-inline { display: none; }
+        [data-lang="fr"] .lang-fr-inline { display: inline; }
+        [data-lang="es"] .lang-es-inline { display: inline; }
+        [data-lang="it"] .lang-it-inline { display: inline; }
+        .lang-de-inline, .lang-en-inline, .lang-fr-inline, .lang-es-inline, .lang-it-inline { display: none; }
 
         /* ===== SCROLL ANIMATIONS ===== */
         .reveal {
@@ -1074,9 +1139,26 @@
                 justify-content: center;
             }
 
-            .lang-switch {
+            .lang-dropdown {
+                margin-top: 1rem;
+            }
+
+            .lang-btn {
                 min-height: var(--touch-target-min);
                 padding: 0.75rem 1.5rem;
+            }
+
+            .lang-menu {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                right: auto;
+                transform: translate(-50%, -50%) scale(0.9);
+                min-width: 200px;
+            }
+
+            .lang-menu.active {
+                transform: translate(-50%, -50%) scale(1);
             }
 
             .sticky-cta {
@@ -1312,19 +1394,48 @@
             <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Menu">&#9776;</button>
             <nav id="nav">
                 <button class="mobile-menu-close" onclick="closeMenu()" aria-label="Close Menu">&times;</button>
-                <a href="#features" class="lang-de-inline" onclick="closeMenu()">Features</a>
-                <a href="#features" class="lang-en-inline" onclick="closeMenu()">Features</a>
-                <a href="datenschutz.html" class="lang-de-inline" onclick="closeMenu()">Datenschutz</a>
-                <a href="datenschutz.html" class="lang-en-inline" onclick="closeMenu()">Privacy</a>
-                <a href="nutzungsbedingungen.html" class="lang-de-inline" onclick="closeMenu()">AGB</a>
-                <a href="nutzungsbedingungen.html" class="lang-en-inline" onclick="closeMenu()">Terms</a>
+                <a href="#features" onclick="closeMenu()">
+                    <span class="lang-de-inline">Features</span>
+                    <span class="lang-en-inline">Features</span>
+                    <span class="lang-fr-inline">Fonctionnalites</span>
+                    <span class="lang-es-inline">Funciones</span>
+                    <span class="lang-it-inline">Funzionalita</span>
+                </a>
+                <a href="datenschutz.html" onclick="closeMenu()">
+                    <span class="lang-de-inline">Datenschutz</span>
+                    <span class="lang-en-inline">Privacy</span>
+                    <span class="lang-fr-inline">Confidentialite</span>
+                    <span class="lang-es-inline">Privacidad</span>
+                    <span class="lang-it-inline">Privacy</span>
+                </a>
+                <a href="nutzungsbedingungen.html" onclick="closeMenu()">
+                    <span class="lang-de-inline">AGB</span>
+                    <span class="lang-en-inline">Terms</span>
+                    <span class="lang-fr-inline">CGU</span>
+                    <span class="lang-es-inline">Terminos</span>
+                    <span class="lang-it-inline">Termini</span>
+                </a>
                 <a href="#support" onclick="closeMenu()">Support</a>
-                <a href="impressum.html" class="lang-de-inline" onclick="closeMenu()">Impressum</a>
-                <a href="impressum.html" class="lang-en-inline" onclick="closeMenu()">Legal Notice</a>
-                <button class="lang-switch" onclick="toggleLanguage()">
-                    <span class="lang-de-inline">EN</span>
-                    <span class="lang-en-inline">DE</span>
-                </button>
+                <a href="impressum.html" onclick="closeMenu()">
+                    <span class="lang-de-inline">Impressum</span>
+                    <span class="lang-en-inline">Legal Notice</span>
+                    <span class="lang-fr-inline">Mentions legales</span>
+                    <span class="lang-es-inline">Aviso legal</span>
+                    <span class="lang-it-inline">Note legali</span>
+                </a>
+                <div class="lang-dropdown">
+                    <button class="lang-btn" onclick="toggleLangMenu()">
+                        <span class="current-lang">DE</span>
+                        <span>&#9662;</span>
+                    </button>
+                    <div class="lang-menu" id="langMenu">
+                        <a onclick="setLanguage('de')" data-lang="de">Deutsch</a>
+                        <a onclick="setLanguage('en')" data-lang="en">English</a>
+                        <a onclick="setLanguage('fr')" data-lang="fr">Francais</a>
+                        <a onclick="setLanguage('es')" data-lang="es">Espanol</a>
+                        <a onclick="setLanguage('it')" data-lang="it">Italiano</a>
+                    </div>
+                </div>
             </nav>
         </div>
     </header>
@@ -1337,6 +1448,9 @@
             <p class="tagline">
                 <span class="lang-de">Schneller lesen, mehr wissen</span>
                 <span class="lang-en">Read Faster, Learn More</span>
+                <span class="lang-fr">Lire plus vite, en savoir plus</span>
+                <span class="lang-es">Leer mas rapido, aprender mas</span>
+                <span class="lang-it">Leggi piu veloce, impara di piu</span>
             </p>
 
             <!-- RSVP Demo -->
@@ -1351,6 +1465,9 @@
                 <p class="rsvp-label">
                     <span class="lang-de">RSVP-Technologie</span>
                     <span class="lang-en">RSVP Technology</span>
+                    <span class="lang-fr">Technologie RSVP</span>
+                    <span class="lang-es">Tecnologia RSVP</span>
+                    <span class="lang-it">Tecnologia RSVP</span>
                     &nbsp;&bull;&nbsp;
                     <span class="rsvp-speed" id="rsvpSpeed">300 WPM</span>
                 </p>
@@ -1363,10 +1480,16 @@
                     </svg>
                     <span class="lang-de-inline">Im App Store laden</span>
                     <span class="lang-en-inline">Download on App Store</span>
+                    <span class="lang-fr-inline">Telecharger sur l'App Store</span>
+                    <span class="lang-es-inline">Descargar en App Store</span>
+                    <span class="lang-it-inline">Scarica dall'App Store</span>
                 </a>
                 <a href="#features" class="btn-secondary">
                     <span class="lang-de-inline">Mehr erfahren</span>
                     <span class="lang-en-inline">Learn More</span>
+                    <span class="lang-fr-inline">En savoir plus</span>
+                    <span class="lang-es-inline">Mas informacion</span>
+                    <span class="lang-it-inline">Scopri di piu</span>
                 </a>
             </div>
 
@@ -1391,6 +1514,9 @@
             <p>
                 <span class="lang-de">Verdopple deine Lesegeschwindigkeit mit wissenschaftlich bewiesenen Methoden</span>
                 <span class="lang-en">Double your reading speed with scientifically proven methods</span>
+                <span class="lang-fr">Doublez votre vitesse de lecture avec des methodes scientifiquement prouvees</span>
+                <span class="lang-es">Duplica tu velocidad de lectura con metodos cientificamente probados</span>
+                <span class="lang-it">Raddoppia la tua velocita di lettura con metodi scientificamente provati</span>
             </p>
         </div>
         <div class="features-grid">
@@ -1399,10 +1525,16 @@
                 <h3>
                     <span class="lang-de">RSVP-Technologie</span>
                     <span class="lang-en">RSVP Technology</span>
+                    <span class="lang-fr">Technologie RSVP</span>
+                    <span class="lang-es">Tecnologia RSVP</span>
+                    <span class="lang-it">Tecnologia RSVP</span>
                 </h3>
                 <p>
-                    <span class="lang-de">Rapid Serial Visual Presentation zeigt Wörter genau dort, wo dein Auge fokussiert. Kein Scannen, kein Suchen - nur purer Lesefluss.</span>
+                    <span class="lang-de">Rapid Serial Visual Presentation zeigt Worter genau dort, wo dein Auge fokussiert. Kein Scannen, kein Suchen - nur purer Lesefluss.</span>
                     <span class="lang-en">Rapid Serial Visual Presentation displays words exactly where your eye focuses. No scanning, no searching - just pure reading flow.</span>
+                    <span class="lang-fr">La presentation visuelle serielle rapide affiche les mots exactement la ou votre oeil se concentre. Pas de balayage, pas de recherche - juste un flux de lecture pur.</span>
+                    <span class="lang-es">La presentacion visual serial rapida muestra las palabras exactamente donde se enfoca tu ojo. Sin escanear, sin buscar - solo flujo de lectura puro.</span>
+                    <span class="lang-it">La presentazione visiva seriale rapida mostra le parole esattamente dove si concentra il tuo occhio. Nessuna scansione, nessuna ricerca - solo puro flusso di lettura.</span>
                 </p>
             </div>
             <div class="glass-card feature-card reveal reveal-delay-2">
@@ -1410,10 +1542,16 @@
                 <h3>
                     <span class="lang-de">Adaptive Geschwindigkeit</span>
                     <span class="lang-en">Adaptive Speed</span>
+                    <span class="lang-fr">Vitesse adaptative</span>
+                    <span class="lang-es">Velocidad adaptativa</span>
+                    <span class="lang-it">Velocita adattiva</span>
                 </h3>
                 <p>
                     <span class="lang-de">Starte bei deinem aktuellen Niveau und steigere dich schrittweise. Der intelligente Algorithmus passt sich deinem Fortschritt an.</span>
                     <span class="lang-en">Start at your current level and gradually improve. Our intelligent algorithm adapts to your progress automatically.</span>
+                    <span class="lang-fr">Commencez a votre niveau actuel et progressez graduellement. Notre algorithme intelligent s'adapte automatiquement a vos progres.</span>
+                    <span class="lang-es">Comienza en tu nivel actual y mejora gradualmente. Nuestro algoritmo inteligente se adapta automaticamente a tu progreso.</span>
+                    <span class="lang-it">Inizia al tuo livello attuale e migliora gradualmente. Il nostro algoritmo intelligente si adatta automaticamente ai tuoi progressi.</span>
                 </p>
             </div>
             <div class="glass-card feature-card reveal reveal-delay-3">
@@ -1421,10 +1559,16 @@
                 <h3>
                     <span class="lang-de">Fortschritts-Tracking</span>
                     <span class="lang-en">Progress Tracking</span>
+                    <span class="lang-fr">Suivi des progres</span>
+                    <span class="lang-es">Seguimiento de progreso</span>
+                    <span class="lang-it">Monitoraggio progressi</span>
                 </h3>
                 <p>
-                    <span class="lang-de">Verfolge deine WPM (Wörter pro Minute) und sieh, wie du jeden Tag besser wirst. Motivierende Statistiken halten dich am Ball.</span>
+                    <span class="lang-de">Verfolge deine WPM (Worter pro Minute) und sieh, wie du jeden Tag besser wirst. Motivierende Statistiken halten dich am Ball.</span>
                     <span class="lang-en">Monitor your WPM (words per minute) and watch yourself improve every day. Motivating statistics keep you on track.</span>
+                    <span class="lang-fr">Suivez vos MPM (mots par minute) et observez vos progres quotidiens. Des statistiques motivantes vous gardent sur la bonne voie.</span>
+                    <span class="lang-es">Monitorea tus PPM (palabras por minuto) y observa como mejoras cada dia. Estadisticas motivadoras te mantienen en el camino.</span>
+                    <span class="lang-it">Monitora le tue PPM (parole per minuto) e osserva i tuoi miglioramenti giornalieri. Statistiche motivanti ti mantengono sulla buona strada.</span>
                 </p>
             </div>
             <div class="glass-card feature-card reveal reveal-delay-4">
@@ -1432,10 +1576,16 @@
                 <h3>
                     <span class="lang-de">Fokus-Modus</span>
                     <span class="lang-en">Focus Mode</span>
+                    <span class="lang-fr">Mode concentration</span>
+                    <span class="lang-es">Modo enfoque</span>
+                    <span class="lang-it">Modalita focus</span>
                 </h3>
                 <p>
-                    <span class="lang-de">Minimalistisches Design ohne Ablenkungen. Schwarzer Hintergrund, klare Typografie - entwickelt für maximale Konzentration.</span>
+                    <span class="lang-de">Minimalistisches Design ohne Ablenkungen. Schwarzer Hintergrund, klare Typografie - entwickelt fur maximale Konzentration.</span>
                     <span class="lang-en">Minimalist design with zero distractions. Dark background, clear typography - engineered for maximum concentration.</span>
+                    <span class="lang-fr">Design minimaliste sans distractions. Fond sombre, typographie claire - concu pour une concentration maximale.</span>
+                    <span class="lang-es">Diseno minimalista sin distracciones. Fondo oscuro, tipografia clara - disenado para maxima concentracion.</span>
+                    <span class="lang-it">Design minimalista senza distrazioni. Sfondo scuro, tipografia chiara - progettato per la massima concentrazione.</span>
                 </p>
             </div>
             <div class="glass-card feature-card reveal reveal-delay-5">
@@ -1443,10 +1593,16 @@
                 <h3>
                     <span class="lang-de">Eigene Texte importieren</span>
                     <span class="lang-en">Import Your Own Texts</span>
+                    <span class="lang-fr">Importer vos textes</span>
+                    <span class="lang-es">Importar tus textos</span>
+                    <span class="lang-it">Importa i tuoi testi</span>
                 </h3>
                 <p>
                     <span class="lang-de">Lade Artikel, E-Books oder andere Texte hoch und trainiere mit Inhalten, die dich wirklich interessieren.</span>
                     <span class="lang-en">Upload articles, ebooks, or any text and train with content you actually care about.</span>
+                    <span class="lang-fr">Telechargez des articles, des ebooks ou tout texte et entrainez-vous avec du contenu qui vous interesse vraiment.</span>
+                    <span class="lang-es">Sube articulos, ebooks o cualquier texto y entrena con contenido que realmente te interesa.</span>
+                    <span class="lang-it">Carica articoli, ebook o qualsiasi testo e allenati con contenuti che ti interessano davvero.</span>
                 </p>
             </div>
             <div class="glass-card feature-card reveal reveal-delay-5">
@@ -1454,10 +1610,16 @@
                 <h3>
                     <span class="lang-de">ORP-Markierung</span>
                     <span class="lang-en">ORP Marking</span>
+                    <span class="lang-fr">Marquage ORP</span>
+                    <span class="lang-es">Marcado ORP</span>
+                    <span class="lang-it">Marcatura ORP</span>
                 </h3>
                 <p>
-                    <span class="lang-de">Der ORP (Optimal Recognition Point) jedes Wortes wird hervorgehoben - so erfasst dein Gehirn Wörter blitzschnell.</span>
+                    <span class="lang-de">Der ORP (Optimal Recognition Point) jedes Wortes wird hervorgehoben - so erfasst dein Gehirn Worter blitzschnell.</span>
                     <span class="lang-en">The ORP (Optimal Recognition Point) of each word is highlighted - so your brain processes words lightning fast.</span>
+                    <span class="lang-fr">L'ORP (Point de Reconnaissance Optimal) de chaque mot est mis en evidence - ainsi votre cerveau traite les mots a la vitesse de l'eclair.</span>
+                    <span class="lang-es">El ORP (Punto de Reconocimiento Optimo) de cada palabra se resalta - asi tu cerebro procesa las palabras a la velocidad del rayo.</span>
+                    <span class="lang-it">L'ORP (Punto di Riconoscimento Ottimale) di ogni parola e evidenziato - cosi il tuo cervello elabora le parole alla velocita della luce.</span>
                 </p>
             </div>
         </div>
@@ -1471,6 +1633,9 @@
             </svg>
             <span class="lang-de-inline">Jetzt downloaden</span>
             <span class="lang-en-inline">Download Now</span>
+            <span class="lang-fr-inline">Telecharger maintenant</span>
+            <span class="lang-es-inline">Descargar ahora</span>
+            <span class="lang-it-inline">Scarica ora</span>
         </a>
     </div>
 
@@ -1484,6 +1649,9 @@
                         <li><a href="#home">
                             <span class="lang-de-inline">Startseite</span>
                             <span class="lang-en-inline">Home</span>
+                            <span class="lang-fr-inline">Accueil</span>
+                            <span class="lang-es-inline">Inicio</span>
+                            <span class="lang-it-inline">Home</span>
                         </a></li>
                         <li><a href="#features">Features</a></li>
                         <li><a href="#">App Store</a></li>
@@ -1493,19 +1661,31 @@
                     <h4>
                         <span class="lang-de-inline">Rechtliches</span>
                         <span class="lang-en-inline">Legal</span>
+                        <span class="lang-fr-inline">Juridique</span>
+                        <span class="lang-es-inline">Legal</span>
+                        <span class="lang-it-inline">Legale</span>
                     </h4>
                     <ul>
                         <li><a href="datenschutz.html">
                             <span class="lang-de-inline">Datenschutz</span>
                             <span class="lang-en-inline">Privacy Policy</span>
+                            <span class="lang-fr-inline">Confidentialite</span>
+                            <span class="lang-es-inline">Privacidad</span>
+                            <span class="lang-it-inline">Privacy</span>
                         </a></li>
                         <li><a href="nutzungsbedingungen.html">
                             <span class="lang-de-inline">AGB</span>
                             <span class="lang-en-inline">Terms of Service</span>
+                            <span class="lang-fr-inline">CGU</span>
+                            <span class="lang-es-inline">Terminos</span>
+                            <span class="lang-it-inline">Termini</span>
                         </a></li>
                         <li><a href="impressum.html">
                             <span class="lang-de-inline">Impressum</span>
                             <span class="lang-en-inline">Legal Notice</span>
+                            <span class="lang-fr-inline">Mentions legales</span>
+                            <span class="lang-es-inline">Aviso legal</span>
+                            <span class="lang-it-inline">Note legali</span>
                         </a></li>
                     </ul>
                 </div>
@@ -1513,6 +1693,9 @@
                     <h4>
                         <span class="lang-de-inline">Kontakt</span>
                         <span class="lang-en-inline">Contact</span>
+                        <span class="lang-fr-inline">Contact</span>
+                        <span class="lang-es-inline">Contacto</span>
+                        <span class="lang-it-inline">Contatti</span>
                     </h4>
                     <ul>
                         <li><a href="mailto:flowread.all@gmail.com">Support</a></li>
@@ -1529,7 +1712,13 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 FlowRead. <span class="lang-de-inline">Alle Rechte vorbehalten.</span><span class="lang-en-inline">All rights reserved.</span></p>
+                <p>&copy; 2025 FlowRead.
+                    <span class="lang-de-inline">Alle Rechte vorbehalten.</span>
+                    <span class="lang-en-inline">All rights reserved.</span>
+                    <span class="lang-fr-inline">Tous droits reserves.</span>
+                    <span class="lang-es-inline">Todos los derechos reservados.</span>
+                    <span class="lang-it-inline">Tutti i diritti riservati.</span>
+                </p>
             </div>
         </div>
     </footer>
@@ -1579,20 +1768,63 @@
         }, 3000);
 
         // ===== LANGUAGE SWITCHING =====
-        function toggleLanguage() {
-            const body = document.body;
-            const currentLang = body.getAttribute('data-lang');
-            const newLang = currentLang === 'de' ? 'en' : 'de';
-            body.setAttribute('data-lang', newLang);
-            document.documentElement.lang = newLang;
-            localStorage.setItem('flowread-lang', newLang);
+        const langNames = {
+            'de': 'DE',
+            'en': 'EN',
+            'fr': 'FR',
+            'es': 'ES',
+            'it': 'IT'
+        };
+
+        function setLanguage(lang) {
+            document.body.setAttribute('data-lang', lang);
+            document.documentElement.lang = lang;
+            localStorage.setItem('flowread-lang', lang);
+            updateActiveLanguage(lang);
+            closeLangMenu();
         }
 
-        const savedLang = localStorage.getItem('flowread-lang');
-        if (savedLang) {
-            document.body.setAttribute('data-lang', savedLang);
-            document.documentElement.lang = savedLang;
+        function toggleLangMenu() {
+            const langMenu = document.getElementById('langMenu');
+            langMenu.classList.toggle('active');
         }
+
+        function closeLangMenu() {
+            const langMenu = document.getElementById('langMenu');
+            langMenu.classList.remove('active');
+        }
+
+        function updateActiveLanguage(lang) {
+            // Update current language display
+            const currentLangEl = document.querySelector('.current-lang');
+            if (currentLangEl) {
+                currentLangEl.textContent = langNames[lang] || 'DE';
+            }
+
+            // Update active state in dropdown
+            const langOptions = document.querySelectorAll('.lang-menu a');
+            langOptions.forEach(option => {
+                if (option.getAttribute('data-lang') === lang) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
+        }
+
+        // Close language menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const langDropdown = document.querySelector('.lang-dropdown');
+            if (langDropdown && !langDropdown.contains(e.target)) {
+                closeLangMenu();
+            }
+        });
+
+        // Initialize language on load
+        const savedLang = localStorage.getItem('flowread-lang') || 'de';
+        document.body.setAttribute('data-lang', savedLang);
+        document.documentElement.lang = savedLang;
+        updateActiveLanguage(savedLang);
 
         // ===== MOBILE MENU =====
         function toggleMenu() {
@@ -1602,6 +1834,7 @@
 
         function closeMenu() {
             document.getElementById('nav').classList.remove('active');
+            closeLangMenu();
         }
 
         // ===== SMART HEADER HIDE & STICKY CTA =====

@@ -211,19 +211,31 @@
         }
 
         /* ===== LANGUAGE SWITCHING ===== */
-        .lang-de, .lang-en { display: none; }
+        .lang-de, .lang-en, .lang-fr, .lang-es, .lang-it { display: none; }
         [data-lang="de"] .lang-de { display: block; }
         [data-lang="en"] .lang-en { display: block; }
+        [data-lang="fr"] .lang-fr { display: block; }
+        [data-lang="es"] .lang-es { display: block; }
+        [data-lang="it"] .lang-it { display: block; }
         [data-lang="de"] .lang-de-inline { display: inline; }
         [data-lang="en"] .lang-en-inline { display: inline; }
-        .lang-de-inline, .lang-en-inline { display: none; }
+        [data-lang="fr"] .lang-fr-inline { display: inline; }
+        [data-lang="es"] .lang-es-inline { display: inline; }
+        [data-lang="it"] .lang-it-inline { display: inline; }
+        .lang-de-inline, .lang-en-inline, .lang-fr-inline, .lang-es-inline, .lang-it-inline { display: none; }
 
-        .lang-switch {
+        /* ===== LANGUAGE DROPDOWN ===== */
+        .lang-dropdown {
             position: fixed;
             top: calc(1rem + var(--safe-top));
             right: calc(1rem + var(--safe-right));
+            z-index: 100;
+        }
+
+        .lang-btn {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: 50px;
             padding: 0.5rem 1rem;
@@ -233,13 +245,55 @@
             font-weight: 500;
             font-family: var(--font-primary);
             transition: all 0.3s var(--ease-smooth);
-            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .lang-switch:hover {
+        .lang-btn:hover {
             background: var(--glass-bg-hover);
             border-color: var(--accent-start);
             box-shadow: var(--shadow-glow);
+        }
+
+        .lang-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: rgba(20, 20, 30, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            overflow: hidden;
+            min-width: 120px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .lang-menu.show {
+            display: block;
+        }
+
+        .lang-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s var(--ease-smooth);
+            cursor: pointer;
+        }
+
+        .lang-menu a:hover {
+            background: var(--glass-bg-hover);
+            color: var(--text-primary);
+        }
+
+        .lang-menu a.active {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+            color: #ffffff;
         }
 
         /* ===== FOOTER ===== */
@@ -313,21 +367,36 @@
 <body data-lang="de">
     <div class="mesh-gradient"></div>
 
-    <button class="lang-switch" onclick="toggleLanguage()">
-        <span class="lang-de-inline">EN</span>
-        <span class="lang-en-inline">DE</span>
-    </button>
+    <div class="lang-dropdown">
+        <button class="lang-btn" onclick="toggleLangMenu()">
+            <span class="current-lang">DE</span>
+            <span>&#9662;</span>
+        </button>
+        <div class="lang-menu" id="langMenu">
+            <a onclick="setLanguage('de')" data-lang="de">Deutsch</a>
+            <a onclick="setLanguage('en')" data-lang="en">English</a>
+            <a onclick="setLanguage('fr')" data-lang="fr">Francais</a>
+            <a onclick="setLanguage('es')" data-lang="es">Espanol</a>
+            <a onclick="setLanguage('it')" data-lang="it">Italiano</a>
+        </div>
+    </div>
 
     <div class="container">
         <a href="index.html" class="back-link">
             <span>&#8592;</span>
             <span class="lang-de-inline">Zur&uuml;ck zur Startseite</span>
             <span class="lang-en-inline">Back to Homepage</span>
+            <span class="lang-fr-inline">Retour &agrave; l'accueil</span>
+            <span class="lang-es-inline">Volver al inicio</span>
+            <span class="lang-it-inline">Torna alla home</span>
         </a>
 
         <h1 class="gradient-text">
             <span class="lang-de">Datenschutzerkl&auml;rung</span>
             <span class="lang-en">Privacy Policy</span>
+            <span class="lang-fr">Politique de confidentialit&eacute;</span>
+            <span class="lang-es">Pol&iacute;tica de privacidad</span>
+            <span class="lang-it">Informativa sulla privacy</span>
         </h1>
 
         <!-- German Privacy Policy -->
@@ -567,6 +636,363 @@
                 </div>
             </div>
         </div>
+
+        <!-- French Privacy Policy -->
+        <div class="lang-fr">
+            <div class="legal-section">
+                <p class="last-updated">Derni&egrave;re mise &agrave; jour : F&eacute;vrier 2026</p>
+                <div class="legal-content">
+                    <h3>Responsable du traitement</h3>
+                    <p>Le responsable du traitement des donn&eacute;es au sens du RGPD est :</p>
+                    <p>Fyn Meyer<br>
+                    Flandernstrasse 6<br>
+                    53859 Niederkassel<br>
+                    Allemagne</p>
+                    <p>E-mail : <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a></p>
+                    <p>Aucun d&eacute;l&eacute;gu&eacute; &agrave; la protection des donn&eacute;es n'a &eacute;t&eacute; d&eacute;sign&eacute;, car les activit&eacute;s de traitement ne l'exigent pas en vertu de l'art. 37 RGPD (pas de traitement &agrave; grande &eacute;chelle de donn&eacute;es sensibles ni d'autorit&eacute; publique).</p>
+
+                    <h3>Aper&ccedil;u du traitement des donn&eacute;es</h3>
+                    <p>FlowRead est une application de lecture rapide con&ccedil;ue pour vous aider &agrave; lire les textes plus rapidement. Pour fournir nos services, nous traitons certaines donn&eacute;es personnelles. Nous prenons tr&egrave;s au s&eacute;rieux la protection de vos donn&eacute;es personnelles et les traitons de mani&egrave;re confidentielle, conform&eacute;ment aux r&eacute;glementations l&eacute;gales en mati&egrave;re de protection des donn&eacute;es, notamment le RGPD, et &agrave; la pr&eacute;sente politique de confidentialit&eacute;. Le traitement est effectu&eacute; de mani&egrave;re transparente, &agrave; des fins sp&eacute;cifiques et avec minimisation des donn&eacute;es.</p>
+
+                    <h3>Donn&eacute;es collect&eacute;es</h3>
+                    <p>Nous collectons et traitons les cat&eacute;gories suivantes de donn&eacute;es personnelles :</p>
+                    <ul>
+                        <li>Adresse e-mail (pour la cr&eacute;ation de compte et la connexion)</li>
+                        <li>Nom d'utilisateur/nom d'affichage (facultatif, d&eacute;fini par vous)</li>
+                        <li>Historique de lecture (textes lus, vitesse de lecture, progression)</li>
+                        <li>Param&egrave;tres de l'application (pr&eacute;f&eacute;rence linguistique, th&egrave;me, vitesse de lecture pr&eacute;f&eacute;r&eacute;e)</li>
+                        <li>Horodatage de connexion et pr&eacute;f&eacute;rence "Rester connect&eacute;"</li>
+                    </ul>
+                    <p>Nous ne collectons <strong>PAS</strong> :</p>
+                    <ul>
+                        <li>Donn&eacute;es de localisation</li>
+                        <li>Coordonn&eacute;es (sauf l'e-mail pour le compte)</li>
+                        <li>Informations de paiement (actuellement)</li>
+                        <li>Donn&eacute;es biom&eacute;triques</li>
+                    </ul>
+
+                    <h3>Finalit&eacute; du traitement des donn&eacute;es</h3>
+                    <p>Vos donn&eacute;es sont trait&eacute;es aux fins suivantes :</p>
+                    <ul>
+                        <li>Fourniture et gestion de votre compte utilisateur</li>
+                        <li>Stockage de votre historique de lecture pour le suivi de progression</li>
+                        <li>Personnalisation des param&egrave;tres de l'application</li>
+                        <li>Am&eacute;lioration de nos services (par ex., par des analyses anonymis&eacute;es)</li>
+                        <li>Communication concernant votre compte (par ex., r&eacute;initialisation du mot de passe)</li>
+                    </ul>
+                    <p><strong>Base juridique :</strong> Art. 6(1)(b) RGPD (ex&eacute;cution d'un contrat auquel vous &ecirc;tes partie) et Art. 6(1)(f) RGPD (int&eacute;r&ecirc;t l&eacute;gitime &agrave; fournir et am&eacute;liorer l'application). Aucune prise de d&eacute;cision automatis&eacute;e, y compris le profilage au sens de l'art. 22 RGPD, n'a lieu.</p>
+
+                    <h3>Stockage et s&eacute;curit&eacute; des donn&eacute;es</h3>
+                    <p>Vos donn&eacute;es sont stock&eacute;es sur les serveurs Google Firebase :</p>
+                    <ul>
+                        <li>Emplacement du serveur : &Eacute;tats-Unis</li>
+                        <li>Fournisseur : Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA</li>
+                        <li>Firebase est certifi&eacute; dans le cadre du EU-US Data Privacy Framework</li>
+                        <li>Toutes les donn&eacute;es sont chiffr&eacute;es en transit (TLS/SSL)</li>
+                        <li>Toutes les donn&eacute;es sont chiffr&eacute;es au repos (AES-256)</li>
+                        <li>Les mots de passe sont hach&eacute;s et sal&eacute;s (jamais stock&eacute;s en clair)</li>
+                    </ul>
+                    <p>Le transfert de donn&eacute;es vers les &Eacute;tats-Unis est bas&eacute; sur le EU-US Data Privacy Framework et compl&eacute;mentairement sur les Clauses Contractuelles Types de la Commission Europ&eacute;enne (Art. 46(2)(c) RGPD). Nous avons conclu un accord de traitement des donn&eacute;es avec Google pour garantir la protection des donn&eacute;es.</p>
+
+                    <h3>Dur&eacute;e de conservation</h3>
+                    <ul>
+                        <li>Donn&eacute;es de compte : Jusqu'&agrave; la suppression de votre compte</li>
+                        <li>Historique de lecture : Jusqu'&agrave; la suppression de votre compte ou suppression manuelle par vous</li>
+                        <li>Param&egrave;tres de l'application : Jusqu'&agrave; la suppression de votre compte</li>
+                        <li>Sessions "Rester connect&eacute;" : Maximum 30 jours</li>
+                    </ul>
+                    <p>Apr&egrave;s la suppression de votre compte, toutes les donn&eacute;es associ&eacute;es seront supprim&eacute;es de nos syst&egrave;mes dans un d&eacute;lai de 30 jours. Les donn&eacute;es anonymis&eacute;es peuvent &ecirc;tre conserv&eacute;es plus longtemps &agrave; des fins statistiques sans pouvoir vous &ecirc;tre attribu&eacute;es.</p>
+
+                    <h3>Vos droits</h3>
+                    <p>En vertu du RGPD, vous disposez des droits suivants :</p>
+                    <ul>
+                        <li><strong>Droit d'acc&egrave;s (Art. 15 RGPD) :</strong> Vous pouvez demander des informations sur vos donn&eacute;es stock&eacute;es.</li>
+                        <li><strong>Droit de rectification (Art. 16 RGPD) :</strong> Vous pouvez demander la correction de donn&eacute;es inexactes.</li>
+                        <li><strong>Droit &agrave; l'effacement (Art. 17 RGPD) :</strong> Vous pouvez demander la suppression de vos donn&eacute;es, sauf si des obligations l&eacute;gales de conservation s'appliquent.</li>
+                        <li><strong>Droit &agrave; la limitation du traitement (Art. 18 RGPD) :</strong> Vous pouvez demander la limitation du traitement.</li>
+                        <li><strong>Droit &agrave; la portabilit&eacute; des donn&eacute;es (Art. 20 RGPD) :</strong> Vous pouvez recevoir vos donn&eacute;es dans un format structur&eacute;, couramment utilis&eacute; et lisible par machine.</li>
+                        <li><strong>Droit d'opposition (Art. 21 RGPD) :</strong> Vous pouvez vous opposer au traitement pour des raisons tenant &agrave; votre situation particuli&egrave;re, notamment lorsque le traitement est fond&eacute; sur des int&eacute;r&ecirc;ts l&eacute;gitimes.</li>
+                    </ul>
+                    <p>Si le traitement est fond&eacute; sur le consentement (ce qui n'est pas le cas ici), vous avez le droit de le retirer &agrave; tout moment sans affecter la l&eacute;galit&eacute; du traitement ant&eacute;rieur au retrait. Pour exercer vos droits, veuillez nous contacter &agrave; l'adresse ci-dessus. Vous avez &eacute;galement le droit de d&eacute;poser une plainte aupr&egrave;s d'une autorit&eacute; de contr&ocirc;le de la protection des donn&eacute;es (par ex., l'autorit&eacute; de protection des donn&eacute;es de Rh&eacute;nanie-du-Nord-Westphalie).</p>
+
+                    <h3>Cookies et suivi</h3>
+                    <p>FlowRead <strong>n'utilise PAS</strong> :</p>
+                    <ul>
+                        <li>Cookies</li>
+                        <li>Pixels de suivi</li>
+                        <li>Outils d'analyse tiers</li>
+                        <li>Identifiants publicitaires</li>
+                        <li>Technologies de fingerprinting</li>
+                    </ul>
+                    <p>L'application stocke uniquement des param&egrave;tres locaux sur votre appareil (par ex., via AsyncStorage) qui sont n&eacute;cessaires au fonctionnement de l'application et ne nous sont pas transmis.</p>
+
+                    <h3>Navigateur int&eacute;gr&eacute;</h3>
+                    <p>FlowRead comprend un navigateur int&eacute;gr&eacute; pour charger des articles depuis le web. Le navigateur int&eacute;gr&eacute; peut stocker des cookies des sites web visit&eacute;s. Ces cookies sont :</p>
+                    <ul>
+                        <li>NON d&eacute;finis par FlowRead</li>
+                        <li>NON lus par FlowRead</li>
+                        <li>NON transmis aux serveurs FlowRead</li>
+                        <li>Automatiquement supprim&eacute;s &agrave; la fermeture du navigateur</li>
+                    </ul>
+                    <p>Vous pouvez supprimer toutes les donn&eacute;es du navigateur &agrave; tout moment sous : Param&egrave;tres &gt; Navigateur et confidentialit&eacute; &gt; Effacer les donn&eacute;es du navigateur</p>
+
+                    <h3>Divulgation &agrave; des tiers</h3>
+                    <p>Vos donn&eacute;es ne sont <strong>PAS</strong> partag&eacute;es avec, vendues &agrave;, ou utilis&eacute;es &agrave; des fins publicitaires par des tiers. La seule exception est le stockage technique avec Google Firebase en tant que sous-traitant. Il n'y a pas de divulgation &agrave; d'autres destinataires.</p>
+
+                    <h3>Mineurs</h3>
+                    <p>FlowRead ne s'adresse pas aux enfants de moins de 16 ans. Nous ne collectons pas sciemment de donn&eacute;es personnelles d'enfants de moins de 16 ans. Si nous d&eacute;couvrons que de telles donn&eacute;es ont &eacute;t&eacute; collect&eacute;es, nous les supprimerons imm&eacute;diatement. Pour les utilisateurs de moins de 16 ans, le consentement parental est requis (Art. 8 RGPD).</p>
+
+                    <h3>Modifications</h3>
+                    <p>Nous nous r&eacute;servons le droit de modifier cette politique de confidentialit&eacute; pour l'adapter aux &eacute;volutions juridiques ou aux modifications de nos services. Les modifications seront publi&eacute;es sur notre site web/application, et nous vous informerons des modifications importantes par e-mail.</p>
+
+                    <h3>Contact</h3>
+                    <p>Pour toute question concernant la protection des donn&eacute;es, vous pouvez nous contacter &agrave; :</p>
+                    <p>Fyn Meyer<br>
+                    Flandernstrasse 6<br>
+                    53859 Niederkassel<br>
+                    Allemagne</p>
+                    <p>E-mail : <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spanish Privacy Policy -->
+        <div class="lang-es">
+            <div class="legal-section">
+                <p class="last-updated">&Uacute;ltima actualizaci&oacute;n: Febrero 2026</p>
+                <div class="legal-content">
+                    <h3>Responsable del tratamiento</h3>
+                    <p>El responsable del tratamiento de datos en virtud del RGPD es:</p>
+                    <p>Fyn Meyer<br>
+                    Flandernstrasse 6<br>
+                    53859 Niederkassel<br>
+                    Alemania</p>
+                    <p>Correo electr&oacute;nico: <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a></p>
+                    <p>No se ha designado un delegado de protecci&oacute;n de datos, ya que las actividades de tratamiento no lo requieren seg&uacute;n el Art. 37 RGPD (no hay tratamiento a gran escala de datos sensibles ni autoridad p&uacute;blica).</p>
+
+                    <h3>Resumen del tratamiento de datos</h3>
+                    <p>FlowRead es una aplicaci&oacute;n de lectura r&aacute;pida dise&ntilde;ada para ayudarte a leer textos m&aacute;s r&aacute;pido. Para proporcionar nuestros servicios, procesamos ciertos datos personales. Nos tomamos muy en serio la protecci&oacute;n de tus datos personales y los tratamos de forma confidencial y de acuerdo con las normativas legales de protecci&oacute;n de datos, en particular el RGPD, y esta pol&iacute;tica de privacidad. El tratamiento se realiza de forma transparente, con fines espec&iacute;ficos y con minimizaci&oacute;n de datos.</p>
+
+                    <h3>Datos recopilados</h3>
+                    <p>Recopilamos y procesamos las siguientes categor&iacute;as de datos personales:</p>
+                    <ul>
+                        <li>Direcci&oacute;n de correo electr&oacute;nico (para la creaci&oacute;n de cuenta e inicio de sesi&oacute;n)</li>
+                        <li>Nombre de usuario/nombre para mostrar (opcional, establecido por ti)</li>
+                        <li>Historial de lectura (textos le&iacute;dos, velocidad de lectura, progreso)</li>
+                        <li>Configuraci&oacute;n de la aplicaci&oacute;n (preferencia de idioma, tema, velocidad de lectura preferida)</li>
+                        <li>Marca de tiempo de inicio de sesi&oacute;n y preferencia "Mantener sesi&oacute;n iniciada"</li>
+                    </ul>
+                    <p><strong>NO</strong> recopilamos:</p>
+                    <ul>
+                        <li>Datos de ubicaci&oacute;n</li>
+                        <li>Informaci&oacute;n de contacto (excepto el correo electr&oacute;nico para fines de la cuenta)</li>
+                        <li>Informaci&oacute;n de pago (actualmente)</li>
+                        <li>Datos biom&eacute;tricos</li>
+                    </ul>
+
+                    <h3>Finalidad del tratamiento de datos</h3>
+                    <p>Tus datos se procesan para los siguientes fines:</p>
+                    <ul>
+                        <li>Proporcionar y gestionar tu cuenta de usuario</li>
+                        <li>Almacenar tu historial de lectura para el seguimiento del progreso</li>
+                        <li>Personalizar la configuraci&oacute;n de la aplicaci&oacute;n</li>
+                        <li>Mejorar nuestros servicios (por ej., mediante an&aacute;lisis anonimizados)</li>
+                        <li>Comunicaci&oacute;n relacionada con tu cuenta (por ej., restablecimiento de contrase&ntilde;a)</li>
+                    </ul>
+                    <p><strong>Base legal:</strong> Art. 6(1)(b) RGPD (ejecuci&oacute;n de un contrato del que eres parte) y Art. 6(1)(f) RGPD (inter&eacute;s leg&iacute;timo en proporcionar y mejorar la aplicaci&oacute;n). No se realiza ninguna toma de decisiones automatizada, incluyendo la elaboraci&oacute;n de perfiles en el sentido del Art. 22 RGPD.</p>
+
+                    <h3>Almacenamiento y seguridad de datos</h3>
+                    <p>Tus datos se almacenan en los servidores de Google Firebase:</p>
+                    <ul>
+                        <li>Ubicaci&oacute;n del servidor: EE.UU.</li>
+                        <li>Proveedor: Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, EE.UU.</li>
+                        <li>Firebase est&aacute; certificado bajo el Marco de Privacidad de Datos UE-EE.UU.</li>
+                        <li>Todos los datos est&aacute;n cifrados en tr&aacute;nsito (TLS/SSL)</li>
+                        <li>Todos los datos est&aacute;n cifrados en reposo (AES-256)</li>
+                        <li>Las contrase&ntilde;as est&aacute;n hasheadas y saladas (nunca almacenadas en texto plano)</li>
+                    </ul>
+                    <p>La transferencia de datos a EE.UU. se basa en el Marco de Privacidad de Datos UE-EE.UU. y adicionalmente en las Cl&aacute;usulas Contractuales Tipo de la Comisi&oacute;n Europea (Art. 46(2)(c) RGPD). Hemos celebrado un acuerdo de procesamiento de datos con Google para garantizar la protecci&oacute;n de datos.</p>
+
+                    <h3>Duraci&oacute;n del almacenamiento</h3>
+                    <ul>
+                        <li>Datos de la cuenta: Hasta la eliminaci&oacute;n de tu cuenta</li>
+                        <li>Historial de lectura: Hasta la eliminaci&oacute;n de tu cuenta o eliminaci&oacute;n manual por tu parte</li>
+                        <li>Configuraci&oacute;n de la aplicaci&oacute;n: Hasta la eliminaci&oacute;n de tu cuenta</li>
+                        <li>Sesiones "Mantener sesi&oacute;n iniciada": M&aacute;ximo 30 d&iacute;as</li>
+                    </ul>
+                    <p>Despu&eacute;s de la eliminaci&oacute;n de tu cuenta, todos los datos asociados ser&aacute;n eliminados de nuestros sistemas en un plazo de 30 d&iacute;as. Los datos anonimizados pueden conservarse m&aacute;s tiempo con fines estad&iacute;sticos sin que puedan atribuirse a ti.</p>
+
+                    <h3>Tus derechos</h3>
+                    <p>Seg&uacute;n el RGPD, tienes los siguientes derechos:</p>
+                    <ul>
+                        <li><strong>Derecho de acceso (Art. 15 RGPD):</strong> Puedes solicitar informaci&oacute;n sobre tus datos almacenados.</li>
+                        <li><strong>Derecho de rectificaci&oacute;n (Art. 16 RGPD):</strong> Puedes solicitar la correcci&oacute;n de datos inexactos.</li>
+                        <li><strong>Derecho de supresi&oacute;n (Art. 17 RGPD):</strong> Puedes solicitar la eliminaci&oacute;n de tus datos, siempre que no se apliquen obligaciones legales de conservaci&oacute;n.</li>
+                        <li><strong>Derecho a la limitaci&oacute;n del tratamiento (Art. 18 RGPD):</strong> Puedes solicitar la limitaci&oacute;n del tratamiento.</li>
+                        <li><strong>Derecho a la portabilidad de datos (Art. 20 RGPD):</strong> Puedes recibir tus datos en un formato estructurado, de uso com&uacute;n y lectura mec&aacute;nica.</li>
+                        <li><strong>Derecho de oposici&oacute;n (Art. 21 RGPD):</strong> Puedes oponerte al tratamiento por motivos relacionados con tu situaci&oacute;n particular, especialmente cuando el tratamiento se base en intereses leg&iacute;timos.</li>
+                    </ul>
+                    <p>Si el tratamiento se basa en el consentimiento (que no es el caso aqu&iacute;), tienes derecho a retirarlo en cualquier momento sin afectar la legalidad del tratamiento anterior a la retirada. Para ejercer tus derechos, ponte en contacto con nosotros en la direcci&oacute;n anterior. Tambi&eacute;n tienes derecho a presentar una reclamaci&oacute;n ante una autoridad de control de protecci&oacute;n de datos (por ej., la Autoridad de Protecci&oacute;n de Datos de Renania del Norte-Westfalia).</p>
+
+                    <h3>Cookies y seguimiento</h3>
+                    <p>FlowRead <strong>NO</strong> utiliza:</p>
+                    <ul>
+                        <li>Cookies</li>
+                        <li>P&iacute;xeles de seguimiento</li>
+                        <li>Herramientas de an&aacute;lisis de terceros</li>
+                        <li>Identificadores publicitarios</li>
+                        <li>Tecnolog&iacute;as de fingerprinting</li>
+                    </ul>
+                    <p>La aplicaci&oacute;n solo almacena configuraciones locales en tu dispositivo (por ej., a trav&eacute;s de AsyncStorage) que son necesarias para la funcionalidad de la aplicaci&oacute;n y no se nos transmiten.</p>
+
+                    <h3>Navegador integrado</h3>
+                    <p>FlowRead incluye un navegador integrado para cargar art&iacute;culos desde la web. El navegador integrado puede almacenar cookies de los sitios web visitados. Estas cookies:</p>
+                    <ul>
+                        <li>NO son establecidas por FlowRead</li>
+                        <li>NO son le&iacute;das por FlowRead</li>
+                        <li>NO se transmiten a los servidores de FlowRead</li>
+                        <li>Se eliminan autom&aacute;ticamente al cerrar el navegador</li>
+                    </ul>
+                    <p>Puedes eliminar todos los datos del navegador en cualquier momento en: Configuraci&oacute;n &gt; Navegador y privacidad &gt; Borrar datos del navegador</p>
+
+                    <h3>Divulgaci&oacute;n a terceros</h3>
+                    <p>Tus datos <strong>NO</strong> se comparten con terceros, no se venden ni se utilizan con fines publicitarios. La &uacute;nica excepci&oacute;n es el almacenamiento t&eacute;cnico con Google Firebase como encargado del tratamiento. No hay divulgaci&oacute;n a otros destinatarios.</p>
+
+                    <h3>Menores</h3>
+                    <p>FlowRead no est&aacute; dirigido a ni&ntilde;os menores de 16 a&ntilde;os. No recopilamos conscientemente datos personales de ni&ntilde;os menores de 16 a&ntilde;os. Si descubrimos que se han recopilado tales datos, los eliminaremos inmediatamente. Para usuarios menores de 16 a&ntilde;os, se requiere el consentimiento de los padres (Art. 8 RGPD).</p>
+
+                    <h3>Cambios</h3>
+                    <p>Nos reservamos el derecho de modificar esta pol&iacute;tica de privacidad para adaptarla a cambios legales o cuando se realicen cambios en nuestros servicios. Los cambios se publicar&aacute;n en nuestro sitio web/aplicaci&oacute;n, y te informaremos de los cambios importantes por correo electr&oacute;nico.</p>
+
+                    <h3>Contacto</h3>
+                    <p>Para preguntas sobre protecci&oacute;n de datos, puedes contactarnos en:</p>
+                    <p>Fyn Meyer<br>
+                    Flandernstrasse 6<br>
+                    53859 Niederkassel<br>
+                    Alemania</p>
+                    <p>Correo electr&oacute;nico: <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Italian Privacy Policy -->
+        <div class="lang-it">
+            <div class="legal-section">
+                <p class="last-updated">Ultimo aggiornamento: Febbraio 2026</p>
+                <div class="legal-content">
+                    <h3>Titolare del trattamento</h3>
+                    <p>Il titolare del trattamento dei dati ai sensi del GDPR &egrave;:</p>
+                    <p>Fyn Meyer<br>
+                    Flandernstrasse 6<br>
+                    53859 Niederkassel<br>
+                    Germania</p>
+                    <p>E-mail: <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a></p>
+                    <p>Non &egrave; stato nominato un responsabile della protezione dei dati, in quanto le attivit&agrave; di trattamento non lo richiedono ai sensi dell'Art. 37 GDPR (nessun trattamento su larga scala di dati sensibili o autorit&agrave; pubblica).</p>
+
+                    <h3>Panoramica del trattamento dei dati</h3>
+                    <p>FlowRead &egrave; un'applicazione di lettura veloce progettata per aiutarti a leggere i testi pi&ugrave; rapidamente. Per fornire i nostri servizi, elaboriamo alcuni dati personali. Prendiamo molto seriamente la protezione dei tuoi dati personali e li trattiamo in modo confidenziale e in conformit&agrave; con le normative legali sulla protezione dei dati, in particolare il GDPR, e questa informativa sulla privacy. Il trattamento viene effettuato in modo trasparente, per scopi specifici e con minimizzazione dei dati.</p>
+
+                    <h3>Dati raccolti</h3>
+                    <p>Raccogliamo e trattiamo le seguenti categorie di dati personali:</p>
+                    <ul>
+                        <li>Indirizzo e-mail (per la creazione dell'account e l'accesso)</li>
+                        <li>Nome utente/nome visualizzato (facoltativo, impostato da te)</li>
+                        <li>Cronologia di lettura (testi letti, velocit&agrave; di lettura, progressi)</li>
+                        <li>Impostazioni dell'app (preferenza lingua, tema, velocit&agrave; di lettura preferita)</li>
+                        <li>Timestamp di accesso e preferenza "Resta connesso"</li>
+                    </ul>
+                    <p><strong>NON</strong> raccogliamo:</p>
+                    <ul>
+                        <li>Dati di localizzazione</li>
+                        <li>Informazioni di contatto (eccetto l'e-mail per scopi dell'account)</li>
+                        <li>Informazioni di pagamento (attualmente)</li>
+                        <li>Dati biometrici</li>
+                    </ul>
+
+                    <h3>Finalit&agrave; del trattamento dei dati</h3>
+                    <p>I tuoi dati vengono trattati per le seguenti finalit&agrave;:</p>
+                    <ul>
+                        <li>Fornire e gestire il tuo account utente</li>
+                        <li>Memorizzare la tua cronologia di lettura per il monitoraggio dei progressi</li>
+                        <li>Personalizzare le impostazioni dell'app</li>
+                        <li>Migliorare i nostri servizi (ad es., attraverso analisi anonimizzate)</li>
+                        <li>Comunicazione riguardante il tuo account (ad es., reimpostazione della password)</li>
+                    </ul>
+                    <p><strong>Base giuridica:</strong> Art. 6(1)(b) GDPR (esecuzione di un contratto di cui sei parte) e Art. 6(1)(f) GDPR (interesse legittimo a fornire e migliorare l'app). Non viene effettuato alcun processo decisionale automatizzato, inclusa la profilazione ai sensi dell'Art. 22 GDPR.</p>
+
+                    <h3>Archiviazione e sicurezza dei dati</h3>
+                    <p>I tuoi dati sono archiviati sui server di Google Firebase:</p>
+                    <ul>
+                        <li>Posizione del server: USA</li>
+                        <li>Fornitore: Google LLC, 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA</li>
+                        <li>Firebase &egrave; certificato secondo l'EU-US Data Privacy Framework</li>
+                        <li>Tutti i dati sono crittografati in transito (TLS/SSL)</li>
+                        <li>Tutti i dati sono crittografati a riposo (AES-256)</li>
+                        <li>Le password sono hashate e salate (mai memorizzate in chiaro)</li>
+                    </ul>
+                    <p>Il trasferimento dei dati negli USA si basa sull'EU-US Data Privacy Framework e in aggiunta sulle Clausole Contrattuali Standard della Commissione Europea (Art. 46(2)(c) GDPR). Abbiamo concluso un accordo per il trattamento dei dati con Google per garantire la protezione dei dati.</p>
+
+                    <h3>Durata della conservazione</h3>
+                    <ul>
+                        <li>Dati dell'account: Fino alla cancellazione del tuo account</li>
+                        <li>Cronologia di lettura: Fino alla cancellazione del tuo account o cancellazione manuale da parte tua</li>
+                        <li>Impostazioni dell'app: Fino alla cancellazione del tuo account</li>
+                        <li>Sessioni "Resta connesso": Massimo 30 giorni</li>
+                    </ul>
+                    <p>Dopo la cancellazione del tuo account, tutti i dati associati saranno rimossi dai nostri sistemi entro 30 giorni. I dati anonimizzati possono essere conservati pi&ugrave; a lungo per scopi statistici senza essere attribuibili a te.</p>
+
+                    <h3>I tuoi diritti</h3>
+                    <p>Ai sensi del GDPR, hai i seguenti diritti:</p>
+                    <ul>
+                        <li><strong>Diritto di accesso (Art. 15 GDPR):</strong> Puoi richiedere informazioni sui tuoi dati memorizzati.</li>
+                        <li><strong>Diritto di rettifica (Art. 16 GDPR):</strong> Puoi richiedere la correzione di dati inesatti.</li>
+                        <li><strong>Diritto alla cancellazione (Art. 17 GDPR):</strong> Puoi richiedere la cancellazione dei tuoi dati, a condizione che non si applichino obblighi legali di conservazione.</li>
+                        <li><strong>Diritto alla limitazione del trattamento (Art. 18 GDPR):</strong> Puoi richiedere la limitazione del trattamento.</li>
+                        <li><strong>Diritto alla portabilit&agrave; dei dati (Art. 20 GDPR):</strong> Puoi ricevere i tuoi dati in un formato strutturato, di uso comune e leggibile da dispositivo automatico.</li>
+                        <li><strong>Diritto di opposizione (Art. 21 GDPR):</strong> Puoi opporti al trattamento per motivi connessi alla tua situazione particolare, specialmente quando il trattamento si basa su interessi legittimi.</li>
+                    </ul>
+                    <p>Se il trattamento si basa sul consenso (che non &egrave; il caso qui), hai il diritto di revocarlo in qualsiasi momento senza pregiudicare la legalit&agrave; del trattamento effettuato prima della revoca. Per esercitare i tuoi diritti, contattaci all'indirizzo sopra indicato. Hai anche il diritto di presentare un reclamo presso un'autorit&agrave; di controllo per la protezione dei dati (ad es., l'Autorit&agrave; per la protezione dei dati della Renania Settentrionale-Vestfalia).</p>
+
+                    <h3>Cookie e tracciamento</h3>
+                    <p>FlowRead <strong>NON</strong> utilizza:</p>
+                    <ul>
+                        <li>Cookie</li>
+                        <li>Pixel di tracciamento</li>
+                        <li>Strumenti di analisi di terze parti</li>
+                        <li>ID pubblicitari</li>
+                        <li>Tecnologie di fingerprinting</li>
+                    </ul>
+                    <p>L'app memorizza solo impostazioni locali sul tuo dispositivo (ad es., tramite AsyncStorage) che sono necessarie per la funzionalit&agrave; dell'app e non ci vengono trasmesse.</p>
+
+                    <h3>Browser integrato</h3>
+                    <p>FlowRead include un browser integrato per caricare articoli dal web. Il browser integrato pu&ograve; memorizzare cookie dei siti web visitati. Questi cookie:</p>
+                    <ul>
+                        <li>NON sono impostati da FlowRead</li>
+                        <li>NON sono letti da FlowRead</li>
+                        <li>NON sono trasmessi ai server di FlowRead</li>
+                        <li>Vengono automaticamente eliminati alla chiusura del browser</li>
+                    </ul>
+                    <p>Puoi eliminare tutti i dati del browser in qualsiasi momento in: Impostazioni &gt; Browser e privacy &gt; Cancella dati del browser</p>
+
+                    <h3>Divulgazione a terzi</h3>
+                    <p>I tuoi dati <strong>NON</strong> sono condivisi con, venduti a, o utilizzati per scopi pubblicitari da terze parti. L'unica eccezione &egrave; l'archiviazione tecnica con Google Firebase come responsabile del trattamento. Non c'&egrave; divulgazione ad altri destinatari.</p>
+
+                    <h3>Minori</h3>
+                    <p>FlowRead non &egrave; rivolto a bambini di et&agrave; inferiore a 16 anni. Non raccogliamo consapevolmente dati personali da bambini di et&agrave; inferiore a 16 anni. Se scopriamo che tali dati sono stati raccolti, li cancelleremo immediatamente. Per gli utenti di et&agrave; inferiore a 16 anni, &egrave; richiesto il consenso dei genitori (Art. 8 GDPR).</p>
+
+                    <h3>Modifiche</h3>
+                    <p>Ci riserviamo il diritto di modificare questa informativa sulla privacy per adattarla a situazioni legali modificate o quando vengono apportate modifiche ai nostri servizi. Le modifiche saranno pubblicate sul nostro sito web/app e ti informeremo delle modifiche sostanziali via e-mail.</p>
+
+                    <h3>Contatto</h3>
+                    <p>Per domande sulla protezione dei dati, puoi contattarci a:</p>
+                    <p>Fyn Meyer<br>
+                    Flandernstrasse 6<br>
+                    53859 Niederkassel<br>
+                    Germania</p>
+                    <p>E-mail: <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a></p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -575,39 +1001,77 @@
                 <a href="datenschutz.html">
                     <span class="lang-de-inline">Datenschutz</span>
                     <span class="lang-en-inline">Privacy Policy</span>
+                    <span class="lang-fr-inline">Confidentialit&eacute;</span>
+                    <span class="lang-es-inline">Privacidad</span>
+                    <span class="lang-it-inline">Privacy</span>
                 </a>
                 <span class="separator">&middot;</span>
                 <a href="nutzungsbedingungen.html">
                     <span class="lang-de-inline">AGB</span>
                     <span class="lang-en-inline">Terms of Service</span>
+                    <span class="lang-fr-inline">CGU</span>
+                    <span class="lang-es-inline">T&eacute;rminos</span>
+                    <span class="lang-it-inline">Termini</span>
                 </a>
                 <span class="separator">&middot;</span>
                 <a href="impressum.html">
                     <span class="lang-de-inline">Impressum</span>
                     <span class="lang-en-inline">Legal Notice</span>
+                    <span class="lang-fr-inline">Mentions l&eacute;gales</span>
+                    <span class="lang-es-inline">Aviso legal</span>
+                    <span class="lang-it-inline">Note legali</span>
                 </a>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 FlowRead. <span class="lang-de-inline">Alle Rechte vorbehalten.</span><span class="lang-en-inline">All rights reserved.</span></p>
+                <p>&copy; 2025 FlowRead.
+                    <span class="lang-de-inline">Alle Rechte vorbehalten.</span>
+                    <span class="lang-en-inline">All rights reserved.</span>
+                    <span class="lang-fr-inline">Tous droits r&eacute;serv&eacute;s.</span>
+                    <span class="lang-es-inline">Todos los derechos reservados.</span>
+                    <span class="lang-it-inline">Tutti i diritti riservati.</span>
+                </p>
             </div>
         </div>
     </footer>
 
     <script>
-        function toggleLanguage() {
-            const body = document.body;
-            const currentLang = body.getAttribute('data-lang');
-            const newLang = currentLang === 'de' ? 'en' : 'de';
-            body.setAttribute('data-lang', newLang);
-            document.documentElement.lang = newLang;
-            localStorage.setItem('flowread-lang', newLang);
+        function toggleLangMenu() {
+            const menu = document.getElementById('langMenu');
+            menu.classList.toggle('show');
         }
 
-        const savedLang = localStorage.getItem('flowread-lang');
-        if (savedLang) {
-            document.body.setAttribute('data-lang', savedLang);
-            document.documentElement.lang = savedLang;
+        function setLanguage(lang) {
+            document.body.setAttribute('data-lang', lang);
+            document.documentElement.lang = lang;
+            localStorage.setItem('flowread-lang', lang);
+
+            // Update button text
+            const langNames = { de: 'DE', en: 'EN', fr: 'FR', es: 'ES', it: 'IT' };
+            document.querySelector('.current-lang').textContent = langNames[lang];
+
+            // Update active state in menu
+            document.querySelectorAll('.lang-menu a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('data-lang') === lang) {
+                    a.classList.add('active');
+                }
+            });
+
+            // Close menu
+            document.getElementById('langMenu').classList.remove('show');
         }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const dropdown = document.querySelector('.lang-dropdown');
+            if (!dropdown.contains(e.target)) {
+                document.getElementById('langMenu').classList.remove('show');
+            }
+        });
+
+        // Initialize language on page load
+        const savedLang = localStorage.getItem('flowread-lang') || 'de';
+        setLanguage(savedLang);
     </script>
 </body>
 </html>

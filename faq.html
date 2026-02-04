@@ -773,12 +773,100 @@
         }
 
         /* ===== LANGUAGE SWITCHING ===== */
-        .lang-de, .lang-en { display: none; }
+        .lang-de, .lang-en, .lang-fr, .lang-es, .lang-it { display: none; }
         [data-lang="de"] .lang-de { display: block; }
         [data-lang="en"] .lang-en { display: block; }
+        [data-lang="fr"] .lang-fr { display: block; }
+        [data-lang="es"] .lang-es { display: block; }
+        [data-lang="it"] .lang-it { display: block; }
+
+        .lang-de-inline, .lang-en-inline, .lang-fr-inline, .lang-es-inline, .lang-it-inline { display: none; }
         [data-lang="de"] .lang-de-inline { display: inline; }
         [data-lang="en"] .lang-en-inline { display: inline; }
-        .lang-de-inline, .lang-en-inline { display: none; }
+        [data-lang="fr"] .lang-fr-inline { display: inline; }
+        [data-lang="es"] .lang-es-inline { display: inline; }
+        [data-lang="it"] .lang-it-inline { display: inline; }
+
+        /* ===== LANGUAGE DROPDOWN ===== */
+        .lang-dropdown {
+            position: relative;
+        }
+
+        .lang-btn {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-family: var(--font-primary);
+            transition: all 0.3s var(--ease-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        .lang-btn:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--accent-start);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .lang-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: rgba(20, 20, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 0.5rem;
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s var(--ease-smooth);
+            z-index: 1001;
+        }
+
+        .lang-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            transition: all 0.2s var(--ease-smooth);
+            cursor: pointer;
+        }
+
+        .lang-menu a:hover {
+            background: var(--glass-bg-hover);
+            color: var(--text-primary);
+        }
+
+        .lang-menu a.active {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(124, 58, 237, 0.2));
+            color: var(--accent-start);
+        }
+
+        .lang-menu a::after {
+            display: none;
+        }
 
         /* ===== RESPONSIVE - MOBILE FIRST ===== */
 
@@ -943,14 +1031,21 @@
             <nav id="nav">
                 <button class="close-menu-btn" onclick="closeMenu()" aria-label="Close">&#10005;</button>
                 <a href="index.html#features" onclick="closeMenu()">Features</a>
-                <a href="datenschutz.html" class="lang-de-inline" onclick="closeMenu()">Datenschutz</a>
-                <a href="datenschutz.html" class="lang-en-inline" onclick="closeMenu()">Privacy</a>
-                <a href="index.html#support" onclick="closeMenu()">Support</a>
                 <a href="faq.html" class="active" onclick="closeMenu()">FAQ</a>
-                <button class="lang-switch" onclick="toggleLanguage()">
-                    <span class="lang-de-inline">EN</span>
-                    <span class="lang-en-inline">DE</span>
-                </button>
+                <a href="support.html" onclick="closeMenu()">Support</a>
+                <div class="lang-dropdown">
+                    <button class="lang-btn" onclick="toggleLangMenu()">
+                        <span class="current-lang">DE</span>
+                        <span>&#9662;</span>
+                    </button>
+                    <div class="lang-menu" id="langMenu">
+                        <a onclick="setLanguage('de')" data-lang="de">Deutsch</a>
+                        <a onclick="setLanguage('en')" data-lang="en">English</a>
+                        <a onclick="setLanguage('fr')" data-lang="fr">Français</a>
+                        <a onclick="setLanguage('es')" data-lang="es">Español</a>
+                        <a onclick="setLanguage('it')" data-lang="it">Italiano</a>
+                    </div>
+                </div>
             </nav>
         </div>
     </header>
@@ -960,8 +1055,11 @@
         <div class="page-header reveal">
             <h1 class="gradient-text">FAQ</h1>
             <p class="subtitle">
-                <span class="lang-de">Häufig gestellte Fragen</span>
+                <span class="lang-de">Haufig gestellte Fragen</span>
                 <span class="lang-en">Frequently Asked Questions</span>
+                <span class="lang-fr">Questions frequemment posees</span>
+                <span class="lang-es">Preguntas frecuentes</span>
+                <span class="lang-it">Domande frequenti</span>
             </p>
         </div>
 
@@ -978,22 +1076,37 @@
             <button class="faq-nav-btn active" onclick="filterCategory('all')">
                 <span class="lang-de-inline">Alle</span>
                 <span class="lang-en-inline">All</span>
+                <span class="lang-fr-inline">Tout</span>
+                <span class="lang-es-inline">Todo</span>
+                <span class="lang-it-inline">Tutto</span>
             </button>
             <button class="faq-nav-btn" onclick="filterCategory('start')">
                 <span class="lang-de-inline">Erste Schritte</span>
                 <span class="lang-en-inline">Getting Started</span>
+                <span class="lang-fr-inline">Demarrage</span>
+                <span class="lang-es-inline">Primeros pasos</span>
+                <span class="lang-it-inline">Per iniziare</span>
             </button>
             <button class="faq-nav-btn" onclick="filterCategory('usage')">
                 <span class="lang-de-inline">Nutzung</span>
                 <span class="lang-en-inline">Usage</span>
+                <span class="lang-fr-inline">Utilisation</span>
+                <span class="lang-es-inline">Uso</span>
+                <span class="lang-it-inline">Utilizzo</span>
             </button>
             <button class="faq-nav-btn" onclick="filterCategory('account')">
                 <span class="lang-de-inline">Konto</span>
                 <span class="lang-en-inline">Account</span>
+                <span class="lang-fr-inline">Compte</span>
+                <span class="lang-es-inline">Cuenta</span>
+                <span class="lang-it-inline">Account</span>
             </button>
             <button class="faq-nav-btn" onclick="filterCategory('tech')">
                 <span class="lang-de-inline">Technik</span>
                 <span class="lang-en-inline">Technical</span>
+                <span class="lang-fr-inline">Technique</span>
+                <span class="lang-es-inline">Tecnico</span>
+                <span class="lang-it-inline">Tecnico</span>
             </button>
         </div>
 
@@ -1626,6 +1739,951 @@
                 </div>
             </div>
         </div>
+
+        <!-- French FAQ -->
+        <div id="faq-fr" class="faq-section lang-fr">
+
+            <!-- Getting Started -->
+            <div class="faq-category reveal" data-category="start">
+                <div class="faq-category-header">
+                    <span class="icon">🚀</span>
+                    <h2 class="gradient-text">Demarrage</h2>
+                </div>
+
+                <div class="faq-item" data-search="flowread speed reading app rsvp lecture rapide">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Qu'est-ce que FlowRead?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>FlowRead est une application de lecture rapide qui vous aide a lire plus vite et a absorber plus d'informations en moins de temps. L'application utilise la methode RSVP (Rapid Serial Visual Presentation) scientifiquement prouvee.</p>
+                        <p><strong>Avantages:</strong></p>
+                        <ul>
+                            <li>Augmentez votre vitesse de lecture jusqu'a 200%</li>
+                            <li>Importez des textes du web, PDF ou EPUB</li>
+                            <li>Entrainement personnalise avec suivi des progres</li>
+                            <li>Mode hors ligne - lisez sans internet</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="speed reading fonctionne rsvp methode">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Comment fonctionne la lecture rapide?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>La lecture rapide est basee sur la methode RSVP (Rapid Serial Visual Presentation). Au lieu que vos yeux se deplacent sur le texte, les mots sont affiches un par un a un point fixe.</p>
+                        <p><strong>Principes cles:</strong></p>
+                        <ol>
+                            <li><strong>Point de fixation:</strong> Chaque mot est affiche a la meme position, vos yeux n'ont pas besoin de bouger.</li>
+                            <li><strong>Marquage ORP:</strong> Le "Point de Reconnaissance Optimal" de chaque mot est mis en evidence.</li>
+                            <li><strong>Reduction de la subvocalisation:</strong> La vitesse accrue reduit la vocalisation interne.</li>
+                            <li><strong>Augmentation progressive:</strong> Vous commencez a votre vitesse actuelle et progressez graduellement.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="vitesse lecture normale mpm mots par minute">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Quelle vitesse de lecture est normale?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Vitesses de lecture moyennes:</strong></p>
+                        <ul>
+                            <li><strong>200-250 MPM:</strong> Lecteur moyen</li>
+                            <li><strong>300-400 MPM:</strong> Bon lecteur</li>
+                            <li><strong>400-600 MPM:</strong> Lecteur rapide</li>
+                            <li><strong>600+ MPM:</strong> Speed reader</li>
+                        </ul>
+                        <p>Avec FlowRead, vous pouvez augmenter progressivement votre vitesse de 300 a 1200 MPM.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App Usage -->
+            <div class="faq-category reveal" data-category="usage">
+                <div class="faq-category-header">
+                    <span class="icon">📱</span>
+                    <h2 class="gradient-text">Utilisation de l'app</h2>
+                </div>
+
+                <div class="faq-item" data-search="importer textes web navigateur pdf epub">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Comment importer des textes?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Il y a plusieurs facons:</strong></p>
+                        <ol>
+                            <li><strong>Navigateur web:</strong> Ouvrez le navigateur integre, naviguez vers un article et appuyez sur "Lire"</li>
+                            <li><strong>Coller du texte:</strong> Copiez du texte et collez-le via "Coller du texte"</li>
+                            <li><strong>Fichiers:</strong> Importez des fichiers EPUB ou PDF depuis votre app Fichiers</li>
+                            <li><strong>Extension de partage:</strong> Partagez des articles directement depuis Safari vers FlowRead</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="changer vitesse mpm ajuster">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Comment changer la vitesse?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Pendant la lecture:</strong></p>
+                        <ul>
+                            <li>Appuyez sur l'ecran pour afficher les controles</li>
+                            <li>Utilisez les boutons +/- pour ajuster les MPM</li>
+                            <li>Balayez vers le haut/bas pour des ajustements rapides</li>
+                        </ul>
+                        <p><strong>Dans les parametres:</strong></p>
+                        <ul>
+                            <li>Ouvrez les parametres via l'icone d'engrenage</li>
+                            <li>Sous "Vitesse de lecture", vous pouvez definir vos MPM par defaut</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="mode adaptatif automatique complexite">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Qu'est-ce que le "Mode adaptatif"?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Le mode adaptatif ajuste automatiquement le temps d'affichage en fonction de la complexite de chaque mot:</p>
+                        <ul>
+                            <li><strong>Mots courts:</strong> Affiches plus rapidement</li>
+                            <li><strong>Mots longs:</strong> Ont plus de temps</li>
+                            <li><strong>Ponctuation:</strong> Pauses naturelles aux virgules et points</li>
+                            <li><strong>Mots courants:</strong> Sont reconnus plus rapidement</li>
+                        </ul>
+                        <p>Le resultat est un flux de lecture plus naturel tout en maintenant une vitesse elevee.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="hors ligne lire sans internet">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Puis-je lire hors ligne?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Oui!</strong> Tous les articles sauvegardes sont disponibles hors ligne.</p>
+                        <ul>
+                            <li>Les textes importes sont stockes localement sur votre appareil</li>
+                            <li>Les sessions d'entrainement fonctionnent sans internet</li>
+                            <li>Les statistiques se synchronisent lorsque vous etes de nouveau en ligne</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account & Subscription -->
+            <div class="faq-category reveal" data-category="account">
+                <div class="faq-category-header">
+                    <span class="icon">👤</span>
+                    <h2 class="gradient-text">Compte & Abonnement</h2>
+                </div>
+
+                <div class="faq-item" data-search="gratuit premium freemium prix cout">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>FlowRead est-il gratuit?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>FlowRead propose un <strong>modele Freemium</strong>:</p>
+                        <p><strong>Version gratuite:</strong></p>
+                        <ul>
+                            <li>Nombre limite de sessions de lecture par jour</li>
+                            <li>Acces aux fonctionnalites de base</li>
+                            <li>Suivi des progres</li>
+                        </ul>
+                        <p><strong>Version Premium:</strong></p>
+                        <ul>
+                            <li>Sessions de lecture illimitees</li>
+                            <li>Tous les modes d'entrainement</li>
+                            <li>Statistiques avancees</li>
+                            <li>Support prioritaire</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="annuler abonnement resilier">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Comment annuler mon abonnement?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Sur iPhone/iPad:</strong></p>
+                        <ol>
+                            <li>Ouvrez l'app <strong>Reglages</strong></li>
+                            <li>Appuyez sur votre nom (Apple ID) en haut</li>
+                            <li>Selectionnez <strong>Abonnements</strong></li>
+                            <li>Trouvez <strong>FlowRead</strong> dans la liste</li>
+                            <li>Appuyez sur <strong>Annuler l'abonnement</strong></li>
+                        </ol>
+                        <p><strong>Important:</strong> Votre abonnement reste actif jusqu'a la fin de la periode de facturation en cours.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="supprimer compte donnees">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Comment supprimer mon compte?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Dans l'application:</strong></p>
+                        <ol>
+                            <li>Ouvrez FlowRead</li>
+                            <li>Allez dans <strong>Parametres</strong></li>
+                            <li>Faites defiler jusqu'a <strong>Compte</strong></li>
+                            <li>Appuyez sur <strong>Supprimer le compte</strong></li>
+                            <li>Confirmez avec votre mot de passe</li>
+                        </ol>
+                        <p><strong>Ce qui se passe:</strong> Toutes les donnees personnelles sont supprimees dans les 30 jours. Cette action ne peut pas etre annulee.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="restaurer achats">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Comment restaurer mes achats?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <ol>
+                            <li>Ouvrez FlowRead</li>
+                            <li>Allez dans <strong>Parametres</strong></li>
+                            <li>Appuyez sur <strong>Gerer l'abonnement</strong> ou <strong>Premium</strong></li>
+                            <li>Appuyez sur <strong>Restaurer les achats</strong></li>
+                        </ol>
+                        <p><strong>Si ca ne fonctionne pas:</strong></p>
+                        <ul>
+                            <li>Assurez-vous d'etre connecte avec le meme Apple ID</li>
+                            <li>Verifiez votre connexion internet</li>
+                            <li>Contactez-nous a <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Issues -->
+            <div class="faq-category reveal" data-category="tech">
+                <div class="faq-category-header">
+                    <span class="icon">🔧</span>
+                    <h2 class="gradient-text">Problemes techniques</h2>
+                </div>
+
+                <div class="faq-item" data-search="app plante crash erreur redemarrer">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>L'app plante - que puis-je faire?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Essayez ces etapes:</strong></p>
+                        <ol>
+                            <li><strong>Redemarrez l'app:</strong> Fermez completement l'app et rouvrez-la</li>
+                            <li><strong>Redemarrez votre appareil:</strong> Parfois, redemarrer votre iPhone/iPad aide</li>
+                            <li><strong>Mettez a jour l'app:</strong> Assurez-vous d'avoir la derniere version</li>
+                            <li><strong>Mettez a jour iOS:</strong> Verifiez si une mise a jour iOS est disponible</li>
+                            <li><strong>Reinstallez l'app:</strong> Supprimez et reinstallez l'app</li>
+                        </ol>
+                        <p>Si le probleme persiste, contactez-nous avec les details de l'erreur.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="statistiques synchronisation sync cloud">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Mes statistiques ne se synchronisent pas</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Verifiez les points suivants:</strong></p>
+                        <ul>
+                            <li>Etes-vous connecte a internet?</li>
+                            <li>Etes-vous connecte a l'app?</li>
+                            <li>La synchronisation est-elle activee dans les parametres?</li>
+                        </ul>
+                        <p><strong>Synchronisation manuelle:</strong></p>
+                        <ol>
+                            <li>Ouvrez les Parametres</li>
+                            <li>Appuyez sur "Synchroniser maintenant"</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="texte extrait site web article">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Le texte n'est pas extrait correctement</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Parfois, les sites web ne peuvent pas etre extraits parfaitement. Essayez:</p>
+                        <ul>
+                            <li><strong>Mode lecteur:</strong> Activez le mode lecteur dans le navigateur avant l'importation</li>
+                            <li><strong>Copier le texte:</strong> Selectionnez le texte manuellement et utilisez "Coller du texte"</li>
+                            <li><strong>Source differente:</strong> Essayez une URL differente pour le meme article</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section French -->
+            <div class="contact-section reveal">
+                <h2 class="gradient-text">Question sans reponse?</h2>
+                <p class="subtitle">Contactez-nous directement - nous sommes la pour vous aider!</p>
+
+                <div class="contact-cards">
+                    <div class="contact-card">
+                        <div class="icon">🛠️</div>
+                        <h3>Support technique</h3>
+                        <p>Pour les problemes techniques, bugs ou erreurs</p>
+                        <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon">💡</div>
+                        <h3>Commentaires & Idees</h3>
+                        <p>Suggestions, demandes de fonctionnalites et ameliorations</p>
+                        <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon">💬</div>
+                        <h3>Questions generales</h3>
+                        <p>Toutes autres questions et preoccupations</p>
+                        <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spanish FAQ -->
+        <div id="faq-es" class="faq-section lang-es">
+
+            <!-- Getting Started -->
+            <div class="faq-category reveal" data-category="start">
+                <div class="faq-category-header">
+                    <span class="icon">🚀</span>
+                    <h2 class="gradient-text">Primeros pasos</h2>
+                </div>
+
+                <div class="faq-item" data-search="flowread speed reading app rsvp lectura rapida">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Que es FlowRead?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>FlowRead es una aplicacion de lectura rapida que te ayuda a leer mas rapido y absorber mas informacion en menos tiempo. La app utiliza el metodo RSVP (Rapid Serial Visual Presentation) cientificamente probado.</p>
+                        <p><strong>Beneficios:</strong></p>
+                        <ul>
+                            <li>Aumenta tu velocidad de lectura hasta un 200%</li>
+                            <li>Importa textos de la web, PDF o EPUB</li>
+                            <li>Entrenamiento personalizado con seguimiento de progreso</li>
+                            <li>Modo sin conexion - lee sin internet</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="lectura rapida funciona rsvp metodo">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Como funciona la lectura rapida?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>La lectura rapida se basa en el metodo RSVP (Rapid Serial Visual Presentation). En lugar de que tus ojos se muevan por el texto, las palabras se muestran una por una en un punto fijo.</p>
+                        <p><strong>Principios clave:</strong></p>
+                        <ol>
+                            <li><strong>Punto de fijacion:</strong> Cada palabra se muestra en la misma posicion, tus ojos no necesitan moverse.</li>
+                            <li><strong>Marcado ORP:</strong> El "Punto de Reconocimiento Optimo" de cada palabra esta resaltado.</li>
+                            <li><strong>Reduccion de subvocalizacion:</strong> La velocidad aumentada reduce la vocalizacion interna.</li>
+                            <li><strong>Aumento progresivo:</strong> Comienzas a tu velocidad actual y mejoras gradualmente.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="velocidad lectura normal ppm palabras por minuto">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Que velocidad de lectura es normal?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Velocidades de lectura promedio:</strong></p>
+                        <ul>
+                            <li><strong>200-250 PPM:</strong> Lector promedio</li>
+                            <li><strong>300-400 PPM:</strong> Buen lector</li>
+                            <li><strong>400-600 PPM:</strong> Lector rapido</li>
+                            <li><strong>600+ PPM:</strong> Speed reader</li>
+                        </ul>
+                        <p>Con FlowRead puedes aumentar gradualmente tu velocidad de 300 a 1200 PPM.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App Usage -->
+            <div class="faq-category reveal" data-category="usage">
+                <div class="faq-category-header">
+                    <span class="icon">📱</span>
+                    <h2 class="gradient-text">Uso de la app</h2>
+                </div>
+
+                <div class="faq-item" data-search="importar textos web navegador pdf epub">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Como importo textos?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Hay varias formas:</strong></p>
+                        <ol>
+                            <li><strong>Navegador web:</strong> Abre el navegador integrado, navega a un articulo y toca "Leer"</li>
+                            <li><strong>Pegar texto:</strong> Copia texto y pegalo via "Pegar texto"</li>
+                            <li><strong>Archivos:</strong> Importa archivos EPUB o PDF desde tu app Archivos</li>
+                            <li><strong>Extension de compartir:</strong> Comparte articulos directamente desde Safari a FlowRead</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="cambiar velocidad ppm ajustar">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Como cambio la velocidad?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Durante la lectura:</strong></p>
+                        <ul>
+                            <li>Toca la pantalla para mostrar los controles</li>
+                            <li>Usa los botones +/- para ajustar PPM</li>
+                            <li>Desliza hacia arriba/abajo para ajustes rapidos</li>
+                        </ul>
+                        <p><strong>En configuracion:</strong></p>
+                        <ul>
+                            <li>Abre configuracion via el icono de engranaje</li>
+                            <li>En "Velocidad de lectura" puedes establecer tus PPM predeterminados</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="modo adaptativo automatico complejidad">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Que es el "Modo adaptativo"?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>El modo adaptativo ajusta automaticamente el tiempo de visualizacion segun la complejidad de cada palabra:</p>
+                        <ul>
+                            <li><strong>Palabras cortas:</strong> Se muestran mas rapido</li>
+                            <li><strong>Palabras largas:</strong> Tienen mas tiempo</li>
+                            <li><strong>Puntuacion:</strong> Pausas naturales en comas y puntos</li>
+                            <li><strong>Palabras comunes:</strong> Se reconocen mas rapido</li>
+                        </ul>
+                        <p>El resultado es un flujo de lectura mas natural manteniendo alta velocidad.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="sin conexion leer sin internet offline">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Puedo leer sin conexion?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Si!</strong> Todos los articulos guardados estan disponibles sin conexion.</p>
+                        <ul>
+                            <li>Los textos importados se almacenan localmente en tu dispositivo</li>
+                            <li>Las sesiones de entrenamiento funcionan sin internet</li>
+                            <li>Las estadisticas se sincronizan cuando vuelves a estar en linea</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account & Subscription -->
+            <div class="faq-category reveal" data-category="account">
+                <div class="faq-category-header">
+                    <span class="icon">👤</span>
+                    <h2 class="gradient-text">Cuenta y Suscripcion</h2>
+                </div>
+
+                <div class="faq-item" data-search="gratis premium freemium precio costo">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Es FlowRead gratis?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>FlowRead ofrece un <strong>modelo Freemium</strong>:</p>
+                        <p><strong>Version gratuita:</strong></p>
+                        <ul>
+                            <li>Numero limitado de sesiones de lectura por dia</li>
+                            <li>Acceso a funciones basicas</li>
+                            <li>Seguimiento de progreso</li>
+                        </ul>
+                        <p><strong>Version Premium:</strong></p>
+                        <ul>
+                            <li>Sesiones de lectura ilimitadas</li>
+                            <li>Todos los modos de entrenamiento</li>
+                            <li>Estadisticas avanzadas</li>
+                            <li>Soporte prioritario</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="cancelar suscripcion terminar">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Como cancelo mi suscripcion?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>En iPhone/iPad:</strong></p>
+                        <ol>
+                            <li>Abre la app <strong>Configuracion</strong></li>
+                            <li>Toca tu nombre (Apple ID) arriba</li>
+                            <li>Selecciona <strong>Suscripciones</strong></li>
+                            <li>Encuentra <strong>FlowRead</strong> en la lista</li>
+                            <li>Toca <strong>Cancelar suscripcion</strong></li>
+                        </ol>
+                        <p><strong>Importante:</strong> Tu suscripcion permanece activa hasta el final del periodo de facturacion actual.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="eliminar cuenta borrar datos">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Como elimino mi cuenta?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>En la aplicacion:</strong></p>
+                        <ol>
+                            <li>Abre FlowRead</li>
+                            <li>Ve a <strong>Configuracion</strong></li>
+                            <li>Desplazate hasta <strong>Cuenta</strong></li>
+                            <li>Toca <strong>Eliminar cuenta</strong></li>
+                            <li>Confirma con tu contrasena</li>
+                        </ol>
+                        <p><strong>Que sucede:</strong> Todos los datos personales se eliminan en 30 dias. Esta accion no se puede deshacer.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="restaurar compras">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Como restauro mis compras?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <ol>
+                            <li>Abre FlowRead</li>
+                            <li>Ve a <strong>Configuracion</strong></li>
+                            <li>Toca <strong>Gestionar suscripcion</strong> o <strong>Premium</strong></li>
+                            <li>Toca <strong>Restaurar compras</strong></li>
+                        </ol>
+                        <p><strong>Si no funciona:</strong></p>
+                        <ul>
+                            <li>Asegurate de estar conectado con el mismo Apple ID</li>
+                            <li>Verifica tu conexion a internet</li>
+                            <li>Contactanos en <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Issues -->
+            <div class="faq-category reveal" data-category="tech">
+                <div class="faq-category-header">
+                    <span class="icon">🔧</span>
+                    <h2 class="gradient-text">Problemas tecnicos</h2>
+                </div>
+
+                <div class="faq-item" data-search="app se cierra crash error reiniciar">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>La app se cierra - que puedo hacer?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Prueba estos pasos:</strong></p>
+                        <ol>
+                            <li><strong>Reinicia la app:</strong> Cierra la app completamente y vuelve a abrirla</li>
+                            <li><strong>Reinicia tu dispositivo:</strong> A veces reiniciar tu iPhone/iPad ayuda</li>
+                            <li><strong>Actualiza la app:</strong> Asegurate de tener la ultima version</li>
+                            <li><strong>Actualiza iOS:</strong> Verifica si hay una actualizacion de iOS disponible</li>
+                            <li><strong>Reinstala la app:</strong> Elimina y reinstala la app</li>
+                        </ol>
+                        <p>Si el problema persiste, contactanos con detalles del error.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="estadisticas sincronizacion sync nube">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Mis estadisticas no se sincronizan</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Verifica lo siguiente:</strong></p>
+                        <ul>
+                            <li>Estas conectado a internet?</li>
+                            <li>Has iniciado sesion en la app?</li>
+                            <li>Esta habilitada la sincronizacion en configuracion?</li>
+                        </ul>
+                        <p><strong>Sincronizacion manual:</strong></p>
+                        <ol>
+                            <li>Abre Configuracion</li>
+                            <li>Toca "Sincronizar ahora"</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="texto extraido sitio web articulo">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>El texto no se extrae correctamente</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>A veces los sitios web no se pueden extraer perfectamente. Intenta:</p>
+                        <ul>
+                            <li><strong>Modo lector:</strong> Activa el modo lector en el navegador antes de importar</li>
+                            <li><strong>Copiar texto:</strong> Selecciona el texto manualmente y usa "Pegar texto"</li>
+                            <li><strong>Fuente diferente:</strong> Prueba una URL diferente para el mismo articulo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section Spanish -->
+            <div class="contact-section reveal">
+                <h2 class="gradient-text">Pregunta sin respuesta?</h2>
+                <p class="subtitle">Contactanos directamente - estamos para ayudarte!</p>
+
+                <div class="contact-cards">
+                    <div class="contact-card">
+                        <div class="icon">🛠️</div>
+                        <h3>Soporte tecnico</h3>
+                        <p>Para problemas tecnicos, bugs o errores</p>
+                        <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon">💡</div>
+                        <h3>Comentarios e Ideas</h3>
+                        <p>Sugerencias, solicitudes de funciones y mejoras</p>
+                        <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon">💬</div>
+                        <h3>Consultas generales</h3>
+                        <p>Todas las demas preguntas y preocupaciones</p>
+                        <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Italian FAQ -->
+        <div id="faq-it" class="faq-section lang-it">
+
+            <!-- Getting Started -->
+            <div class="faq-category reveal" data-category="start">
+                <div class="faq-category-header">
+                    <span class="icon">🚀</span>
+                    <h2 class="gradient-text">Per iniziare</h2>
+                </div>
+
+                <div class="faq-item" data-search="flowread speed reading app rsvp lettura veloce">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Cos'e FlowRead?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>FlowRead e un'applicazione di lettura veloce che ti aiuta a leggere piu velocemente e ad assorbire piu informazioni in meno tempo. L'app utilizza il metodo RSVP (Rapid Serial Visual Presentation) scientificamente provato.</p>
+                        <p><strong>Vantaggi:</strong></p>
+                        <ul>
+                            <li>Aumenta la velocita di lettura fino al 200%</li>
+                            <li>Importa testi dal web, PDF o EPUB</li>
+                            <li>Allenamento personalizzato con monitoraggio dei progressi</li>
+                            <li>Modalita offline - leggi senza internet</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="lettura veloce funziona rsvp metodo">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Come funziona la lettura veloce?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>La lettura veloce si basa sul metodo RSVP (Rapid Serial Visual Presentation). Invece che i tuoi occhi si muovano sul testo, le parole vengono mostrate una alla volta in un punto fisso.</p>
+                        <p><strong>Principi chiave:</strong></p>
+                        <ol>
+                            <li><strong>Punto di fissazione:</strong> Ogni parola viene mostrata nella stessa posizione, i tuoi occhi non devono muoversi.</li>
+                            <li><strong>Marcatura ORP:</strong> Il "Punto di Riconoscimento Ottimale" di ogni parola e evidenziato.</li>
+                            <li><strong>Riduzione della subvocalizzazione:</strong> La velocita aumentata riduce la vocalizzazione interna.</li>
+                            <li><strong>Aumento progressivo:</strong> Inizi alla tua velocita attuale e migliori gradualmente.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="velocita lettura normale ppm parole per minuto">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Quale velocita di lettura e normale?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Velocita di lettura medie:</strong></p>
+                        <ul>
+                            <li><strong>200-250 PPM:</strong> Lettore medio</li>
+                            <li><strong>300-400 PPM:</strong> Buon lettore</li>
+                            <li><strong>400-600 PPM:</strong> Lettore veloce</li>
+                            <li><strong>600+ PPM:</strong> Speed reader</li>
+                        </ul>
+                        <p>Con FlowRead puoi aumentare gradualmente la tua velocita da 300 a 1200 PPM.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App Usage -->
+            <div class="faq-category reveal" data-category="usage">
+                <div class="faq-category-header">
+                    <span class="icon">📱</span>
+                    <h2 class="gradient-text">Utilizzo dell'app</h2>
+                </div>
+
+                <div class="faq-item" data-search="importare testi web browser pdf epub">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Come importo i testi?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Ci sono diversi modi:</strong></p>
+                        <ol>
+                            <li><strong>Browser web:</strong> Apri il browser integrato, naviga verso un articolo e tocca "Leggi"</li>
+                            <li><strong>Incolla testo:</strong> Copia il testo e incollalo tramite "Incolla testo"</li>
+                            <li><strong>File:</strong> Importa file EPUB o PDF dalla tua app File</li>
+                            <li><strong>Estensione di condivisione:</strong> Condividi articoli direttamente da Safari a FlowRead</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="cambiare velocita ppm regolare">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Come cambio la velocita?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Durante la lettura:</strong></p>
+                        <ul>
+                            <li>Tocca il display per mostrare i controlli</li>
+                            <li>Usa i pulsanti +/- per regolare i PPM</li>
+                            <li>Scorri verso l'alto/basso per regolazioni rapide</li>
+                        </ul>
+                        <p><strong>Nelle impostazioni:</strong></p>
+                        <ul>
+                            <li>Apri le impostazioni tramite l'icona dell'ingranaggio</li>
+                            <li>In "Velocita di lettura" puoi impostare i tuoi PPM predefiniti</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="modalita adattiva automatico complessita">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Cos'e la "Modalita adattiva"?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>La modalita adattiva regola automaticamente il tempo di visualizzazione in base alla complessita di ogni parola:</p>
+                        <ul>
+                            <li><strong>Parole brevi:</strong> Visualizzate piu velocemente</li>
+                            <li><strong>Parole lunghe:</strong> Hanno piu tempo</li>
+                            <li><strong>Punteggiatura:</strong> Pause naturali alle virgole e ai punti</li>
+                            <li><strong>Parole comuni:</strong> Vengono riconosciute piu velocemente</li>
+                        </ul>
+                        <p>Il risultato e un flusso di lettura piu naturale mantenendo un'alta velocita.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="offline leggere senza internet">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Posso leggere offline?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Si!</strong> Tutti gli articoli salvati sono disponibili offline.</p>
+                        <ul>
+                            <li>I testi importati vengono memorizzati localmente sul tuo dispositivo</li>
+                            <li>Le sessioni di allenamento funzionano senza internet</li>
+                            <li>Le statistiche si sincronizzano quando torni online</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account & Subscription -->
+            <div class="faq-category reveal" data-category="account">
+                <div class="faq-category-header">
+                    <span class="icon">👤</span>
+                    <h2 class="gradient-text">Account e Abbonamento</h2>
+                </div>
+
+                <div class="faq-item" data-search="gratuito premium freemium prezzo costo">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>FlowRead e gratuito?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>FlowRead offre un <strong>modello Freemium</strong>:</p>
+                        <p><strong>Versione gratuita:</strong></p>
+                        <ul>
+                            <li>Numero limitato di sessioni di lettura al giorno</li>
+                            <li>Accesso alle funzionalita di base</li>
+                            <li>Monitoraggio dei progressi</li>
+                        </ul>
+                        <p><strong>Versione Premium:</strong></p>
+                        <ul>
+                            <li>Sessioni di lettura illimitate</li>
+                            <li>Tutte le modalita di allenamento</li>
+                            <li>Statistiche avanzate</li>
+                            <li>Supporto prioritario</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="annullare abbonamento disdire">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Come annullo il mio abbonamento?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Su iPhone/iPad:</strong></p>
+                        <ol>
+                            <li>Apri l'app <strong>Impostazioni</strong></li>
+                            <li>Tocca il tuo nome (Apple ID) in alto</li>
+                            <li>Seleziona <strong>Abbonamenti</strong></li>
+                            <li>Trova <strong>FlowRead</strong> nella lista</li>
+                            <li>Tocca <strong>Annulla abbonamento</strong></li>
+                        </ol>
+                        <p><strong>Importante:</strong> Il tuo abbonamento rimane attivo fino alla fine del periodo di fatturazione corrente.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="eliminare account cancellare dati">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Come elimino il mio account?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Nell'applicazione:</strong></p>
+                        <ol>
+                            <li>Apri FlowRead</li>
+                            <li>Vai su <strong>Impostazioni</strong></li>
+                            <li>Scorri fino a <strong>Account</strong></li>
+                            <li>Tocca <strong>Elimina account</strong></li>
+                            <li>Conferma con la tua password</li>
+                        </ol>
+                        <p><strong>Cosa succede:</strong> Tutti i dati personali vengono eliminati entro 30 giorni. Questa azione non puo essere annullata.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="ripristinare acquisti">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Come ripristino i miei acquisti?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <ol>
+                            <li>Apri FlowRead</li>
+                            <li>Vai su <strong>Impostazioni</strong></li>
+                            <li>Tocca <strong>Gestisci abbonamento</strong> o <strong>Premium</strong></li>
+                            <li>Tocca <strong>Ripristina acquisti</strong></li>
+                        </ol>
+                        <p><strong>Se non funziona:</strong></p>
+                        <ul>
+                            <li>Assicurati di essere connesso con lo stesso Apple ID</li>
+                            <li>Verifica la tua connessione internet</li>
+                            <li>Contattaci a <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Issues -->
+            <div class="faq-category reveal" data-category="tech">
+                <div class="faq-category-header">
+                    <span class="icon">🔧</span>
+                    <h2 class="gradient-text">Problemi tecnici</h2>
+                </div>
+
+                <div class="faq-item" data-search="app si chiude crash errore riavviare">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>L'app si chiude - cosa posso fare?</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Prova questi passaggi:</strong></p>
+                        <ol>
+                            <li><strong>Riavvia l'app:</strong> Chiudi completamente l'app e riaprila</li>
+                            <li><strong>Riavvia il dispositivo:</strong> A volte riavviare l'iPhone/iPad aiuta</li>
+                            <li><strong>Aggiorna l'app:</strong> Assicurati di avere l'ultima versione</li>
+                            <li><strong>Aggiorna iOS:</strong> Verifica se e disponibile un aggiornamento iOS</li>
+                            <li><strong>Reinstalla l'app:</strong> Elimina e reinstalla l'app</li>
+                        </ol>
+                        <p>Se il problema persiste, contattaci con i dettagli dell'errore.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="statistiche sincronizzazione sync cloud">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Le mie statistiche non si sincronizzano</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p><strong>Verifica quanto segue:</strong></p>
+                        <ul>
+                            <li>Sei connesso a internet?</li>
+                            <li>Hai effettuato l'accesso all'app?</li>
+                            <li>La sincronizzazione e abilitata nelle impostazioni?</li>
+                        </ul>
+                        <p><strong>Sincronizzazione manuale:</strong></p>
+                        <ol>
+                            <li>Apri Impostazioni</li>
+                            <li>Tocca "Sincronizza ora"</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-search="testo estratto sito web articolo">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Il testo non viene estratto correttamente</span>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>A volte i siti web non possono essere estratti perfettamente. Prova:</p>
+                        <ul>
+                            <li><strong>Modalita lettura:</strong> Attiva la modalita lettura nel browser prima dell'importazione</li>
+                            <li><strong>Copia testo:</strong> Seleziona il testo manualmente e usa "Incolla testo"</li>
+                            <li><strong>Fonte diversa:</strong> Prova un URL diverso per lo stesso articolo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Section Italian -->
+            <div class="contact-section reveal">
+                <h2 class="gradient-text">Domanda senza risposta?</h2>
+                <p class="subtitle">Contattaci direttamente - siamo qui per aiutarti!</p>
+
+                <div class="contact-cards">
+                    <div class="contact-card">
+                        <div class="icon">🛠️</div>
+                        <h3>Supporto tecnico</h3>
+                        <p>Per problemi tecnici, bug o errori</p>
+                        <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon">💡</div>
+                        <h3>Feedback e Idee</h3>
+                        <p>Suggerimenti, richieste di funzionalita e miglioramenti</p>
+                        <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
+                    </div>
+                    <div class="contact-card">
+                        <div class="icon">💬</div>
+                        <h3>Richieste generali</h3>
+                        <p>Tutte le altre domande e preoccupazioni</p>
+                        <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -1638,6 +2696,9 @@
                         <li><a href="index.html">
                             <span class="lang-de-inline">Startseite</span>
                             <span class="lang-en-inline">Home</span>
+                            <span class="lang-fr-inline">Accueil</span>
+                            <span class="lang-es-inline">Inicio</span>
+                            <span class="lang-it-inline">Home</span>
                         </a></li>
                         <li><a href="index.html#features">Features</a></li>
                         <li><a href="#">App Store</a></li>
@@ -1647,19 +2708,31 @@
                     <h4>
                         <span class="lang-de-inline">Rechtliches</span>
                         <span class="lang-en-inline">Legal</span>
+                        <span class="lang-fr-inline">Juridique</span>
+                        <span class="lang-es-inline">Legal</span>
+                        <span class="lang-it-inline">Legale</span>
                     </h4>
                     <ul>
                         <li><a href="datenschutz.html">
                             <span class="lang-de-inline">Datenschutz</span>
                             <span class="lang-en-inline">Privacy Policy</span>
+                            <span class="lang-fr-inline">Confidentialite</span>
+                            <span class="lang-es-inline">Privacidad</span>
+                            <span class="lang-it-inline">Privacy</span>
                         </a></li>
                         <li><a href="nutzungsbedingungen.html">
                             <span class="lang-de-inline">AGB</span>
                             <span class="lang-en-inline">Terms of Service</span>
+                            <span class="lang-fr-inline">CGU</span>
+                            <span class="lang-es-inline">Terminos</span>
+                            <span class="lang-it-inline">Termini</span>
                         </a></li>
                         <li><a href="impressum.html">
                             <span class="lang-de-inline">Impressum</span>
                             <span class="lang-en-inline">Legal Notice</span>
+                            <span class="lang-fr-inline">Mentions legales</span>
+                            <span class="lang-es-inline">Aviso legal</span>
+                            <span class="lang-it-inline">Note legali</span>
                         </a></li>
                     </ul>
                 </div>
@@ -1667,6 +2740,9 @@
                     <h4>
                         <span class="lang-de-inline">Kontakt</span>
                         <span class="lang-en-inline">Contact</span>
+                        <span class="lang-fr-inline">Contact</span>
+                        <span class="lang-es-inline">Contacto</span>
+                        <span class="lang-it-inline">Contatti</span>
                     </h4>
                     <ul>
                         <li><a href="mailto:flowread.all@gmail.com">Support</a></li>
@@ -1675,11 +2751,20 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 FlowRead. <span class="lang-de-inline">Alle Rechte vorbehalten.</span><span class="lang-en-inline">All rights reserved.</span></p>
+                <p>&copy; 2025 FlowRead.
+                    <span class="lang-de-inline">Alle Rechte vorbehalten.</span>
+                    <span class="lang-en-inline">All rights reserved.</span>
+                    <span class="lang-fr-inline">Tous droits reserves.</span>
+                    <span class="lang-es-inline">Todos los derechos reservados.</span>
+                    <span class="lang-it-inline">Tutti i diritti riservati.</span>
+                </p>
                 <a href="index.html" class="back-link">
                     <span>&#8592;</span>
-                    <span class="lang-de-inline">Zurück zur Startseite</span>
+                    <span class="lang-de-inline">Zuruck zur Startseite</span>
                     <span class="lang-en-inline">Back to Homepage</span>
+                    <span class="lang-fr-inline">Retour a l'accueil</span>
+                    <span class="lang-es-inline">Volver al inicio</span>
+                    <span class="lang-it-inline">Torna alla home</span>
                 </a>
             </div>
         </div>
@@ -1761,26 +2846,61 @@
         }
 
         // ===== LANGUAGE SWITCHING =====
-        function toggleLanguage() {
-            const body = document.body;
-            const currentLang = body.getAttribute('data-lang');
-            const newLang = currentLang === 'de' ? 'en' : 'de';
-            body.setAttribute('data-lang', newLang);
-            document.documentElement.lang = newLang;
-            localStorage.setItem('flowread-lang', newLang);
+        const searchPlaceholders = {
+            de: 'Suche...',
+            en: 'Search...',
+            fr: 'Rechercher...',
+            es: 'Buscar...',
+            it: 'Cerca...'
+        };
+
+        function setLanguage(lang) {
+            document.body.setAttribute('data-lang', lang);
+            document.documentElement.lang = lang;
+            localStorage.setItem('flowread-lang', lang);
+
+            // Update current language display
+            document.querySelector('.current-lang').textContent = lang.toUpperCase();
 
             // Update search placeholder
             const searchInput = document.getElementById('faqSearch');
-            searchInput.placeholder = newLang === 'de' ? 'Suche...' : 'Search...';
+            searchInput.placeholder = searchPlaceholders[lang] || 'Search...';
+
+            // Update active state in dropdown
+            document.querySelectorAll('.lang-menu a').forEach(a => {
+                a.classList.toggle('active', a.getAttribute('data-lang') === lang);
+            });
+
+            // Reset FAQ filter to show all
+            filterCategory('all');
+
+            closeLangMenu();
         }
 
-        // Load saved language
-        const savedLang = localStorage.getItem('flowread-lang');
-        if (savedLang) {
-            document.body.setAttribute('data-lang', savedLang);
-            document.documentElement.lang = savedLang;
-            document.getElementById('faqSearch').placeholder = savedLang === 'de' ? 'Suche...' : 'Search...';
+        function toggleLangMenu() {
+            document.getElementById('langMenu').classList.toggle('show');
         }
+
+        function closeLangMenu() {
+            document.getElementById('langMenu').classList.remove('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.lang-dropdown')) {
+                closeLangMenu();
+            }
+        });
+
+        // Load saved language
+        const savedLang = localStorage.getItem('flowread-lang') || 'de';
+        document.body.setAttribute('data-lang', savedLang);
+        document.documentElement.lang = savedLang;
+        document.querySelector('.current-lang').textContent = savedLang.toUpperCase();
+        document.getElementById('faqSearch').placeholder = searchPlaceholders[savedLang] || 'Suche...';
+        document.querySelectorAll('.lang-menu a').forEach(a => {
+            a.classList.toggle('active', a.getAttribute('data-lang') === savedLang);
+        });
 
         // ===== MOBILE MENU =====
         function toggleMenu() {

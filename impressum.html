@@ -181,17 +181,29 @@
         }
 
         /* ===== LANGUAGE SWITCHING ===== */
-        .lang-de, .lang-en { display: none; }
+        .lang-de, .lang-en, .lang-fr, .lang-es, .lang-it { display: none; }
         [data-lang="de"] .lang-de { display: block; }
         [data-lang="en"] .lang-en { display: block; }
+        [data-lang="fr"] .lang-fr { display: block; }
+        [data-lang="es"] .lang-es { display: block; }
+        [data-lang="it"] .lang-it { display: block; }
+
+        .lang-de-inline, .lang-en-inline, .lang-fr-inline, .lang-es-inline, .lang-it-inline { display: none; }
         [data-lang="de"] .lang-de-inline { display: inline; }
         [data-lang="en"] .lang-en-inline { display: inline; }
-        .lang-de-inline, .lang-en-inline { display: none; }
+        [data-lang="fr"] .lang-fr-inline { display: inline; }
+        [data-lang="es"] .lang-es-inline { display: inline; }
+        [data-lang="it"] .lang-it-inline { display: inline; }
 
-        .lang-switch {
+        /* ===== LANGUAGE DROPDOWN ===== */
+        .lang-dropdown {
             position: fixed;
             top: calc(1rem + var(--safe-top));
             right: calc(1rem + var(--safe-right));
+            z-index: 100;
+        }
+
+        .lang-btn {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
@@ -203,13 +215,61 @@
             font-weight: 500;
             font-family: var(--font-primary);
             transition: all 0.3s var(--ease-smooth);
-            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .lang-switch:hover {
+        .lang-btn:hover {
             background: var(--glass-bg-hover);
             border-color: var(--accent-start);
             box-shadow: var(--shadow-glow);
+        }
+
+        .lang-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: rgba(20, 20, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 0.5rem;
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s var(--ease-smooth);
+        }
+
+        .lang-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            transition: all 0.2s var(--ease-smooth);
+            cursor: pointer;
+        }
+
+        .lang-menu a:hover {
+            background: var(--glass-bg-hover);
+            color: var(--text-primary);
+        }
+
+        .lang-menu a.active {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(124, 58, 237, 0.2));
+            color: var(--accent-start);
         }
 
         /* ===== FOOTER ===== */
@@ -282,21 +342,37 @@
 <body data-lang="de">
     <div class="mesh-gradient"></div>
 
-    <button class="lang-switch" onclick="toggleLanguage()">
-        <span class="lang-de-inline">EN</span>
-        <span class="lang-en-inline">DE</span>
-    </button>
+    <!-- Language Dropdown -->
+    <div class="lang-dropdown">
+        <button class="lang-btn" onclick="toggleLangMenu()">
+            <span class="current-lang">DE</span>
+            <span>&#9662;</span>
+        </button>
+        <div class="lang-menu" id="langMenu">
+            <a onclick="setLanguage('de')" data-lang="de">Deutsch</a>
+            <a onclick="setLanguage('en')" data-lang="en">English</a>
+            <a onclick="setLanguage('fr')" data-lang="fr">Francais</a>
+            <a onclick="setLanguage('es')" data-lang="es">Espanol</a>
+            <a onclick="setLanguage('it')" data-lang="it">Italiano</a>
+        </div>
+    </div>
 
     <div class="container">
         <a href="index.html" class="back-link">
             <span>&#8592;</span>
             <span class="lang-de-inline">Zur&uuml;ck zur Startseite</span>
             <span class="lang-en-inline">Back to Homepage</span>
+            <span class="lang-fr-inline">Retour a l'accueil</span>
+            <span class="lang-es-inline">Volver al inicio</span>
+            <span class="lang-it-inline">Torna alla home</span>
         </a>
 
         <h1 class="gradient-text">
             <span class="lang-de">Impressum</span>
             <span class="lang-en">Legal Notice</span>
+            <span class="lang-fr">Mentions legales</span>
+            <span class="lang-es">Aviso legal</span>
+            <span class="lang-it">Note legali</span>
         </h1>
 
         <div class="impressum-card">
@@ -305,7 +381,10 @@
                 Flandernstrasse 6<br>
                 53859 Niederkassel<br>
                 <span class="lang-de">Deutschland</span>
-                <span class="lang-en">Germany</span><br><br>
+                <span class="lang-en">Germany</span>
+                <span class="lang-fr">Allemagne</span>
+                <span class="lang-es">Alemania</span>
+                <span class="lang-it">Germania</span><br><br>
                 E-Mail: <a href="mailto:flowread.all@gmail.com">flowread.all@gmail.com</a>
             </address>
         </div>
@@ -317,39 +396,79 @@
                 <a href="datenschutz.html">
                     <span class="lang-de-inline">Datenschutz</span>
                     <span class="lang-en-inline">Privacy Policy</span>
+                    <span class="lang-fr-inline">Confidentialite</span>
+                    <span class="lang-es-inline">Privacidad</span>
+                    <span class="lang-it-inline">Privacy</span>
                 </a>
                 <span class="separator">&middot;</span>
                 <a href="nutzungsbedingungen.html">
                     <span class="lang-de-inline">AGB</span>
                     <span class="lang-en-inline">Terms of Service</span>
+                    <span class="lang-fr-inline">CGU</span>
+                    <span class="lang-es-inline">Terminos</span>
+                    <span class="lang-it-inline">Termini</span>
                 </a>
                 <span class="separator">&middot;</span>
                 <a href="impressum.html">
                     <span class="lang-de-inline">Impressum</span>
                     <span class="lang-en-inline">Legal Notice</span>
+                    <span class="lang-fr-inline">Mentions legales</span>
+                    <span class="lang-es-inline">Aviso legal</span>
+                    <span class="lang-it-inline">Note legali</span>
                 </a>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 FlowRead. <span class="lang-de-inline">Alle Rechte vorbehalten.</span><span class="lang-en-inline">All rights reserved.</span></p>
+                <p>&copy; 2025 FlowRead.
+                    <span class="lang-de-inline">Alle Rechte vorbehalten.</span>
+                    <span class="lang-en-inline">All rights reserved.</span>
+                    <span class="lang-fr-inline">Tous droits reserves.</span>
+                    <span class="lang-es-inline">Todos los derechos reservados.</span>
+                    <span class="lang-it-inline">Tutti i diritti riservati.</span>
+                </p>
             </div>
         </div>
     </footer>
 
     <script>
-        function toggleLanguage() {
-            const body = document.body;
-            const currentLang = body.getAttribute('data-lang');
-            const newLang = currentLang === 'de' ? 'en' : 'de';
-            body.setAttribute('data-lang', newLang);
-            document.documentElement.lang = newLang;
-            localStorage.setItem('flowread-lang', newLang);
+        function setLanguage(lang) {
+            document.body.setAttribute('data-lang', lang);
+            document.documentElement.lang = lang;
+            localStorage.setItem('flowread-lang', lang);
+            document.querySelector('.current-lang').textContent = lang.toUpperCase();
+            updateActiveLanguage(lang);
+            closeLangMenu();
         }
 
-        const savedLang = localStorage.getItem('flowread-lang');
-        if (savedLang) {
-            document.body.setAttribute('data-lang', savedLang);
-            document.documentElement.lang = savedLang;
+        function toggleLangMenu() {
+            document.getElementById('langMenu').classList.toggle('show');
         }
+
+        function closeLangMenu() {
+            document.getElementById('langMenu').classList.remove('show');
+        }
+
+        function updateActiveLanguage(lang) {
+            document.querySelectorAll('.lang-menu a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('data-lang') === lang) {
+                    a.classList.add('active');
+                }
+            });
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.lang-dropdown')) {
+                closeLangMenu();
+            }
+        });
+
+        // Load saved language
+        const savedLang = localStorage.getItem('flowread-lang') || 'de';
+        document.body.setAttribute('data-lang', savedLang);
+        document.documentElement.lang = savedLang;
+        document.querySelector('.current-lang').textContent = savedLang.toUpperCase();
+        updateActiveLanguage(savedLang);
     </script>
 </body>
 </html>
