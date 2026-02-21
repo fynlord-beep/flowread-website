@@ -180,6 +180,36 @@
             text-shadow: 0 0 15px var(--accent-glow);
         }
 
+        .impressum-section-title {
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .impressum-section {
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            text-align: left;
+        }
+
+        .impressum-section h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            letter-spacing: 0;
+        }
+
+        .impressum-section p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
         /* ===== LANGUAGE SWITCHING ===== */
         .lang-de, .lang-en, .lang-fr, .lang-es, .lang-it { display: none; }
         [data-lang="de"] .lang-de { display: block; }
@@ -376,17 +406,25 @@
         </h1>
 
         <div class="impressum-card">
+            <p class="impressum-section-title">Angaben gem&auml;&szlig; &sect; 5 DDG</p>
             <address>
-                <strong>Fyn Meyer</strong><br><br>
-                Flandernstrasse 6<br>
-                53859 Niederkassel<br>
-                <span class="lang-de">Deutschland</span>
-                <span class="lang-en">Germany</span>
-                <span class="lang-fr">Allemagne</span>
-                <span class="lang-es">Alemania</span>
-                <span class="lang-it">Germania</span><br><br>
-                E-Mail: <a href="mailto:flowreadd@proton.me">flowreadd@proton.me</a>
+                <strong>Fyn Maximilian Uwe Meyer</strong><br><br>
+                Flandernstra&szlig;e 6<br>
+                53859 Niederkassel
             </address>
+
+            <div class="impressum-section">
+                <h2>Kontakt</h2>
+                <p>
+                    E-Mail: <a href="mailto:flowreadd@proton.me">flowreadd@proton.me</a><br>
+                    Telefon: <a href="tel:+4915128859713">+49 151 28859713</a>
+                </p>
+            </div>
+
+            <div class="impressum-section">
+                <h2>Streitbeilegung</h2>
+                <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+            </div>
         </div>
     </div>
 
