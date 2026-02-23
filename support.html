@@ -1209,7 +1209,7 @@ Grazie!</div>
     <footer>
         <div class="footer-content">
             <div class="footer-links">
-                <a href="datenschutz.html">
+                <a class="privacy-link" href="datenschutz.html">
                     <span class="lang-de-inline">Datenschutz</span>
                     <span class="lang-en-inline">Privacy Policy</span>
                     <span class="lang-fr-inline">Confidentialite</span>
@@ -1255,12 +1255,25 @@ Grazie!</div>
 
     <script>
         // ===== LANGUAGE SWITCHING =====
+        function getPrivacyUrl(lang) {
+            return lang === 'en' ? 'privacy-policy.html' : 'datenschutz.html';
+        }
+
+        function updatePrivacyLinks(lang) {
+            var links = document.querySelectorAll('.privacy-link');
+            var url = getPrivacyUrl(lang);
+            for (var i = 0; i < links.length; i++) {
+                links[i].setAttribute('href', url);
+            }
+        }
+
         function setLanguage(lang) {
             document.body.setAttribute('data-lang', lang);
             document.documentElement.lang = lang;
             localStorage.setItem('flowread-lang', lang);
             document.querySelector('.current-lang').textContent = lang.toUpperCase();
             updateActiveLanguage(lang);
+            updatePrivacyLinks(lang);
             closeLangMenu();
         }
 
@@ -1294,6 +1307,7 @@ Grazie!</div>
         document.documentElement.lang = savedLang;
         document.querySelector('.current-lang').textContent = savedLang.toUpperCase();
         updateActiveLanguage(savedLang);
+        updatePrivacyLinks(savedLang);
 
         // ===== MOBILE MENU =====
         function toggleMenu() {

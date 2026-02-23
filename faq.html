@@ -2714,7 +2714,7 @@
                         <span class="lang-it-inline">Legale</span>
                     </h4>
                     <ul>
-                        <li><a href="datenschutz.html">
+                        <li><a class="privacy-link" href="datenschutz.html">
                             <span class="lang-de-inline">Datenschutz</span>
                             <span class="lang-en-inline">Privacy Policy</span>
                             <span class="lang-fr-inline">Confidentialite</span>
@@ -2855,6 +2855,18 @@
             it: 'Cerca...'
         };
 
+        function getPrivacyUrl(lang) {
+            return lang === 'en' ? 'privacy-policy.html' : 'datenschutz.html';
+        }
+
+        function updatePrivacyLinks(lang) {
+            var links = document.querySelectorAll('.privacy-link');
+            var url = getPrivacyUrl(lang);
+            for (var i = 0; i < links.length; i++) {
+                links[i].setAttribute('href', url);
+            }
+        }
+
         function setLanguage(lang) {
             document.body.setAttribute('data-lang', lang);
             document.documentElement.lang = lang;
@@ -2871,6 +2883,9 @@
             document.querySelectorAll('.lang-menu a').forEach(a => {
                 a.classList.toggle('active', a.getAttribute('data-lang') === lang);
             });
+
+            // Update privacy links
+            updatePrivacyLinks(lang);
 
             // Reset FAQ filter to show all
             filterCategory('all');
@@ -2902,6 +2917,7 @@
         document.querySelectorAll('.lang-menu a').forEach(a => {
             a.classList.toggle('active', a.getAttribute('data-lang') === savedLang);
         });
+        updatePrivacyLinks(savedLang);
 
         // ===== MOBILE MENU =====
         function toggleMenu() {

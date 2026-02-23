@@ -1410,7 +1410,7 @@
                     <span class="lang-es-inline">Funciones</span>
                     <span class="lang-it-inline">Funzionalita</span>
                 </a>
-                <a href="datenschutz.html" onclick="closeMenu()">
+                <a class="privacy-link" href="datenschutz.html" onclick="closeMenu()">
                     <span class="lang-de-inline">Datenschutz</span>
                     <span class="lang-en-inline">Privacy</span>
                     <span class="lang-fr-inline">Confidentialite</span>
@@ -1675,7 +1675,7 @@
                         <span class="lang-it-inline">Legale</span>
                     </h4>
                     <ul>
-                        <li><a href="datenschutz.html">
+                        <li><a class="privacy-link" href="datenschutz.html">
                             <span class="lang-de-inline">Datenschutz</span>
                             <span class="lang-en-inline">Privacy Policy</span>
                             <span class="lang-fr-inline">Confidentialite</span>
@@ -1785,11 +1785,24 @@
             'it': 'IT'
         };
 
+        function getPrivacyUrl(lang) {
+            return lang === 'en' ? 'privacy-policy.html' : 'datenschutz.html';
+        }
+
+        function updatePrivacyLinks(lang) {
+            var links = document.querySelectorAll('.privacy-link');
+            var url = getPrivacyUrl(lang);
+            for (var i = 0; i < links.length; i++) {
+                links[i].setAttribute('href', url);
+            }
+        }
+
         function setLanguage(lang) {
             document.body.setAttribute('data-lang', lang);
             document.documentElement.lang = lang;
             localStorage.setItem('flowread-lang', lang);
             updateActiveLanguage(lang);
+            updatePrivacyLinks(lang);
             closeLangMenu();
         }
 
@@ -1834,6 +1847,7 @@
         document.body.setAttribute('data-lang', savedLang);
         document.documentElement.lang = savedLang;
         updateActiveLanguage(savedLang);
+        updatePrivacyLinks(savedLang);
 
         // ===== MOBILE MENU =====
         function toggleMenu() {

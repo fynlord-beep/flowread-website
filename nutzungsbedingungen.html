@@ -473,7 +473,7 @@
                     <p>7.3 Die App ersetzt keine medizinische oder therapeutische Behandlung. Bei Sehproblemen oder anderen gesundheitlichen Beschwerden konsultieren Sie bitte einen Arzt.</p>
 
                     <h3>8. Datenschutz</h3>
-                    <p>Die Erhebung und Verarbeitung personenbezogener Daten erfolgt gem&auml;&szlig; unserer <a href="datenschutz.html">Datenschutzerkl&auml;rung</a>, die integraler Bestandteil dieser AGB ist.</p>
+                    <p>Die Erhebung und Verarbeitung personenbezogener Daten erfolgt gem&auml;&szlig; unserer <a class="privacy-link" href="datenschutz.html">Datenschutzerkl&auml;rung</a>, die integraler Bestandteil dieser AGB ist.</p>
 
                     <h3>9. &Auml;nderungen der AGB</h3>
                     <p>9.1 Der Anbieter beh&auml;lt sich vor, diese AGB jederzeit zu &auml;ndern.</p>
@@ -573,7 +573,7 @@
                     <p>7.3 The App does not replace medical or therapeutic treatment. If you have vision problems or other health concerns, please consult a doctor.</p>
 
                     <h3>8. Data Protection</h3>
-                    <p>The collection and processing of personal data is carried out in accordance with our <a href="datenschutz.html">Privacy Policy</a>, which is an integral part of these Terms.</p>
+                    <p>The collection and processing of personal data is carried out in accordance with our <a class="privacy-link" href="datenschutz.html">Privacy Policy</a>, which is an integral part of these Terms.</p>
 
                     <h3>9. Changes to the Terms</h3>
                     <p>9.1 The Provider reserves the right to change these Terms at any time.</p>
@@ -673,7 +673,7 @@
                     <p>7.3 L'Application ne remplace pas un traitement m&eacute;dical ou th&eacute;rapeutique. Si vous avez des probl&egrave;mes de vision ou d'autres pr&eacute;occupations de sant&eacute;, veuillez consulter un m&eacute;decin.</p>
 
                     <h3>8. Protection des donn&eacute;es</h3>
-                    <p>La collecte et le traitement des donn&eacute;es personnelles sont effectu&eacute;s conform&eacute;ment &agrave; notre <a href="datenschutz.html">Politique de confidentialit&eacute;</a>, qui fait partie int&eacute;grante de ces CGU.</p>
+                    <p>La collecte et le traitement des donn&eacute;es personnelles sont effectu&eacute;s conform&eacute;ment &agrave; notre <a class="privacy-link" href="datenschutz.html">Politique de confidentialit&eacute;</a>, qui fait partie int&eacute;grante de ces CGU.</p>
 
                     <h3>9. Modifications des CGU</h3>
                     <p>9.1 Le Fournisseur se r&eacute;serve le droit de modifier ces CGU &agrave; tout moment.</p>
@@ -773,7 +773,7 @@
                     <p>7.3 La Aplicaci&oacute;n no reemplaza el tratamiento m&eacute;dico o terap&eacute;utico. Si tiene problemas de visi&oacute;n u otras preocupaciones de salud, consulte a un m&eacute;dico.</p>
 
                     <h3>8. Protecci&oacute;n de datos</h3>
-                    <p>La recogida y el tratamiento de datos personales se llevan a cabo de acuerdo con nuestra <a href="datenschutz.html">Pol&iacute;tica de Privacidad</a>, que es parte integrante de estos T&eacute;rminos.</p>
+                    <p>La recogida y el tratamiento de datos personales se llevan a cabo de acuerdo con nuestra <a class="privacy-link" href="datenschutz.html">Pol&iacute;tica de Privacidad</a>, que es parte integrante de estos T&eacute;rminos.</p>
 
                     <h3>9. Cambios en los T&eacute;rminos</h3>
                     <p>9.1 El Proveedor se reserva el derecho de cambiar estos T&eacute;rminos en cualquier momento.</p>
@@ -873,7 +873,7 @@
                     <p>7.3 L'Applicazione non sostituisce il trattamento medico o terapeutico. Se hai problemi di vista o altre preoccupazioni per la salute, consulta un medico.</p>
 
                     <h3>8. Protezione dei dati</h3>
-                    <p>La raccolta e il trattamento dei dati personali vengono effettuati in conformit&agrave; con la nostra <a href="datenschutz.html">Informativa sulla Privacy</a>, che &egrave; parte integrante di questi Termini.</p>
+                    <p>La raccolta e il trattamento dei dati personali vengono effettuati in conformit&agrave; con la nostra <a class="privacy-link" href="datenschutz.html">Informativa sulla Privacy</a>, che &egrave; parte integrante di questi Termini.</p>
 
                     <h3>9. Modifiche ai Termini</h3>
                     <p>9.1 Il Fornitore si riserva il diritto di modificare questi Termini in qualsiasi momento.</p>
@@ -903,7 +903,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-links">
-                <a href="datenschutz.html">
+                <a class="privacy-link" href="datenschutz.html">
                     <span class="lang-de-inline">Datenschutz</span>
                     <span class="lang-en-inline">Privacy Policy</span>
                     <span class="lang-fr-inline">Confidentialit&eacute;</span>
@@ -945,6 +945,18 @@
             menu.classList.toggle('show');
         }
 
+        function getPrivacyUrl(lang) {
+            return lang === 'en' ? 'privacy-policy.html' : 'datenschutz.html';
+        }
+
+        function updatePrivacyLinks(lang) {
+            var links = document.querySelectorAll('.privacy-link');
+            var url = getPrivacyUrl(lang);
+            for (var i = 0; i < links.length; i++) {
+                links[i].setAttribute('href', url);
+            }
+        }
+
         function setLanguage(lang) {
             document.body.setAttribute('data-lang', lang);
             document.documentElement.lang = lang;
@@ -967,6 +979,9 @@
                     a.classList.add('active');
                 }
             });
+
+            // Update privacy links
+            updatePrivacyLinks(lang);
 
             // Close menu
             document.getElementById('langMenu').classList.remove('show');
