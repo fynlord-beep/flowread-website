@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>Datenschutz - FlowRead</title>
-    <meta name="description" content="Datenschutzerklarung / Privacy Policy - FlowRead Speed Reading App">
+    <title>Privacy Policy - FlowRead</title>
+    <meta name="description" content="Privacy Policy / Datenschutzerklarung - FlowRead Speed Reading App">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -364,12 +364,12 @@
         }
     </style>
 </head>
-<body data-lang="de">
+<body data-lang="en">
     <div class="mesh-gradient"></div>
 
     <div class="lang-dropdown">
         <button class="lang-btn" onclick="toggleLangMenu()">
-            <span class="current-lang">DE</span>
+            <span class="current-lang">EN</span>
             <span>&#9662;</span>
         </button>
         <div class="lang-menu" id="langMenu">
@@ -998,7 +998,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-links">
-                <a href="datenschutz.html">
+                <a href="privacy-policy.html">
                     <span class="lang-de-inline">Datenschutz</span>
                     <span class="lang-en-inline">Privacy Policy</span>
                     <span class="lang-fr-inline">Confidentialit&eacute;</span>
@@ -1042,9 +1042,9 @@
 
         function setLanguage(lang) {
             // DE/EN have dedicated URLs — redirect instead of switching in place
-            if (lang === 'en') {
-                localStorage.setItem('flowread-lang', 'en');
-                window.location.href = 'privacy-policy.html';
+            if (lang === 'de') {
+                localStorage.setItem('flowread-lang', 'de');
+                window.location.href = 'datenschutz.html';
                 return;
             }
 
@@ -1076,8 +1076,8 @@
             }
         });
 
-        // This is the German privacy page — always display German
-        setLanguage('de');
+        // This is the English privacy page — always display English
+        setLanguage('en');
     </script>
 </body>
 </html>
