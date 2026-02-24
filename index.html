@@ -1410,7 +1410,7 @@
                     <span class="lang-es-inline">Funciones</span>
                     <span class="lang-it-inline">Funzionalita</span>
                 </a>
-                <a href="datenschutz.html" onclick="closeMenu()">
+                <a id="privacy-nav-link" href="datenschutz.html" onclick="closeMenu()">
                     <span class="lang-de-inline">Datenschutz</span>
                     <span class="lang-en-inline">Privacy</span>
                     <span class="lang-fr-inline">Confidentialite</span>
@@ -1675,7 +1675,7 @@
                         <span class="lang-it-inline">Legale</span>
                     </h4>
                     <ul>
-                        <li><a href="datenschutz.html">
+                        <li><a id="privacy-footer-link" href="datenschutz.html">
                             <span class="lang-de-inline">Datenschutz</span>
                             <span class="lang-en-inline">Privacy Policy</span>
                             <span class="lang-fr-inline">Confidentialite</span>
@@ -1790,7 +1790,16 @@
             document.documentElement.lang = lang;
             localStorage.setItem('flowread-lang', lang);
             updateActiveLanguage(lang);
+            updatePrivacyLinks(lang);
             closeLangMenu();
+        }
+
+        function updatePrivacyLinks(lang) {
+            const privacyUrl = (lang === 'en') ? 'privacy-policy.html' : 'datenschutz.html';
+            const navLink = document.getElementById('privacy-nav-link');
+            const footerLink = document.getElementById('privacy-footer-link');
+            if (navLink) navLink.href = privacyUrl;
+            if (footerLink) footerLink.href = privacyUrl;
         }
 
         function toggleLangMenu() {
@@ -1834,6 +1843,7 @@
         document.body.setAttribute('data-lang', savedLang);
         document.documentElement.lang = savedLang;
         updateActiveLanguage(savedLang);
+        updatePrivacyLinks(savedLang);
 
         // ===== MOBILE MENU =====
         function toggleMenu() {
