@@ -881,26 +881,42 @@
 
             nav {
                 position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
+                top: calc(4.5rem + var(--safe-top));
+                left: 0.75rem;
+                right: 0.75rem;
+                bottom: auto;
+                max-height: calc(100vh - 5.5rem - var(--safe-top) - var(--safe-bottom));
                 background: rgba(10, 10, 15, 0.12);
                 backdrop-filter: blur(12px);
                 -webkit-backdrop-filter: blur(12px);
                 flex-direction: column;
-                justify-content: center;
-                padding: 2rem;
-                gap: 1.5rem;
+                justify-content: flex-start;
+                padding: 1.25rem;
+                gap: 1rem;
+                border-radius: 30px;
+                overflow-y: auto;
+                overscroll-behavior: contain;
+                -webkit-overflow-scrolling: touch;
                 opacity: 0;
+                transform: translateY(-8px);
                 pointer-events: none;
-                transition: opacity 0.4s var(--ease-smooth);
+                transition: opacity 0.35s var(--ease-smooth), transform 0.35s var(--ease-smooth);
                 z-index: 999;
             }
 
             nav.active {
                 opacity: 1;
+                transform: translateY(0);
                 pointer-events: all;
+            }
+
+            .header-content:has(nav.active) .mobile-menu-btn {
+                font-size: 0;
+            }
+
+            .header-content:has(nav.active) .mobile-menu-btn::before {
+                content: "\2715";
+                font-size: 1.5rem;
             }
 
             nav a {

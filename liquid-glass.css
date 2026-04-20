@@ -573,6 +573,12 @@ footer::before {
         background: rgba(8, 8, 14, 0.72) !important;
         backdrop-filter: blur(40px) saturate(180%) !important;
         -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: var(--lg-radius-lg) !important;
+        box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.08) inset,
+            0 20px 60px -20px rgba(0, 0, 0, 0.7),
+            0 8px 24px -8px rgba(0, 0, 0, 0.45) !important;
     }
 
     nav a {
