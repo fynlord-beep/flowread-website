@@ -1,0 +1,615 @@
+/* ============================================================
+   FlowRead · Liquid Glass Overlay
+   Apple-inspired "Liquid Glass" material applied across all pages.
+   This file is loaded AFTER each page's inline <style> block, so
+   it intentionally overrides the baseline glass morphism with
+   richer refraction, specular highlights and spring motion.
+   ============================================================ */
+
+:root {
+    /* Liquid Glass materials — thin / regular / thick */
+    --lg-thin-bg: rgba(255, 255, 255, 0.045);
+    --lg-regular-bg: rgba(255, 255, 255, 0.07);
+    --lg-thick-bg: rgba(255, 255, 255, 0.11);
+    --lg-tint: rgba(180, 220, 255, 0.04);
+
+    /* Borders: a bright top edge and a soft body edge (specular) */
+    --lg-edge-bright: rgba(255, 255, 255, 0.55);
+    --lg-edge-dim: rgba(255, 255, 255, 0.06);
+    --lg-border: rgba(255, 255, 255, 0.14);
+    --lg-border-strong: rgba(255, 255, 255, 0.28);
+
+    /* Shadows — soft ambient + contact + inner highlights */
+    --lg-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset,
+                 0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+                 0 18px 40px -16px rgba(0, 0, 0, 0.55),
+                 0 8px 20px -10px rgba(0, 0, 0, 0.45),
+                 0 2px 4px rgba(0, 0, 0, 0.25);
+    --lg-shadow-raised: 0 1px 0 rgba(255, 255, 255, 0.12) inset,
+                        0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+                        0 28px 60px -20px rgba(0, 0, 0, 0.6),
+                        0 12px 28px -12px rgba(0, 0, 0, 0.45),
+                        0 0 0 1px rgba(255, 255, 255, 0.04);
+    --lg-glow: 0 0 60px rgba(0, 212, 255, 0.25),
+               0 0 120px rgba(124, 58, 237, 0.18);
+
+    /* Motion — Apple-style spring easings */
+    --lg-spring: cubic-bezier(0.22, 1, 0.36, 1);
+    --lg-spring-soft: cubic-bezier(0.32, 0.72, 0, 1);
+    --lg-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    /* Continuous corner radii (squircle feel) */
+    --lg-radius-sm: 14px;
+    --lg-radius-md: 22px;
+    --lg-radius-lg: 30px;
+    --lg-radius-xl: 40px;
+    --lg-radius-pill: 999px;
+
+    /* Mouse spotlight — set by JS, fallback keeps glass tasteful */
+    --lg-mx: 50%;
+    --lg-my: 50%;
+}
+
+/* ================= Global refinements ================= */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background: #06060b;
+}
+
+/* ================= Living background ================= */
+/* Slightly richer, more alive mesh with an extra soft blob
+   that drifts independently — feels like light through glass. */
+.mesh-gradient {
+    background:
+        radial-gradient(1200px 900px at 12% 10%, rgba(0, 175, 220, 0.18), transparent 60%),
+        radial-gradient(1000px 800px at 88% 18%, rgba(124, 58, 237, 0.18), transparent 60%),
+        radial-gradient(1100px 900px at 50% 100%, rgba(0, 200, 170, 0.14), transparent 60%),
+        linear-gradient(160deg, #07070d 0%, #0a0a14 45%, #09070f 100%);
+}
+
+.mesh-gradient::after {
+    background:
+        radial-gradient(ellipse 55% 40% at 72% 55%, rgba(0, 212, 255, 0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 45% at 22% 72%, rgba(168, 85, 247, 0.10) 0%, transparent 55%),
+        radial-gradient(ellipse 35% 30% at 50% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
+    animation-duration: 28s;
+    mix-blend-mode: screen;
+}
+
+/* Fine "grain" over the whole page — adds physicality to glass. */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.035 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* ================= The Liquid Glass material ================= */
+/* Applied to every existing glass surface via common selectors.
+   Uses multi-filter backdrop + specular edge + mouse spotlight. */
+.glass-card,
+.feature-card,
+.support-card,
+.legal-section,
+.contact-form,
+.impressum-card,
+.rsvp-demo,
+.primary-contact-card,
+.bug-template,
+.faq-item {
+    position: relative;
+    background:
+        radial-gradient(600px circle at var(--lg-mx) var(--lg-my), rgba(255, 255, 255, 0.08), transparent 40%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)) ,
+        var(--lg-regular-bg) !important;
+    backdrop-filter: blur(28px) saturate(180%) brightness(1.05) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.05) !important;
+    border: 1px solid var(--lg-border) !important;
+    border-radius: var(--lg-radius-lg) !important;
+    box-shadow: var(--lg-shadow) !important;
+    transition: transform 0.55s var(--lg-spring),
+                box-shadow 0.55s var(--lg-spring),
+                background 0.55s var(--lg-spring),
+                border-color 0.4s var(--lg-spring) !important;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+/* Bright specular edge across the top — the hallmark of Liquid Glass */
+.glass-card::before,
+.feature-card::before,
+.support-card::before,
+.legal-section::before,
+.contact-form::before,
+.impressum-card::before,
+.rsvp-demo::before,
+.primary-contact-card::before,
+.bug-template::before,
+.faq-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.55) 0%,
+        rgba(255, 255, 255, 0.08) 25%,
+        rgba(255, 255, 255, 0) 55%,
+        rgba(255, 255, 255, 0.04) 80%,
+        rgba(255, 255, 255, 0.25) 100%
+    );
+    -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.9;
+    z-index: 2;
+}
+
+/* Soft inner glow that tracks the cursor — refraction illusion */
+.glass-card::after,
+.feature-card::after,
+.support-card::after,
+.legal-section::after,
+.contact-form::after,
+.impressum-card::after,
+.rsvp-demo::after,
+.primary-contact-card::after,
+.bug-template::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(280px circle at var(--lg-mx) var(--lg-my),
+        rgba(255, 255, 255, 0.12),
+        rgba(255, 255, 255, 0) 60%);
+    opacity: 0;
+    transition: opacity 0.5s var(--lg-spring);
+    z-index: 1;
+    mix-blend-mode: soft-light;
+}
+
+.glass-card:hover::after,
+.feature-card:hover::after,
+.support-card:hover::after,
+.legal-section:hover::after,
+.contact-form:hover::after,
+.impressum-card:hover::after,
+.rsvp-demo:hover::after,
+.primary-contact-card:hover::after,
+.bug-template:hover::after {
+    opacity: 1;
+}
+
+.glass-card:hover,
+.feature-card:hover,
+.support-card:hover,
+.primary-contact-card:hover {
+    transform: translateY(-8px) !important;
+    background:
+        radial-gradient(600px circle at var(--lg-mx) var(--lg-my), rgba(255, 255, 255, 0.12), transparent 40%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03)) ,
+        var(--lg-thick-bg) !important;
+    border-color: var(--lg-border-strong) !important;
+    box-shadow: var(--lg-shadow-raised), var(--lg-glow) !important;
+}
+
+/* Child elements sit above the decorative layers */
+.glass-card > *,
+.feature-card > *,
+.support-card > *,
+.legal-section > *,
+.contact-form > *,
+.impressum-card > *,
+.rsvp-demo > *,
+.primary-contact-card > *,
+.bug-template > *,
+.faq-item > * {
+    position: relative;
+    z-index: 3;
+}
+
+/* ================= Floating glass nav ================= */
+header {
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.9rem) !important;
+    padding-bottom: 0.9rem !important;
+    transition: padding 0.5s var(--lg-spring), transform 0.4s var(--lg-spring) !important;
+}
+
+header.scrolled {
+    background: transparent !important;
+    border-bottom: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+header .header-content {
+    max-width: 1180px !important;
+    padding: 0.55rem 1rem 0.55rem 1.25rem !important;
+    border-radius: var(--lg-radius-pill) !important;
+    background: rgba(16, 18, 28, 0.45) !important;
+    backdrop-filter: blur(30px) saturate(200%) brightness(1.1) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(200%) brightness(1.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.08) inset,
+        0 12px 40px -12px rgba(0, 0, 0, 0.6),
+        0 4px 12px -4px rgba(0, 0, 0, 0.4) !important;
+    margin: 0 1rem !important;
+    position: relative;
+    overflow: visible;
+}
+
+header .header-content::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(120deg,
+        rgba(255, 255, 255, 0.45) 0%,
+        rgba(255, 255, 255, 0.04) 30%,
+        rgba(255, 255, 255, 0) 60%,
+        rgba(255, 255, 255, 0.25) 100%);
+    -webkit-mask: linear-gradient(#000, #000) content-box, linear-gradient(#000, #000);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+}
+
+header.scrolled .header-content {
+    background: rgba(10, 12, 20, 0.62) !important;
+    transform: scale(0.985);
+}
+
+nav a {
+    padding: 0.45rem 0.85rem !important;
+    border-radius: var(--lg-radius-pill) !important;
+    transition: background 0.35s var(--lg-spring), color 0.35s var(--lg-spring) !important;
+}
+
+nav a::after { display: none !important; }
+
+nav a:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff !important;
+}
+
+/* Pill language button */
+.lang-btn {
+    padding: 0.5rem 0.95rem !important;
+    border-radius: var(--lg-radius-pill) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    transition: all 0.4s var(--lg-spring) !important;
+}
+
+.lang-btn:hover {
+    background: rgba(255, 255, 255, 0.11) !important;
+    border-color: rgba(255, 255, 255, 0.28) !important;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1) inset !important;
+}
+
+.lang-menu {
+    background: rgba(18, 20, 30, 0.72) !important;
+    backdrop-filter: blur(30px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(200%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: var(--lg-radius-md) !important;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.1) inset,
+        0 20px 50px -10px rgba(0, 0, 0, 0.6) !important;
+    padding: 0.35rem !important;
+}
+
+.lang-menu a {
+    border-radius: var(--lg-radius-sm) !important;
+    transition: all 0.3s var(--lg-spring) !important;
+}
+
+.lang-menu a:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ================= Buttons ================= */
+.btn-primary {
+    border-radius: var(--lg-radius-pill) !important;
+    background: linear-gradient(135deg, #00D4FF 0%, #00BCD4 45%, #7C3AED 100%) !important;
+    background-size: 200% 200% !important;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.4) inset,
+        0 -6px 16px rgba(124, 58, 237, 0.35) inset,
+        0 10px 30px -8px rgba(0, 212, 255, 0.5),
+        0 4px 14px -4px rgba(124, 58, 237, 0.4) !important;
+    transition: transform 0.45s var(--lg-spring),
+                box-shadow 0.45s var(--lg-spring),
+                background-position 0.8s var(--lg-spring) !important;
+    letter-spacing: 0.2px !important;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px) scale(1.03) !important;
+    background-position: 100% 100% !important;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.5) inset,
+        0 -8px 20px rgba(124, 58, 237, 0.45) inset,
+        0 18px 40px -8px rgba(0, 212, 255, 0.55),
+        0 0 60px -10px rgba(124, 58, 237, 0.5) !important;
+}
+
+.btn-primary:active {
+    transform: translateY(0) scale(0.97) !important;
+    transition-duration: 0.15s !important;
+}
+
+.btn-secondary,
+.copy-btn,
+.btn-primary {
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.btn-secondary {
+    border-radius: var(--lg-radius-pill) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.15) inset,
+        0 10px 30px -10px rgba(0, 0, 0, 0.5) !important;
+    transition: all 0.45s var(--lg-spring) !important;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.11) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    transform: translateY(-2px) scale(1.03) !important;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.2) inset,
+        0 18px 40px -12px rgba(0, 212, 255, 0.35),
+        0 0 40px -10px rgba(124, 58, 237, 0.3) !important;
+}
+
+.btn-secondary:active { transform: scale(0.97) !important; }
+
+/* Liquid ripple on click — appended to any .btn-primary / .btn-secondary */
+.lg-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 70%);
+    transform: translate(-50%, -50%) scale(0);
+    pointer-events: none;
+    animation: lgRipple 0.8s var(--lg-spring) forwards;
+}
+
+@keyframes lgRipple {
+    to { transform: translate(-50%, -50%) scale(3.2); opacity: 0; }
+}
+
+/* ================= RSVP demo polish ================= */
+.rsvp-demo {
+    border-radius: var(--lg-radius-xl) !important;
+    padding: 2.5rem 2rem !important;
+    background:
+        radial-gradient(600px circle at var(--lg-mx) var(--lg-my), rgba(0, 212, 255, 0.08), transparent 50%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+        rgba(255, 255, 255, 0.05) !important;
+}
+
+.rsvp-word .orp {
+    text-shadow:
+        0 0 16px rgba(0, 212, 255, 0.6),
+        0 0 40px rgba(0, 212, 255, 0.3) !important;
+}
+
+/* ================= Form fields ================= */
+.form-group input,
+.form-group textarea,
+.form-group select,
+.search-input,
+input[type="text"],
+input[type="email"],
+textarea {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: var(--lg-radius-md) !important;
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    transition: all 0.35s var(--lg-spring) !important;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset !important;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus,
+.search-input:focus,
+input:focus,
+textarea:focus {
+    border-color: rgba(0, 212, 255, 0.55) !important;
+    background: rgba(255, 255, 255, 0.07) !important;
+    box-shadow:
+        0 0 0 4px rgba(0, 212, 255, 0.12),
+        0 0 30px rgba(0, 212, 255, 0.25),
+        0 1px 0 rgba(255, 255, 255, 0.08) inset !important;
+}
+
+/* ================= FAQ accordion ================= */
+.faq-item {
+    border-radius: var(--lg-radius-md) !important;
+    overflow: hidden;
+}
+
+.faq-item.open {
+    border-color: rgba(0, 212, 255, 0.35) !important;
+    box-shadow: var(--lg-shadow-raised), 0 0 60px rgba(0, 212, 255, 0.18) !important;
+}
+
+.faq-question {
+    padding: 1.2rem 1.4rem !important;
+    transition: background 0.3s var(--lg-spring) !important;
+}
+
+.faq-question:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.faq-answer {
+    transition: max-height 0.6s var(--lg-spring), padding 0.5s var(--lg-spring) !important;
+}
+
+.toggle-icon {
+    transition: transform 0.5s var(--lg-bounce) !important;
+}
+
+/* ================= Support page specifics ================= */
+.primary-contact-card { border-radius: var(--lg-radius-xl) !important; }
+.bug-template, .template-box {
+    border-radius: var(--lg-radius-md) !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.copy-btn {
+    border-radius: var(--lg-radius-pill) !important;
+    transition: all 0.35s var(--lg-spring) !important;
+}
+
+/* ================= Footer ================= */
+footer {
+    background: linear-gradient(180deg, rgba(10, 10, 15, 0) 0%, rgba(6, 6, 11, 0.8) 40%, rgba(6, 6, 11, 0.95) 100%) !important;
+    backdrop-filter: blur(24px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+    position: relative;
+}
+
+footer::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+}
+
+.footer-section a {
+    transition: color 0.3s var(--lg-spring), transform 0.3s var(--lg-spring) !important;
+    display: inline-block;
+}
+
+.footer-section a:hover {
+    color: #fff !important;
+    transform: translateX(4px);
+}
+
+/* ================= Scroll reveal ================= */
+.reveal {
+    transition:
+        opacity 0.9s var(--lg-spring),
+        transform 0.9s var(--lg-spring),
+        filter 0.9s var(--lg-spring) !important;
+    filter: blur(6px);
+}
+
+.reveal.visible { filter: blur(0); }
+
+/* ================= Hero heading refinement ================= */
+.gradient-text {
+    background: linear-gradient(120deg,
+        #c8f4ff 0%,
+        #ffffff 35%,
+        #d8c5ff 65%,
+        #8b5cf6 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    background-size: 220% 220% !important;
+    filter: drop-shadow(0 2px 30px rgba(0, 212, 255, 0.15));
+}
+
+.hero-icon {
+    border-radius: 30px !important;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.3) inset,
+        0 30px 70px -20px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.06),
+        0 0 80px rgba(0, 212, 255, 0.25),
+        0 0 140px rgba(124, 58, 237, 0.18) !important;
+}
+
+/* ================= Language screen — impressum ================= */
+.impressum-card { border-radius: var(--lg-radius-xl) !important; }
+
+/* ================= Scrollbar ================= */
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+}
+*::-webkit-scrollbar-thumb:hover { background: rgba(0, 212, 255, 0.4); }
+
+/* ================= Mobile nav — full glass sheet ================= */
+@media (max-width: 768px) {
+    header .header-content {
+        margin: 0 0.75rem !important;
+        padding: 0.55rem 0.65rem 0.55rem 1rem !important;
+    }
+
+    nav.active {
+        background: rgba(8, 8, 14, 0.72) !important;
+        backdrop-filter: blur(40px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+    }
+
+    nav a {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--lg-radius-md) !important;
+        width: min(320px, 80%);
+        max-width: 320px;
+    }
+
+    .sticky-cta {
+        background: rgba(8, 8, 14, 0.7) !important;
+        backdrop-filter: blur(30px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+}
+
+/* ================= Touch device tuning ================= */
+@media (hover: none) and (pointer: coarse) {
+    .glass-card:hover,
+    .feature-card:hover,
+    .support-card:hover,
+    .primary-contact-card:hover {
+        transform: none !important;
+    }
+    .glass-card::after,
+    .feature-card::after,
+    .support-card::after { display: none; }
+}
+
+/* ================= Reduced motion ================= */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+    .reveal { filter: none; }
+    body::before { display: none; }
+}
